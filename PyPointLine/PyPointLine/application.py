@@ -1,11 +1,9 @@
-#
-#  application.py
-#
 
 import tkinter as tk
 
 from utils import mousePosition
 from pane import pane
+from calculator import calculator
 
 class application:
 	"""
@@ -21,10 +19,7 @@ class application:
 		self.canvas.bind("<ButtonRelease-1>", self.buttonReleased)  # 
 		self.canvas.bind("<Motion>", self.updateCoordinates) # 
 		self.pane = pane(self)
-		self.nextPointID=0
-		self.nextLineID=10000
-		self.nextCircleID=20000
-		self.nextModuleID=30000
+		self.nextID=0
 		self.pointRadius=5# global radius of a point in canvas
 		self.lineWidth=3# global width of a line in canvas
 		self.cx=0
@@ -32,6 +27,7 @@ class application:
 		self.zoom=1.0
 
 		##self.file=fileIO(self)
+		self.calculator=calculator()
 		pass
 
 
