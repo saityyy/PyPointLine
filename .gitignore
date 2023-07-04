@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+PyPointLine/.vs/*
+
 # Distribution / packaging
 .Python
 build/
