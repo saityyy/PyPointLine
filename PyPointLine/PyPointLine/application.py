@@ -11,15 +11,16 @@ class application:
 	def __init__(self, root):
 		""" """
 		self.root = root
-		self.canvas = tk.Canvas(root, width=1000, height=1000)
+		self.canvas = tk.Canvas(root, width=1200, height=1000)
 		self.canvas.pack()
 		self.mp=mousePosition()
 		self.canvas.bind("<B1-Motion>", self.buttonDragging)  # 
 		self.canvas.bind("<Button-1>", self.buttonPressed)  # 
 		self.canvas.bind("<ButtonRelease-1>", self.buttonReleased)  # 
 		self.canvas.bind("<Motion>", self.updateCoordinates) # 
-		self.pane = pane(self)
 		self.nextID=0
+		self.pointName='A'
+		self.lineName='a'
 		self.pointRadius=5# global radius of a point in canvas
 		self.lineWidth=3# global width of a line in canvas
 		self.cx=0
@@ -28,6 +29,10 @@ class application:
 
 		##self.file=fileIO(self)
 		self.calculator=calculator()
+
+		self.headerPane=pane(self, 0,0,1000,50)
+		self.mainPane=pane(self,0,50,1000,950)
+		self.rightPane=pane(self,1000,0,200,1000)
 		pass
 
 

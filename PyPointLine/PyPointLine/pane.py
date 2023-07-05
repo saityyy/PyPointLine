@@ -11,5 +11,11 @@ class paneType:
 
 class pane:
 	"""  """
+	def __init__(self, parent, left, top, width, height):
+		self.parent=parent
+		self.left=left
+		self.top=top
+		self.width=width
+		self.height=height
 	pass
 

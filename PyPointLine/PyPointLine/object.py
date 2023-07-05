@@ -1,4 +1,3 @@
-#!
 from preference import preference
 
 class object:
@@ -6,8 +5,9 @@ class object:
 	def __init__(self,app):
 		""" """
 		self.app=app
-		self.id=0
+		self.id=-1
 		self.preference=None
+		self.name='X'
 		self.thisis=None
 		pass
 
