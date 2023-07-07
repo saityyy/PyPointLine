@@ -1,5 +1,6 @@
 
 import tkinter as tk
+from PIL import Image, ImageTk
 
 from utils import mousePosition
 from pane import pane
@@ -33,6 +34,15 @@ class application:
 		self.headerPane=pane(self, 0,0,1000,50)
 		self.mainPane=pane(self,0,50,1000,950)
 		self.rightPane=pane(self,1000,0,200,1000)
+		version = tk.Tcl().eval('info patchlevel')
+		#menuOn = Image.open(open('MenuOn.png', 'rb'))
+		#menuOn.resize((100,100))
+		#menuOn.thumbnail((200, 200), Image.ANTIALIAS)
+		#menuOn = ImageTk.PhotoImage(menuOn)
+		#self.canvas.create_image(100,100,image=menuOn, tag="illust", anchor=tk.NW)
+
+		haruna = tk.PhotoImage(file="MenuOn.png")
+		self.canvas.create_image(0, 0, image=haruna, anchor=tk.NW)
 		pass
 
 
