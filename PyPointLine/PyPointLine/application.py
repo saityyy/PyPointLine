@@ -1,10 +1,11 @@
 
 import tkinter as tk
-from PIL import Image, ImageTk
+import os
 
 from utils import mousePosition
 from pane import pane
 from calculator import calculator
+from menuitem import menuItem
 
 class application:
 	"""
@@ -27,6 +28,8 @@ class application:
 		self.cx=0
 		self.cy=0
 		self.zoom=1.0
+		self.dispMenu=False
+		self.dispPreference=False
 
 		##self.file=fileIO(self)
 		self.calculator=calculator()
@@ -34,15 +37,8 @@ class application:
 		self.headerPane=pane(self, 0,0,1000,50)
 		self.mainPane=pane(self,0,50,1000,950)
 		self.rightPane=pane(self,1000,0,200,1000)
-		version = tk.Tcl().eval('info patchlevel')
-		#menuOn = Image.open(open('MenuOn.png', 'rb'))
-		#menuOn.resize((100,100))
-		#menuOn.thumbnail((200, 200), Image.ANTIALIAS)
-		#menuOn = ImageTk.PhotoImage(menuOn)
-		#self.canvas.create_image(100,100,image=menuOn, tag="illust", anchor=tk.NW)
-
-		haruna = tk.PhotoImage(file="MenuOn.png")
-		self.canvas.create_image(0, 0, image=haruna, anchor=tk.NW)
+		self.initilizeMenuItems()
+		self.drawAll(self.canvas)
 		pass
 
 
@@ -55,9 +51,18 @@ class application:
 
 	def drawAll(self, canvas):
 		""" """
-		#self.canvas.delete("all")
-		#self.pane.drawAllEdges(self.canvas)
-		#self.pane.drawAllNodes(self.canvas)
+		self.canvas.delete("all")
+		if self.dispMenu==False:
+			self.drawMenuOnIcon(canvas)
+			#self.drawAllObjects()
+			#self.drawAllLogs()
+			if self.dispPreference==True:
+				#self.drawProference()
+				pass
+			pass
+		else: # dispMenu==True:
+			self.drawAllMenu(canvas)
+			pass
 
 	def updateCoordinates(self, event):
 		""" """
@@ -120,7 +125,18 @@ class application:
 			pass
 		elif event.keysym=="Left":
 			self.cx -= 10
-			self.drawAll(self.canvas)		
+			self.drawAll(self.canvas)	
 			pass
 		pass
 
+	def initilizeMenuItems(self):
+		self.menuOn=menuItem("images\\MenuOn.png", 0, 0)
+		self.menuOff=menuItem("images\\MenuOff.png", 0, 0)
+		self.addPoint=menuItem("images\\AddPoint.png", 0, 1)
+
+	def drawMenuOnIcon(self, canvas):
+		self.menuOn.showIcon(canvas)
+
+	def drawAllMenu(self, canvas):
+		for icon in [self.menuOff, self.addPoint]:
+			icon.showIcon(canvas)
