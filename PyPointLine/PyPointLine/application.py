@@ -73,40 +73,42 @@ class application:
 		""" """
 		self.canvas.delete("all")
 		self.updateCoordinates(event)
-		#if self.mp.magneticPoint!=None and getattr(self.mp.magneticND, 'this_is_point', False)==True:
-		#	self.mp.magneticND.x=self.mp.x
-		#	self.mp.magneticND.y=self.mp.y
-		#	for ed in self.mp.magneticND.neighbors:
-		#		if getattr(ed, 'this_is_edge', False):
-		#			ed.scalingShapeModifier()
-		#	self.mp.magneticND.modifyAngle()
-		#self.drawAll(self.canvas)
+		if self.mp.magneticPoint!=None:
+			if getattr(self.mp.magneticPoint, 'this_is_point', False)==True:
+				self.mp.magneticND.x, self.mp.magneticND.y=self.mp.x, self.mp.y
+				#self.calculator.evaluate()
+				self.drawAll(self.canvas)
 	# 
 
 	def buttonPressed(self, event):
 		""" """
 		self.updateCoordinates(event)
 		self.mp.bpX, self.mp.bpY = self.mp.x, self.mp.y
-		#for node in self.kg.nodes:
-		#	if node.inUse and isNear(self.mp.x, self.mp.y, node.x, node.y, 10):
-		#		self.mp.magneticND=node
+		if self.mainPane.inside(self.mp.bpX, self.mp.bpY):
+			##if mouse cursor is on a point
+			##	set self.mp.magneticPoint
+			pass
 
 	
 
 	def buttonReleased(self, event):
 		""" """
 		self.updateCoordinates(event)
-		#if isNear(self.mp.x,self.mp.y,self.mp.bpX,self.mp.bpY,5):## clicked
-		#	for node in self.kg.nodes:
-		#		if node.inUse and isNear(self.mp.x, self.mp.y, node.x, node.y, 10):
-		#			if getattr(node,'this_is_midjoint', False):
-		#				### clicking midJoint -> delete the midJoint
-		#				break
-		#			else:
-		#				### clicking Node -> change crossing
-		#				break
-		self.mp.magneticND=None
-		#self.drawAll(self.canvas)
+		if isNear(self.mp.x,self.mp.y,self.mp.bpX,self.mp.bpY,5):## has clicked
+			##if mouse cursor is on a point
+			##if mouse cousor is on a line
+			##if mouse corsor is on a circle
+			##which object hass majority
+			pass
+		else:## finishing drag
+			##if self.mp.magenticPoint
+			#	if magneticPoint!=None:
+			#		self.calculator.evaluate()
+			#		self.drawAll(self.canvas)
+			#		self.mp.magneticPoint=None
+			#else:## 空ドラッグ
+			#	図全体を平行移動する。		
+
 
 	def keyPressed(self, event):
 		"""
@@ -132,11 +134,11 @@ class application:
 	def initilizeMenuItems(self):
 		self.menuOn=menuItem("images\\MenuOn.png", 0, 0)
 		self.menuOff=menuItem("images\\MenuOff.png", 0, 0)
-		self.addPoint=menuItem("images\\AddPoint.png", 0, 1)
+		self.menuAddPoint=menuItem("images\\AddPoint.png", 0, 1)
 
 	def drawMenuOnIcon(self, canvas):
 		self.menuOn.showIcon(canvas)
 
 	def drawAllMenu(self, canvas):
-		for icon in [self.menuOff, self.addPoint]:
+		for icon in [self.menuOff, self.menuAddPoint]:
 			icon.showIcon(canvas)
