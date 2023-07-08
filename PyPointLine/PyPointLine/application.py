@@ -2,10 +2,11 @@
 import tkinter as tk
 import os
 
-from utils import mousePosition
+from utils import mousePosition, isNear
 from pane import pane
 from calculator import calculator
 from menuitem import menuItem
+from point import point
 
 class application:
 	"""
@@ -16,18 +17,16 @@ class application:
 		self.canvas = tk.Canvas(root, width=1200, height=1000)
 		self.canvas.pack()
 		self.mp=mousePosition()
-		self.canvas.bind("<B1-Motion>", self.buttonDragging)  # 
-		self.canvas.bind("<Button-1>", self.buttonPressed)  # 
-		self.canvas.bind("<ButtonRelease-1>", self.buttonReleased)  # 
-		self.canvas.bind("<Motion>", self.updateCoordinates) # 
 		self.nextID=0
 		self.pointName='A'
 		self.lineName='a'
 		self.pointRadius=5# global radius of a point in canvas
 		self.lineWidth=3# global width of a line in canvas
-		self.cx=0
-		self.cy=0
-		self.zoom=1.0
+		self.cx=500
+		self.cy=500
+		self.zoom=100
+		self.points=[]
+
 		self.dispMenu=False
 		self.dispPreference=False
 
@@ -38,15 +37,21 @@ class application:
 		self.mainPane=pane(self,0,50,1000,950)
 		self.rightPane=pane(self,1000,0,200,1000)
 		self.initilizeMenuItems()
+
+
+		point0=point(0,0)
+		self.points.append(point0)
+
+
 		self.drawAll(self.canvas)
 		pass
 
 
 	def world2Canvas(self, x,y):
-		return self.cx+self.zoom * (x -500) + 500, self.cy+self.zoom * (y-500) + 500
+		return self.cx+self.zoom * x, self.cy+self.zoom * y
 
 	def canvas2World(self, x,y):
-		return -self.cx+ (x -500) / self.zoom + 500 , -self.cy+ (y-500)/self.zoom + 500
+		return (-self.cx+ x) / self.zoom , (-self.cy+ y)/self.zoom
 
 
 	def drawAll(self, canvas):
@@ -54,7 +59,7 @@ class application:
 		self.canvas.delete("all")
 		if self.dispMenu==False:
 			self.drawMenuOnIcon(canvas)
-			#self.drawAllObjects()
+			self.drawAllObjects(canvas)
 			#self.drawAllLogs()
 			if self.dispPreference==True:
 				#self.drawProference()
@@ -63,6 +68,11 @@ class application:
 		else: # dispMenu==True:
 			self.drawAllMenu(canvas)
 			pass
+
+	def drawAllObjects(self, canvas):
+		for pt in self.points:
+			xx0,yy0=self.world2Canvas(pt.x,pt.y)
+			canvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue')
 
 	def updateCoordinates(self, event):
 		""" """
@@ -74,8 +84,8 @@ class application:
 		self.canvas.delete("all")
 		self.updateCoordinates(event)
 		if self.mp.magneticPoint!=None:
-			if getattr(self.mp.magneticPoint, 'this_is_point', False)==True:
-				self.mp.magneticND.x, self.mp.magneticND.y=self.mp.x, self.mp.y
+			if getattr(self.mp.magneticPoint, 'thisis', None)=='point':
+				self.mp.magneticPoint.x, self.mp.magneticPoint.y=self.mp.x, self.mp.y
 				#self.calculator.evaluate()
 				self.drawAll(self.canvas)
 	# 
@@ -84,9 +94,12 @@ class application:
 		""" """
 		self.updateCoordinates(event)
 		self.mp.bpX, self.mp.bpY = self.mp.x, self.mp.y
-		if self.mainPane.inside(self.mp.bpX, self.mp.bpY):
-			##if mouse cursor is on a point
-			##	set self.mp.magneticPoint
+		x,y = self.world2Canvas(self.mp.x, self.mp.y)
+		if self.mainPane.inside(x,y):
+			for pt in self.points:
+				if isNear(pt.x, pt.y, self.mp.x, self.mp.y, 10/self.zoom):
+					self.mp.magneticPoint = pt
+					break
 			pass
 
 	
@@ -94,7 +107,7 @@ class application:
 	def buttonReleased(self, event):
 		""" """
 		self.updateCoordinates(event)
-		if isNear(self.mp.x,self.mp.y,self.mp.bpX,self.mp.bpY,5):## has clicked
+		if isNear(self.mp.x,self.mp.y,self.mp.bpX,self.mp.bpY,5/self.zoom):## has clicked
 			##if mouse cursor is on a point
 			##if mouse cousor is on a line
 			##if mouse corsor is on a circle
@@ -108,7 +121,11 @@ class application:
 			#		self.mp.magneticPoint=None
 			#else:## 空ドラッグ
 			#	図全体を平行移動する。		
+			pass
 
+	def wheelTurned(self, event):
+		""" """
+		pass
 
 	def keyPressed(self, event):
 		"""
