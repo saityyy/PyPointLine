@@ -7,6 +7,7 @@ from pane import pane
 from calculator import calculator
 from menuitem import menuItem
 from point import point
+from module import midpoint
 
 class application:
 	"""
@@ -26,6 +27,7 @@ class application:
 		self.cy=500
 		self.zoom=100
 		self.points=[]
+		self.modules=[]
 
 		self.dispMenu=False
 		self.dispPreference=False
@@ -41,7 +43,13 @@ class application:
 
 		point0=point(0,0)
 		self.points.append(point0)
+		point1=point(1,1)
+		self.points.append(point1)
+		point2=point(1,0)
+		self.points.append(point2)
 
+		module0=midpoint(point0,point1,point2)
+		self.modules.append(module0)
 
 		self.drawAll(self.canvas)
 		pass
@@ -79,6 +87,8 @@ class application:
 		self.mp.x, self.mp.y = self.canvas2World( event.x, event.y)
 		pass
 
+
+
 	def buttonDragging(self, event):
 		""" """
 		self.canvas.delete("all")
@@ -87,6 +97,9 @@ class application:
 			if getattr(self.mp.magneticPoint, 'thisis', None)=='point':
 				self.mp.magneticPoint.x, self.mp.magneticPoint.y=self.mp.x, self.mp.y
 				#self.calculator.evaluate()
+				for i in range(10):
+					for md in self.modules:
+						md.evaluate()
 				self.drawAll(self.canvas)
 	# 
 
