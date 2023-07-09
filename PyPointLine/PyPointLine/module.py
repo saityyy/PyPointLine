@@ -64,5 +64,20 @@ class point2line(module):
 	def evaluate(self):
 		p2=self.l1.point1
 		p3=self.l1.point2
+		ax,ay=self.p1.x, self.p1.y
+		bx,by=p2.x,p2.y
+		cx,cy=p3.x,p3.y
+		tn=(ax-bx)*(cx-bx)+(ay-by)*(cy-by)
+		td=(cx-bx)*(cx-bx)+(cy-by)*(cy-by)
+		if td==0:
+			return
+		tt=tn/td
+		dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
+		self.p1.x += dx*0.1
+		self.p1.y += dy*0.1
+		self.l1.point1.x -= dx*0.1
+		self.l1.point1.y -= dy*0.1
+		self.l1.point2.x -= dx*0.1
+		self.l1.point2.y -= dy*0.1
 		##unfinished
 

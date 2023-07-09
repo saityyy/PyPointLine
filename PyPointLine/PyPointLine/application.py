@@ -62,6 +62,9 @@ class application:
 		#module20=point2point(point0,point1)
 		#self.modules.append(module20)
 
+		module21=point2line(point2,line0)
+		self.modules.append(module21)
+
 		self.drawAll(self.mainCanvas)
 		pass
 
