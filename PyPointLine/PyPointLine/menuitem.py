@@ -12,6 +12,10 @@ class menuItem:
 		self.icon = Image.open(open(name, 'rb'))
 		self.icon = self.icon.resize((75,75))
 		self.icon = ImageTk.PhotoImage(self.icon)
+		self.left = x*100
+		self.top =y*100+100
+		self.width=100
+		self.height=100
 
 	def showIcon(self, canvas):
 		canvas.create_image(100*self.x+12.5,100*self.y+12.5,image=self.icon, tag="menuIcon", anchor=tk.NW)
