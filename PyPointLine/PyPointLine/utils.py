@@ -2,6 +2,9 @@
 #
 #
 
+import math
+
+
 class mousePosition:
 	x=0## world
 	y=0## world
@@ -23,3 +26,7 @@ def isIn(x,y,left,top,width,height):
 		if top<y and y<top+height:
 			return True
 	return False
+
+def magnitude(x,y):
+	return math.sqrt(x*x+y*y)
+

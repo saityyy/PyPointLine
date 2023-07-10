@@ -2,6 +2,7 @@ from object import object
 from point import point
 from line import line
 from circle import circle
+from utils import *
 
 class ModuleType:
 	NONE=0
@@ -81,3 +82,20 @@ class point2line(module):
 		self.l1.point2.y -= dy*0.1
 		##unfinished
 
+class point2circle(module):
+	def __init__(self, point:point, circle:circle):
+		self.moduletype=ModuleType.P2C
+		self.p1=point
+		self.c1=circle
+		self.thisis='module'
+	def evaluate(self):
+		c1=self.c1
+		p2=c1.point
+		radius=c1.radius
+		ax,ay=p2.x-self.p1.x, p2.y-self.p1.y
+		mag=magnitude(ax,ay)
+		if mag==0:
+			return
+		difference=(mag-radius)*0.1
+		dx, dy=ax/mag*difference, ay/mag*difference
+		
