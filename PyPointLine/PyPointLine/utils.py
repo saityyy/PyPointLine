@@ -1,7 +1,6 @@
 #
 #
 #
-
 import math
 
 
@@ -30,3 +29,5 @@ def isIn(x,y,left,top,width,height):
 def magnitude(x,y):
 	return math.sqrt(x*x+y*y)
 
+def dist(x0,y0,x1,y1):
+	return magnitude(x0-x1, y0-y1)

@@ -8,6 +8,7 @@ from calculator import calculator
 from menuitem import menuItem
 from point import point
 from line import line
+from circle import circle
 from module import *
 
 class application:
@@ -52,9 +53,14 @@ class application:
 		self.points.append(point1)
 		point2=point(1,0)
 		self.points.append(point2)
+		point3=point(-1,0)
+		self.points.append(point3)
 
 		line0=line(point0, point1)
 		self.lines.append(line0)
+
+		circle0=circle(point2, point3)
+		self.circles.append(circle0)
 
 		#module0=midpoint(point0,point1,point2)
 		#self.modules.append(module0)
@@ -62,8 +68,14 @@ class application:
 		#module20=point2point(point0,point1)
 		#self.modules.append(module20)
 
-		module21=point2line(point2,line0)
-		self.modules.append(module21)
+		#module21=point2line(point2,line0)
+		#self.modules.append(module21)
+
+		module31=point2circle(point3, circle0)
+		self.modules.append(module31)
+
+		module41=line2circle(line0, circle0)
+		self.modules.append(module41)
 
 		self.drawAll(self.mainCanvas)
 		pass
@@ -100,6 +112,12 @@ class application:
 			x2,y2=self.world2Canvas(pt2.x, pt2.y)
 			canvas.create_line(x1,y1,x2,y2, fill='grey', width=4)
 		
+		## draw circles
+		for cn in self.circles:
+			x1,y1=self.world2Canvas(cn.point.x, cn.point.y)
+			r=cn.radius * self.zoom
+			canvas.create_oval(x1-r,y1-r,x1+r,y1+r, outline='grey', width=4)
+
 		## draw points
 		for pt in self.points:
 			xx0,yy0=self.world2Canvas(pt.x,pt.y)
@@ -153,7 +171,7 @@ class application:
 			elif self.dispMenu==True and isIn(self.mp.canvasX, self.mp.canvasY, 0, 0, 100, 100):
 				self.dispMenu=False
 				self.drawAll(self.mainCanvas)
-			elif self.deispMenu==True:
+			elif self.dispMenu==True:
 				##if mouse cursor is on a point
 				##if mouse cousor is on a line
 				##if mouse corsor is on a circle
@@ -203,8 +221,8 @@ class application:
 		self.menuMidPoint=menuItem("images\\MidPoint.png", 1, 0)
 		self.menuAddLine=menuItem("images\\AddLine.png", 2, 0)
 		self.menuAddCircle=menuItem("images\\AddCircle.png", 3, 0)
-		self.menuAddLocus=menuItem("images\\AddLocus.png", 4, 0)
-		self.menuAddAngle=menuItem("images\\Angle.png", 5, 0)
+		self.menuAddAngle=menuItem("images\\Angle.png", 4, 0)
+		self.menuAddLocus=menuItem("images\\AddLocus.png",5 , 0)
 		#####
 		self.menuP2P=menuItem("images\\P2P.png", 0, 1)
 		self.menuP2L=menuItem("images\\P2L.png", 1, 1)

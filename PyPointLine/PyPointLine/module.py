@@ -9,6 +9,9 @@ class ModuleType:
 	MIDPOINT=10
 	P2P=20
 	P2L=21
+	P2C=22
+	TangentL2C=23
+	TangentC2C=24
 
 class module(object):
 	def __init__(self):
@@ -74,12 +77,14 @@ class point2line(module):
 			return
 		tt=tn/td
 		dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
-		self.p1.x += dx*0.1
-		self.p1.y += dy*0.1
-		self.l1.point1.x -= dx*0.1
-		self.l1.point1.y -= dy*0.1
-		self.l1.point2.x -= dx*0.1
-		self.l1.point2.y -= dy*0.1
+		dx *= 0.1
+		dy *= 0.1
+		self.p1.x += dx
+		self.p1.y += dy
+		self.l1.point1.x -= dx
+		self.l1.point1.y -= dy
+		self.l1.point2.x -= dx
+		self.l1.point2.y -= dy
 		##unfinished
 
 class point2circle(module):
@@ -98,4 +103,43 @@ class point2circle(module):
 			return
 		difference=(mag-radius)*0.1
 		dx, dy=ax/mag*difference, ay/mag*difference
+		self.p1.x += dx
+		self.p1.y += dy
+		self.c1.point.x -= dx
+		self.c1.point.y -= dy
+		self.c1.radius += difference
+
+class line2circle(module):
+	def __init__(self, line:line, circle:circle):
+		self.moduletype=ModuleType.TangentL2C
+		self.cc=circle
+		self.ln=line
+		self.thisis='module'
+	def evaluate(self):
+		p1=self.cc.point
+		radius=self.cc.radius
+		p2=self.ln.point1
+		p3=self.ln.point2
+		ax,ay=p1.x,p1.y
+		bx,by=p2.x,p2.y
+		cx,cy=p3.x,p3.y
+		tn=(ax-bx)*(cx-bx)+(ay-by)*(cy-by)
+		td=(cx-bx)*(cx-bx)+(cy-by)*(cy-by)
+		if td==0:
+			return
+		tt=tn/td
+		dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
+		mag=magnitude(dx,dy)
+		if mag==0:
+			return
+		difference=(mag-radius)*0.1
+		ex,ey = dx/mag*difference, dy/mag*difference
+		self.cc.point.x += ex
+		self.cc.point.y += ey
+		self.cc.radius += difference
+		self.ln.point1.x -= ex
+		self.ln.point1.y -= ey
+		self.ln.point2.x -= ex
+		self.ln.point2.y -= ey
+
 		
