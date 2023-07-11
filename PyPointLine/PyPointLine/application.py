@@ -140,12 +140,15 @@ class application:
 		if self.mp.magneticPoint!=None:
 			if getattr(self.mp.magneticPoint, 'thisis', None)=='point':
 				self.mp.magneticPoint.x, self.mp.magneticPoint.y=self.mp.x, self.mp.y
-				#self.calculator.evaluate()
-				for i in range(10):
-					for md in self.modules:
-						md.evaluate()
-				self.drawAll(self.mainCanvas)
+				self.calculatorEvaluate()
 	# 
+
+	def calculatorEvaluate(self):
+		for i in range(10):
+			for md in self.modules:
+				md.evaluate()
+		self.drawAll(self.mainCanvas)
+
 
 	def buttonPressed(self, event):
 		""" """
@@ -186,6 +189,7 @@ class application:
 			#		self.mp.magneticPoint=None
 			#else:## 空ドラッグ
 			#	図全体を平行移動する。		
+			self.calculatorEvaluate()
 			pass
 
 	def wheelTurned(self, event):

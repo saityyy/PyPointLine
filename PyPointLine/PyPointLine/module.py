@@ -142,4 +142,45 @@ class line2circle(module):
 		self.ln.point2.x -= ex
 		self.ln.point2.y -= ey
 
-		
+class circle2circle(module):
+	def __init__(self, circle1:circle, circle2:circle):
+		self.moduletype=ModuleType.TangentC2C
+		self.cc1=circle1
+		self.cc2=circle2
+		self.thisis='module'
+	def evaluate(self):
+		p1=self.cc1.point
+		radius1=self.cc1.radius
+		p2=self.cc2.point
+		radius2=self.cc2.radius
+		cx, cy = p2.x - p1.x, p2.y - p1.y
+		mag = magnitude(cx,cy)
+		if mag>radius1+radius2:
+			difference=(mag-radius1-radius2)*0.025
+			dx, dy = cx/mag*difference, cy/mag*difference
+			self.cc1.point.x += dx
+			self.cc1.point.y += dy
+			self.cc1.radius += difference
+			self.cc2.point.x -= dx
+			self.cc2.point.y -= dy
+			self.cc2.radius += difference
+		elif radius1-radius2>mag:
+			difference=(mag-radius1+radius2)*0.025
+			dx, dy = cx/mag*difference, cy/mag*difference
+			self.cc1.point.x += dx
+			self.cc1.point.y += dy
+			self.cc1.radius += difference
+			self.cc2.point.x -= dx
+			self.cc2.point.y -= dy
+			self.cc2.radius -= difference
+		elif radius2-radius1>mag:
+			difference=(mag-radius2+radius1)*0.025
+			dx, dy = cx/mag*difference, cy/mag*difference
+			self.cc1.point.x -= dx
+			self.cc1.point.y -= dy
+			self.cc1.radius -= difference
+			self.cc2.point.x += dx
+			self.cc2.point.y += dy
+			self.cc2.radius += difference
+
+
