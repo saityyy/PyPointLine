@@ -155,8 +155,10 @@ class circle2circle(module):
 		radius2=self.cc2.radius
 		cx, cy = p2.x - p1.x, p2.y - p1.y
 		mag = magnitude(cx,cy)
-		if mag>radius1+radius2:
-			difference=(mag-radius1-radius2)*0.025
+		deltaIn = mag - math.abs(radius1 - radius2)
+		deltaOut = mag-(radius1 + radius2)
+		if math.abs(deltaIn) > math.abs(deltaOut):## outer tangent
+			difference = deltaOut * 0.025
 			dx, dy = cx/mag*difference, cy/mag*difference
 			self.cc1.point.x += dx
 			self.cc1.point.y += dy
@@ -164,23 +166,18 @@ class circle2circle(module):
 			self.cc2.point.x -= dx
 			self.cc2.point.y -= dy
 			self.cc2.radius += difference
-		elif radius1-radius2>mag:
-			difference=(mag-radius1+radius2)*0.025
+		else:## inner tangent
+			difference=deltaIn*0.025
 			dx, dy = cx/mag*difference, cy/mag*difference
 			self.cc1.point.x += dx
 			self.cc1.point.y += dy
-			self.cc1.radius += difference
 			self.cc2.point.x -= dx
 			self.cc2.point.y -= dy
-			self.cc2.radius -= difference
-		elif radius2-radius1>mag:
-			difference=(mag-radius2+radius1)*0.025
-			dx, dy = cx/mag*difference, cy/mag*difference
-			self.cc1.point.x -= dx
-			self.cc1.point.y -= dy
-			self.cc1.radius -= difference
-			self.cc2.point.x += dx
-			self.cc2.point.y += dy
-			self.cc2.radius += difference
+			if radius1>radius2:
+				self.cc1.radius += difference
+				self.cc2.radius -= difference
+			else:
+				self.cc1.radius -= difference
+				self.cc2.radius += difference
 
 

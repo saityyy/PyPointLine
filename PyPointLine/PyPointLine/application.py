@@ -4,7 +4,6 @@ import os
 
 from utils import mousePosition, isNear, isIn
 from pane import pane
-from calculator import calculator
 from menuitem import menuItem
 from point import point
 from line import line
@@ -34,12 +33,14 @@ class application:
 		self.lines=[]
 		self.circles=[]
 		self.modules=[]
+		self.clickedPoint=None
+		self.clickedLine=None
+		self.clickedCircle=None
 
 		self.dispMenu=False
 		self.dispPreference=False
 
 		##self.file=fileIO(self)
-		self.calculator=calculator()
 
 		self.headerPane=pane(self, 0,0,1000,100)
 		self.mainPane=pane(self,0,100,1000,900)
@@ -162,7 +163,37 @@ class application:
 					break
 			pass
 
-	
+	def mouseOnPoint(self):
+		for pt in self.points:
+			if pt.thisis=='point':
+				if isNear(pt.x, pt.y, self.mp.x, self.mp.y, 10/self.zoom):
+					return pt
+		return None
+
+	def mouseOnLine(self):
+		for ln in self.lines:
+			if ln.thisis=='line':
+				ax,ay=self.mp.x, self.mp.y
+				bx,by=ln.point1.x, ln.point1.y
+				cx,cy=ln.point2.x, ln.point2.y
+				tn=(ax-bx)*(cx-bx)+(ay-by)*(cy-by)
+				td=(cx-bx)*(cx-bx)+(cy-by)*(cy-by)
+				if td==0:
+					continue
+				tt=tn/td
+				dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
+				if magnitude(dx, dy)<10/self.zoom:
+					return ln
+		return None
+
+	def mouseOnCircle(self):
+		for cc in self.circles:
+			if cc.thisis=='circle':
+				mag=dist(cc.point.x, cc.point.y, self.mp.x, self.mp.y)
+				if math.abs(mag-cc.radius)<10/self.zoom:
+					return cc
+
+		return None
 
 	def buttonReleased(self, event):
 		""" """
@@ -175,16 +206,14 @@ class application:
 				self.dispMenu=False
 				self.drawAll(self.mainCanvas)
 			elif self.dispMenu==True:
-				##if mouse cursor is on a point
-				##if mouse cousor is on a line
-				##if mouse corsor is on a circle
-				##which object hass majority
+				self.clickedPoint = self.mouseOnPoint()
+				self.clickedLine = self.mouseOnLine()
+				self.clickedCircle = self.mouseOnCircle()
 				pass
 			pass
 		else:## finishing drag
 			##if self.mp.magenticPoint
 			#	if magneticPoint!=None:
-			#		self.calculator.evaluate()
 			#		self.drawAll(self.mainCanvas)
 			#		self.mp.magneticPoint=None
 			#else:## ‹óƒhƒ‰ƒbƒO
