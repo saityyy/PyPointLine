@@ -155,9 +155,9 @@ class circle2circle(module):
 		radius2=self.cc2.radius
 		cx, cy = p2.x - p1.x, p2.y - p1.y
 		mag = magnitude(cx,cy)
-		deltaIn = mag - math.abs(radius1 - radius2)
+		deltaIn = mag - abs(radius1 - radius2)
 		deltaOut = mag-(radius1 + radius2)
-		if math.abs(deltaIn) > math.abs(deltaOut):## outer tangent
+		if abs(deltaIn) > abs(deltaOut):## outer tangent
 			difference = deltaOut * 0.025
 			dx, dy = cx/mag*difference, cy/mag*difference
 			self.cc1.point.x += dx

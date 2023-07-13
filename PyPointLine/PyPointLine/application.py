@@ -36,8 +36,9 @@ class application:
 		self.clickedPoint=None
 		self.clickedLine=None
 		self.clickedCircle=None
-
+		
 		self.dispMenu=False
+		self.onMode=None
 		self.dispPreference=False
 
 		##self.file=fileIO(self)
@@ -57,11 +58,13 @@ class application:
 		point3=point(-1,0)
 		self.points.append(point3)
 
-		line0=line(point0, point1)
-		self.lines.append(line0)
+		#line0=line(point0, point1)
+		#self.lines.append(line0)
 
-		circle0=circle(point2, point3)
-		self.circles.append(circle0)
+		
+		self.circles.append(circle(point0, point1))
+		
+		self.circles.append(circle(point2, point3))
 
 		#module0=midpoint(point0,point1,point2)
 		#self.modules.append(module0)
@@ -72,11 +75,14 @@ class application:
 		#module21=point2line(point2,line0)
 		#self.modules.append(module21)
 
-		module31=point2circle(point3, circle0)
-		self.modules.append(module31)
+		#module31=point2circle(point3, circle0)
+		#self.modules.append(module31)
 
-		module41=line2circle(line0, circle0)
-		self.modules.append(module41)
+		#module41=line2circle(line0, circle0)
+		#self.modules.append(module41)
+		
+		module51=circle2circle(self.circles[0], self.circles[1])
+		self.modules.append(module51)
 
 		self.drawAll(self.mainCanvas)
 		pass
@@ -210,6 +216,16 @@ class application:
 				self.clickedLine = self.mouseOnLine()
 				self.clickedCircle = self.mouseOnCircle()
 				pass
+			elif self.dispMenu==False:
+				self.onMode=None
+				self.headerText=""
+				for icon in self.allButtonIcons:
+					if isIn(self.mp.canvasX, self.mp.canvasY, icon.left, icon.top, icon.width, icon.height):
+						self.onMode=icon
+						self.onModePhase=0
+						self.headerText=icon.headerText[self.onModePhase]
+						self.drawAll(self.mainCanvas)
+						break
 			pass
 		else:## finishing drag
 			##if self.mp.magenticPoint
@@ -287,13 +303,17 @@ class application:
 	def drawMenuOnIcon(self, canvas):
 		self.menuOn.showIcon(self.headerCanvas)
 
-	def drawAllMenu(self, canvas):
-		self.menuOff.showIcon(self.headerCanvas)
-		for icon in [\
+	@property
+	def allButtonIcons(self):
+		return [\
 			self.menuAddPoint, self.menuMidPoint,self.menuAddLine,self.menuAddCircle,self.menuAddLocus,self.menuAddAngle,
 			self.menuP2P,self.menuP2L,self.menuP2C,self.menuTangentL2C,self.menuTangentC2C,
 			self.menuIsom,self.menuRatioLength,self.menuPara,self.menuPerp,self.menuHori,self.menuHori,self.menuBisector,
 			self.menuFixPoint,self.menuUndo,self.menuRedo,self.menuDeletePoint,self.menuDeleteLocus,self.menuDeleteAll,
 			self.menuLogs,self.menuOpen,self.menuSave,self.menuSave2TeX,self.menuSave2TeX,self.menuQuit
-			]:
+			]
+
+	def drawAllMenu(self, canvas):
+		self.menuOff.showIcon(self.headerCanvas)
+		for icon in self.allButtonIcons:
 			icon.showIcon(canvas)
