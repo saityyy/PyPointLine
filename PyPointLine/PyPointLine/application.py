@@ -4,7 +4,7 @@ import os
 
 from utils import mousePosition, isNear, isIn
 from pane import pane
-from menuitem import menuItem
+from menuitem import *
 from point import point
 from line import line
 from circle import circle
@@ -111,6 +111,8 @@ class application:
 			pass
 
 	def drawAllObjects(self, canvas):
+		## draw angles
+
 		## draw lines
 		for ln in self.lines:
 			pt1=ln.point1
@@ -130,6 +132,7 @@ class application:
 			xx0,yy0=self.world2Canvas(pt.x,pt.y)
 			canvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue')
 
+		## draw locus
 
 
 	def updateCoordinates(self, event):
@@ -211,12 +214,29 @@ class application:
 			elif self.dispMenu==True and isIn(self.mp.canvasX, self.mp.canvasY, 0, 0, 100, 100):
 				self.dispMenu=False
 				self.drawAll(self.mainCanvas)
-			elif self.dispMenu==True:
+			elif self.dispMenu==False:
 				self.clickedPoint = self.mouseOnPoint()
 				self.clickedLine = self.mouseOnLine()
 				self.clickedCircle = self.mouseOnCircle()
+				if self.clickedPoint==None and self.clickedLine==None and self.clickedCircle==None:## free clicking
+					self.onMode=self.menuAddPoint
+					self.onModePhase=0
+					self.headerText=self.onMode.headerText[self.onModePhase]
+					self.drawAll(self.mainCanvas)
+				if self.clickedPoint!=None and self.onMode==self.menuMidPoint and self.onModePhase==0:
+					self.onMode.point1=self.clickedPoint
+					self.onModePhase=1
+					self.headerText=self.onMode.headerText[self.onModePhase]
+					self.drawAll(self.mainCanvas)
+				if self.clickedPoint!=None and self.onMode==self.menuMidPoint and self.onModePhase==1:
+					self.onMode.point2=self.clickedPoint
+					### add a new point
+					### add a new addMidPoint(module)
+					self.onModePhase=0
+					self.headerText=self.onMode.headerText[self.onModePhase]
+					self.drawAll(self.mainCanvas)
 				pass
-			elif self.dispMenu==False:
+			elif self.dispMenu==True:
 				self.onMode=None
 				self.headerText=""
 				for icon in self.allButtonIcons:
@@ -224,6 +244,7 @@ class application:
 						self.onMode=icon
 						self.onModePhase=0
 						self.headerText=icon.headerText[self.onModePhase]
+						self.dispMenu==False
 						self.drawAll(self.mainCanvas)
 						break
 			pass
@@ -266,12 +287,12 @@ class application:
 		self.menuOn=menuItem("images\\MenuOn.png", 0, 0)
 		self.menuOff=menuItem("images\\MenuOff.png", 0, 0)
 		#####
-		self.menuAddPoint=menuItem("images\\AddPoint.png", 0, 0)
-		self.menuMidPoint=menuItem("images\\MidPoint.png", 1, 0)
-		self.menuAddLine=menuItem("images\\AddLine.png", 2, 0)
-		self.menuAddCircle=menuItem("images\\AddCircle.png", 3, 0)
-		self.menuAddAngle=menuItem("images\\Angle.png", 4, 0)
-		self.menuAddLocus=menuItem("images\\AddLocus.png",5 , 0)
+		self.menuAddPoint=addPointItem("images\\AddPoint.png", 0, 0)
+		self.menuMidPoint=midPointItem("images\\MidPoint.png", 1, 0)
+		self.menuAddLine=addLineItem("images\\AddLine.png", 2, 0)
+		self.menuAddCircle=addCircleItem("images\\AddCircle.png", 3, 0)
+		self.menuAddAngle=addAngleItem("images\\Angle.png", 4, 0)
+		self.menuAddLocus=addLocusItem("images\\AddLocus.png",5 , 0)
 		#####
 		self.menuP2P=menuItem("images\\P2P.png", 0, 1)
 		self.menuP2L=menuItem("images\\P2L.png", 1, 1)
