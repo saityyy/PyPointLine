@@ -66,8 +66,6 @@ class application:
 		
 		self.circles.append(circle(point2, point3))
 
-		#module0=midpoint(point0,point1,point2)
-		#self.modules.append(module0)
 
 		#module20=point2point(point0,point1)
 		#self.modules.append(module20)
@@ -223,18 +221,7 @@ class application:
 					self.onModePhase=0
 					self.headerText=self.onMode.headerText[self.onModePhase]
 					self.drawAll(self.mainCanvas)
-				if self.clickedPoint!=None and self.onMode==self.menuMidPoint and self.onModePhase==0:
-					self.onMode.point1=self.clickedPoint
-					self.onModePhase=1
-					self.headerText=self.onMode.headerText[self.onModePhase]
-					self.drawAll(self.mainCanvas)
-				if self.clickedPoint!=None and self.onMode==self.menuMidPoint and self.onModePhase==1:
-					self.onMode.point2=self.clickedPoint
-					### add a new point
-					### add a new addMidPoint(module)
-					self.onModePhase=0
-					self.headerText=self.onMode.headerText[self.onModePhase]
-					self.drawAll(self.mainCanvas)
+				self.onMode.phaseActions(self)
 				pass
 			elif self.dispMenu==True:
 				self.onMode=None
@@ -244,7 +231,7 @@ class application:
 						self.onMode=icon
 						self.onModePhase=0
 						self.headerText=icon.headerText[self.onModePhase]
-						self.dispMenu==False
+						self.dispMenu=False
 						self.drawAll(self.mainCanvas)
 						break
 			pass
