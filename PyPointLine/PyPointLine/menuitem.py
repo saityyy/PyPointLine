@@ -24,13 +24,22 @@ class menuItem:
 	def showIcon(self, canvas):
 		canvas.create_image(100*self.x+12.5,100*self.y+12.5,image=self.icon, tag="menuIcon", anchor=tk.NW)
 	pass
+	def phaseActions(self, app):
+		pass
 
 class addPointItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click in the open area."]
 	def phaseActions(self, app):
+		if app.clickedPoint==None and app.clickedLine==None and app.clickedCircle==None:
+			## create new point
+			newPoint=point(app.mp.x, app.mp.y)
+			app.points.append(newPoint)
+			app.drawAll()
 		pass
+
+
 class midPointItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)

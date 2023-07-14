@@ -222,11 +222,8 @@ class application:
 				self.clickedPoint = self.mouseOnPoint()
 				self.clickedLine = self.mouseOnLine()
 				self.clickedCircle = self.mouseOnCircle()
-				if self.clickedPoint==None and self.clickedLine==None and self.clickedCircle==None:## free clicking
+				if self.onMode==None:
 					self.onMode=self.menuAddPoint
-					self.onModePhase=0
-					self.headerText=self.onMode.headerText[self.onModePhase]
-					self.drawAll()
 				self.onMode.phaseActions(self)
 				pass
 			elif self.dispMenu==True:
@@ -240,6 +237,8 @@ class application:
 						self.dispMenu=False
 						self.drawAll()
 						break
+				else:
+					self.onMode=self.menuAddPoint
 			pass
 		else:## finishing drag
 			##if self.mp.magenticPoint
