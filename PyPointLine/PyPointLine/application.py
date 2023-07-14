@@ -40,7 +40,7 @@ class application:
 		self.dispMenu=False
 		self.onMode=None
 		self.dispPreference=False
-
+		self.headerText=""
 		##self.file=fileIO(self)
 
 		self.headerPane=pane(self, 0,0,1000,100)
@@ -82,7 +82,7 @@ class application:
 		module51=circle2circle(self.circles[0], self.circles[1])
 		self.modules.append(module51)
 
-		self.drawAll(self.mainCanvas)
+		self.drawAll()
 		pass
 
 
@@ -93,22 +93,24 @@ class application:
 		return (-self.cx+ x) / self.zoom , (-self.cy+ y)/self.zoom
 
 
-	def drawAll(self, canvas):
+	def drawAll(self):
 		""" """
-		canvas.delete("all")
+		self.mainCanvas.delete("all")
+		self.headerCanvas.delete("all")
 		if self.dispMenu==False:
-			self.drawMenuOnIcon(canvas)
-			self.drawAllObjects(canvas)
+			self.drawMenuOnIcon()
+			self.headerCanvas.create_text(125 ,50, text=self.headerText, fill='black', anchor="w", font=("", 72))
+			self.drawAllObjects()
 			#self.drawAllLogs()
 			if self.dispPreference==True:
 				#self.drawProference()
 				pass
 			pass
 		else: # dispMenu==True:
-			self.drawAllMenu(canvas)
+			self.drawAllMenu()
 			pass
 
-	def drawAllObjects(self, canvas):
+	def drawAllObjects(self):
 		## draw angles
 
 		## draw lines
@@ -117,18 +119,18 @@ class application:
 			pt2=ln.point2
 			x1,y1=self.world2Canvas(pt1.x, pt1.y)
 			x2,y2=self.world2Canvas(pt2.x, pt2.y)
-			canvas.create_line(x1,y1,x2,y2, fill='grey', width=4)
+			self.mainCanvas.create_line(x1,y1,x2,y2, fill='grey', width=4)
 		
 		## draw circles
 		for cn in self.circles:
 			x1,y1=self.world2Canvas(cn.point.x, cn.point.y)
 			r=cn.radius * self.zoom
-			canvas.create_oval(x1-r,y1-r,x1+r,y1+r, outline='grey', width=4)
+			self.mainCanvas.create_oval(x1-r,y1-r,x1+r,y1+r, outline='grey', width=4)
 
 		## draw points
 		for pt in self.points:
 			xx0,yy0=self.world2Canvas(pt.x,pt.y)
-			canvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue')
+			self.mainCanvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue')
 
 		## draw locus
 
@@ -155,7 +157,7 @@ class application:
 		for i in range(10):
 			for md in self.modules:
 				md.evaluate()
-		self.drawAll(self.mainCanvas)
+		self.drawAll()
 
 
 	def buttonPressed(self, event):
@@ -197,7 +199,7 @@ class application:
 		for cc in self.circles:
 			if cc.thisis=='circle':
 				mag=dist(cc.point.x, cc.point.y, self.mp.x, self.mp.y)
-				if math.abs(mag-cc.radius)<10/self.zoom:
+				if abs(mag-cc.radius)<10/self.zoom:
 					return cc
 
 		return None
@@ -208,10 +210,14 @@ class application:
 		if isNear(self.mp.x,self.mp.y,self.mp.bpX,self.mp.bpY,5/self.zoom):## has clicked
 			if self.dispMenu==False and isIn(self.mp.canvasX, self.mp.canvasY, 0, 0, 100, 100):
 				self.dispMenu=True
-				self.drawAll(self.mainCanvas)
+				self.headerText=""
+				self.mp.magneticPoint=None
+				self.drawAll()
 			elif self.dispMenu==True and isIn(self.mp.canvasX, self.mp.canvasY, 0, 0, 100, 100):
 				self.dispMenu=False
-				self.drawAll(self.mainCanvas)
+				self.headerText=""
+				self.mp.magneticPoint=None
+				self.drawAll()
 			elif self.dispMenu==False:
 				self.clickedPoint = self.mouseOnPoint()
 				self.clickedLine = self.mouseOnLine()
@@ -220,7 +226,7 @@ class application:
 					self.onMode=self.menuAddPoint
 					self.onModePhase=0
 					self.headerText=self.onMode.headerText[self.onModePhase]
-					self.drawAll(self.mainCanvas)
+					self.drawAll()
 				self.onMode.phaseActions(self)
 				pass
 			elif self.dispMenu==True:
@@ -232,7 +238,7 @@ class application:
 						self.onModePhase=0
 						self.headerText=icon.headerText[self.onModePhase]
 						self.dispMenu=False
-						self.drawAll(self.mainCanvas)
+						self.drawAll()
 						break
 			pass
 		else:## finishing drag
@@ -242,6 +248,7 @@ class application:
 			#		self.mp.magneticPoint=None
 			#else:## 空ドラッグ
 			#	図全体を平行移動する。		
+			self.mp.magneticPoint=None
 			self.calculatorEvaluate()
 			pass
 
@@ -254,19 +261,19 @@ class application:
 		keyPressed event"""
 		if event.keysym=="Up":
 			self.cy -= 10
-			self.drawAll(self.mainCanvas)		
+			self.drawAll()		
 			pass
 		elif event.keysym=="Down":
 			self.cy += 10
-			self.drawAll(self.mainCanvas)		
+			self.drawAll()		
 			pass
 		elif event.keysym=="Right":
 			self.cx += 10
-			self.drawAll(self.mainCanvas)		
+			self.drawAll()		
 			pass
 		elif event.keysym=="Left":
 			self.cx -= 10
-			self.drawAll(self.mainCanvas)	
+			self.drawAll()	
 			pass
 		pass
 
@@ -308,7 +315,7 @@ class application:
 		self.menuQuit=menuItem("images\\Quit.png", 4, 4)
 		
 
-	def drawMenuOnIcon(self, canvas):
+	def drawMenuOnIcon(self):
 		self.menuOn.showIcon(self.headerCanvas)
 
 	@property
@@ -321,7 +328,7 @@ class application:
 			self.menuLogs,self.menuOpen,self.menuSave,self.menuSave2TeX,self.menuSave2TeX,self.menuQuit
 			]
 
-	def drawAllMenu(self, canvas):
+	def drawAllMenu(self):
 		self.menuOff.showIcon(self.headerCanvas)
 		for icon in self.allButtonIcons:
-			icon.showIcon(canvas)
+			icon.showIcon(self.mainCanvas)

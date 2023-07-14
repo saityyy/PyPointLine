@@ -29,7 +29,8 @@ class addPointItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click in the open area."]
-
+	def phaseActions(self, app):
+		pass
 class midPointItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
@@ -41,8 +42,8 @@ class midPointItem(menuItem):
 			self.point1=app.clickedPoint
 			app.onModePhase=1
 			app.headerText=app.onMode.headerText[app.onModePhase]
-			app.drawAll(app.mainCanvas)
-		if app.clickedPoint!=None and app.onModePhase==1:
+			app.drawAll()
+		elif app.clickedPoint!=None and app.onModePhase==1:
 			self.point2=app.clickedPoint
 			### add a new point
 			x=(self.point1.x+self.point2.x)*0.5
@@ -51,11 +52,11 @@ class midPointItem(menuItem):
 			app.points.append(newPoint)			
 			### add a new addMidPoint(module)
 			newModule=midpoint(self.point1,self.point2,newPoint)
-			self.modules.append(newModule)
+			app.modules.append(newModule)
 			### post-process
 			app.onModePhase=0
 			app.headerText=app.onMode.headerText[app.onModePhase]
-			app.drawAll(app.mainCanvas)
+			app.drawAll()
 
 class addLineItem(menuItem):
 	def __init__(self, name, x, y):
