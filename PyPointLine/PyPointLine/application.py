@@ -215,6 +215,7 @@ class application:
 				self.drawAll()
 			elif self.dispMenu==True and isIn(self.mp.canvasX, self.mp.canvasY, 0, 0, 100, 100):
 				self.dispMenu=False
+				self.onMode=self.menuAddPoint
 				self.headerText=""
 				self.mp.magneticPoint=None
 				self.drawAll()
