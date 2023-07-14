@@ -71,6 +71,33 @@ class addLineItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click one point.", "Click another point."]
+	def phaseActions(self, app):
+		if app.onModePhase==0:
+			if app.clickedPoint!=None:
+				self.point1=app.clickedPoint
+			elif app.clickedPoint==None:
+				newPoint=point(app.mp.x, app.mp.y)
+				app.points.append(newPoint)
+				self.point1=newPoint
+			app.onModePhase=1
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		elif app.onModePhase==1:
+			if app.clickedPoint!=None:
+				self.point2=app.clickedPoint
+			elif app.clickedPoint==None:
+				newPoint=point(app.mp.x, app.mp.y)
+				app.points.append(newPoint)
+				self.point2=newPoint
+			### add a new point
+			newLine=line(self.point1, self.point2)
+			app.lines.append(newLine)	
+			### post-process
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+
+
 class addCircleItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
