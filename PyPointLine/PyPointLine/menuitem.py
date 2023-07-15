@@ -275,14 +275,62 @@ class menuL2CItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click one line.", "Click one circle."]
+		self.line1=None
+		self.circle1=None
+
 	def phaseActions(self, app):
+		if app.onModePhase==0:
+			if app.clickedLine!=None:
+				self.line1=app.clickedLine
+			else:
+				return
+			app.onModePhase=1
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		elif app.onModePhase==1:
+			if app.clickedCircle!=None:
+				self.circle1=app.clickedCircle
+			else:
+				return
+			### add a new point
+			newModule=line2circle(self.line1, self.circle1)
+			app.modules.append(newModule)	
+			### post-process
+			app.calculatorEvaluate(repeat=50)
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
 		pass
 
 class menuC2CItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click one circle.","Click another circle."]
+		self.circle1=None
+		self.circle2=None
+
 	def phaseActions(self, app):
+		if app.onModePhase==0:
+			if app.clickedCircle!=None:
+				self.circle1=app.clickedCircle
+			else:
+				return
+			app.onModePhase=1
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		elif app.onModePhase==1:
+			if app.clickedCircle!=None:
+				self.circle2=app.clickedCircle
+			else:
+				return
+			### add a new point
+			newModule=circle2circle(self.circle1, self.circle2)
+			app.modules.append(newModule)	
+			### post-process
+			app.calculatorEvaluate(repeat=50)
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
 		pass
 
 
