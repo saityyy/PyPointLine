@@ -124,8 +124,8 @@ class addCircleItem(menuItem):
 			else:
 				self.point2=app.clickedPoint
 			### add a new point
-			newCircle=line(self.point1, self.point2)
-			app.lines.append(newCircle)	
+			newCircle=circle(self.point1, self.point2)
+			app.circles.append(newCircle)	
 			### post-process
 			app.onModePhase=0
 			app.headerText=app.onMode.headerText[app.onModePhase]
@@ -244,7 +244,31 @@ class menuP2CItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click one point.", "Click one circle."]
+		self.point1=None
+		self.circle1=None
+
 	def phaseActions(self, app):
+		if app.onModePhase==0:
+			if app.clickedPoint!=None:
+				self.point1=app.clickedPoint
+			else:
+				return
+			app.onModePhase=1
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		elif app.onModePhase==1:
+			if app.clickedCircle!=None:
+				self.circle1=app.clickedCircle
+			else:
+				return
+			### add a new point
+			newModule=point2circle(self.point1, self.circle1)
+			app.modules.append(newModule)	
+			### post-process
+			app.calculatorEvaluate(repeat=50)
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
 		pass
 
 class menuL2CItem(menuItem):

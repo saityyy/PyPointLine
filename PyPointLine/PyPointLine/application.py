@@ -118,43 +118,21 @@ class application:
 
 	def drawAllObjects(self):
 		## draw angles
+		for ag in self.angles:
+			ag.drawObject(self)
 
 		## draw lines
 		for ln in self.lines:
-			pt1=ln.point1
-			pt2=ln.point2
-			x1,y1=self.world2Canvas(pt1.x, pt1.y)
-			x2,y2=self.world2Canvas(pt2.x, pt2.y)
-			self.mainCanvas.create_line(x1,y1,x2,y2, fill='grey', width=4)
+			ln.drawObject(self)
 		
 		## draw circles
 		for cn in self.circles:
-			x1,y1=self.world2Canvas(cn.point.x, cn.point.y)
-			r=cn.radius * self.zoom
-			self.mainCanvas.create_oval(x1-r,y1-r,x1+r,y1+r, outline='grey', width=4)
+			cn.drawObject(self)
 
 		## draw points
 		for pt in self.points:
-			xx0,yy0=self.world2Canvas(pt.x,pt.y)
-			self.mainCanvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue')
+			pt.drawObject(self)
 
-		## draw angle
-		for ag in self.angles:
-			xx1,yy1=self.world2Canvas(ag.point1.x,ag.point1.y)
-			xx2,yy2=self.world2Canvas(ag.point2.x,ag.point2.y)
-			xx3,yy3=self.world2Canvas(ag.point3.x,ag.point3.y)
-			theta1=math.atan2(-yy1+yy2, xx1-xx2)
-			theta3=math.atan2(-yy3+yy2, xx3-xx2)
-			rad2ang=180/math.pi
-			if theta1+math.pi<theta3:
-				start, extent = theta3*rad2ang, (theta1 - theta3 + 2*math.pi)*rad2ang
-			elif theta1<theta3:
-				start, extent = theta1*rad2ang, (theta3 - theta1)*rad2ang
-			elif theta1-math.pi<theta3:
-				start, extent = theta3*rad2ang, (theta1 - theta3)*rad2ang
-			else:
-				start, extent = theta1*rad2ang, (theta3 - theta1 + 2*math.pi)*rad2ang
-			self.mainCanvas.create_arc(xx2-20, yy2-20, xx2+20, yy2+20, start=start, extent=extent, style=tk.ARC, width=4, outline='red')
 
 		## draw locus
 
