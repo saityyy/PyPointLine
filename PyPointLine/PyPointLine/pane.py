@@ -20,6 +20,7 @@ class pane:
 	pass
 
 	def inside(self, x, y):
+		""" """
 		if self.left<x and x<self.left+self.width:
 			if self.top<y and y<self.top+self.height:
 				return True

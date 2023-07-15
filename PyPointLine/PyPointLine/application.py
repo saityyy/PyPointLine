@@ -1,14 +1,14 @@
 
 import tkinter as tk
 import os
+import math 
 
 from utils import mousePosition, isNear, isIn
 from pane import pane
 from menuitem import *
-from point import point
-from line import line
-from circle import circle
+from object import point, line, circle, angle, locus
 from module import *
+
 
 class application:
 	"""
@@ -32,6 +32,8 @@ class application:
 		self.points=[]
 		self.lines=[]
 		self.circles=[]
+		self.angles=[]
+		self.loci=[]
 		self.modules=[]
 		self.clickedPoint=None
 		self.clickedLine=None
@@ -55,16 +57,20 @@ class application:
 		self.points.append(point1)
 		point2=point(1,0)
 		self.points.append(point2)
-		point3=point(-1,0)
-		self.points.append(point3)
+		
+		angle0=angle(point0, point1, point2)
+		self.angles.append(angle0)
+
+		#point3=point(-1,0)
+		#self.points.append(point3)
 
 		#line0=line(point0, point1)
 		#self.lines.append(line0)
 
 		
-		self.circles.append(circle(point0, point1))
+		#self.circles.append(circle(point0, point1))
 		
-		self.circles.append(circle(point2, point3))
+		#self.circles.append(circle(point2, point3))
 
 
 		#module20=point2point(point0,point1)
@@ -79,8 +85,8 @@ class application:
 		#module41=line2circle(line0, circle0)
 		#self.modules.append(module41)
 		
-		module51=circle2circle(self.circles[0], self.circles[1])
-		self.modules.append(module51)
+		#module51=circle2circle(self.circles[0], self.circles[1])
+		#self.modules.append(module51)
 
 		self.drawAll()
 		pass
@@ -99,7 +105,7 @@ class application:
 		self.headerCanvas.delete("all")
 		if self.dispMenu==False:
 			self.drawMenuOnIcon()
-			self.headerCanvas.create_text(125 ,50, text=self.headerText, fill='black', anchor="w", font=("", 72))
+			self.headerCanvas.create_text(125 ,50, text=self.headerText, fill='black', anchor="w", font=("", 54))
 			self.drawAllObjects()
 			#self.drawAllLogs()
 			if self.dispPreference==True:
@@ -132,6 +138,24 @@ class application:
 			xx0,yy0=self.world2Canvas(pt.x,pt.y)
 			self.mainCanvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue')
 
+		## draw angle
+		for ag in self.angles:
+			xx1,yy1=self.world2Canvas(ag.point1.x,ag.point1.y)
+			xx2,yy2=self.world2Canvas(ag.point2.x,ag.point2.y)
+			xx3,yy3=self.world2Canvas(ag.point3.x,ag.point3.y)
+			theta1=math.atan2(-yy1+yy2, xx1-xx2)
+			theta3=math.atan2(-yy3+yy2, xx3-xx2)
+			rad2ang=180/math.pi
+			if theta1+math.pi<theta3:
+				start, extent = theta3*rad2ang, (theta1 - theta3 + 2*math.pi)*rad2ang
+			elif theta1<theta3:
+				start, extent = theta1*rad2ang, (theta3 - theta1)*rad2ang
+			elif theta1-math.pi<theta3:
+				start, extent = theta3*rad2ang, (theta1 - theta3)*rad2ang
+			else:
+				start, extent = theta1*rad2ang, (theta3 - theta1 + 2*math.pi)*rad2ang
+			self.mainCanvas.create_arc(xx2-20, yy2-20, xx2+20, yy2+20, start=start, extent=extent, style=tk.ARC, width=4, outline='red')
+
 		## draw locus
 
 
@@ -153,8 +177,8 @@ class application:
 				self.calculatorEvaluate()
 	# 
 
-	def calculatorEvaluate(self):
-		for i in range(10):
+	def calculatorEvaluate(self, repeat=10):
+		for i in range(repeat):
 			for md in self.modules:
 				md.evaluate()
 		self.drawAll()
@@ -288,18 +312,18 @@ class application:
 		self.menuAddAngle=addAngleItem("images\\Angle.png", 4, 0)
 		self.menuAddLocus=addLocusItem("images\\AddLocus.png",5 , 0)
 		#####
-		self.menuP2P=menuItem("images\\P2P.png", 0, 1)
-		self.menuP2L=menuItem("images\\P2L.png", 1, 1)
-		self.menuP2C=menuItem("images\\P2C.png", 2, 1)
-		self.menuTangentL2C=menuItem("images\\TangentL2C.png", 3, 1)
-		self.menuTangentC2C=menuItem("images\\TangentC2C.png", 4, 1)
+		self.menuP2P=menuP2PItem("images\\P2P.png", 0, 1)
+		self.menuP2L=menuP2LItem("images\\P2L.png", 1, 1)
+		self.menuP2C=menuP2CItem("images\\P2C.png", 2, 1)
+		self.menuTangentL2C=menuL2CItem("images\\TangentL2C.png", 3, 1)
+		self.menuTangentC2C=menuC2CItem("images\\TangentC2C.png", 4, 1)
 		#####
-		self.menuIsom=menuItem("images\\Isom.png", 0, 2)
-		self.menuRatioLength=menuItem("images\\RatioLength.png", 1, 2)
-		self.menuPara=menuItem("images\\Para.png", 2, 2)
-		self.menuPerp=menuItem("images\\Perp.png", 3, 2)
-		self.menuHori=menuItem("images\\Hori.png", 4, 2)
-		self.menuBisector=menuItem("images\\Bisector.png", 5, 2)
+		self.menuIsom=menuIsomItem("images\\Isom.png", 0, 2)
+		self.menuRatioLength=menuRatioLengthItem("images\\RatioLength.png", 1, 2)
+		self.menuPara=menuParaItem("images\\Para.png", 2, 2)
+		self.menuPerp=menuPerpItem("images\\Perp.png", 3, 2)
+		self.menuHori=menuHoriItem("images\\Hori.png", 4, 2)
+		self.menuBisector=menuBisectorItem("images\\Bisector.png", 5, 2)
 		#####
 		self.menuFixPoint=menuItem("images\\FixPoint.png", 0, 3)
 		self.menuUndo=menuItem("images\\Undo.png", 1, 3)

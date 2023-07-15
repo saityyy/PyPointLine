@@ -1,7 +1,4 @@
-from object import object
-from point import point
-from line import line
-from circle import circle
+from object import object, point, line, circle, angle, locus
 from utils import *
 
 class ModuleType:

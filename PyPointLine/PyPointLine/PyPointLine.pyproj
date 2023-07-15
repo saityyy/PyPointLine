@@ -24,13 +24,10 @@
     <Compile Include="application.py" />
     <Compile Include="button.py" />
     <Compile Include="calculator.py" />
-    <Compile Include="circle.py" />
-    <Compile Include="line.py" />
     <Compile Include="menuitem.py" />
     <Compile Include="module.py" />
     <Compile Include="object.py" />
     <Compile Include="pane.py" />
-    <Compile Include="point.py" />
     <Compile Include="preference.py" />
     <Compile Include="PyPointLine.py" />
     <Compile Include="utils.py" />

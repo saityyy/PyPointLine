@@ -1,8 +1,6 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-from point import point
-from line import line
-from circle import circle
+from object import point, line, circle, angle, locus
 from module import *
 
 class menuItem:
@@ -71,6 +69,8 @@ class addLineItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click one point.", "Click another point."]
+		self.point1=None
+		self.point2=None
 	def phaseActions(self, app):
 		if app.onModePhase==0:
 			if app.clickedPoint!=None:
@@ -96,17 +96,217 @@ class addLineItem(menuItem):
 			app.onModePhase=0
 			app.headerText=app.onMode.headerText[app.onModePhase]
 			app.drawAll()
-
+		pass
 
 class addCircleItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click one point.", "Click in the open area."]
+		self.point1=None
+		self.point2=None
+	def phaseActions(self, app):
+		if app.onModePhase==0:
+			if app.clickedPoint==None:
+				newPoint=point(app.mp.x, app.mp.y)
+				app.points.append(newPoint)
+				self.point1=newPoint
+			else:
+				self.point1=app.clickedPoint
+			if self.point1.thisis=='point':
+				app.onModePhase=1
+				app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		elif app.onModePhase==1:
+			if app.clickedPoint==None:
+				newPoint=point(app.mp.x, app.mp.y)
+				app.points.append(newPoint)
+				self.point2=newPoint
+			else:
+				self.point2=app.clickedPoint
+			### add a new point
+			newCircle=line(self.point1, self.point2)
+			app.lines.append(newCircle)	
+			### post-process
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+
 class addAngleItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click one point.", "Click the second point.", "Click the third point."]
+		self.point1=None
+		self.point2=None
+		self.point3=None
+	def phaseActions(self, app):
+		if app.onModePhase==0:
+			if app.clickedPoint!=None:
+				self.point1=app.clickedPoint
+			elif app.clickedPoint==None:
+				newPoint=point(app.mp.x, app.mp.y)
+				app.points.append(newPoint)
+				self.point1=newPoint
+			app.onModePhase=1
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		elif app.onModePhase==1:
+			if app.clickedPoint!=None:
+				self.point2=app.clickedPoint
+			elif app.clickedPoint==None:
+				newPoint=point(app.mp.x, app.mp.y)
+				app.points.append(newPoint)
+				self.point2=newPoint
+			app.onModePhase=2
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		elif app.onModePhase==2:
+			if app.clickedPoint!=None:
+				self.point3=app.clickedPoint
+			elif app.clickedPoint==None:
+				newPoint=point(app.mp.x, app.mp.y)
+				app.points.append(newPoint)
+				self.point3=newPoint
+			### add a new point
+			newAngle:angle=angle(self.point1, self.point2, self.point3)
+			app.angles.append(newAngle)	
+			### post-process
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		pass
+
 class addLocusItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click one point."]
+	def phaseActions(self, app):
+		pass
+
+class menuP2PItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=["Click one point.", "Click another point."]
+	def phaseActions(self, app):
+		if app.onModePhase==0:
+			if app.clickedPoint!=None:
+				self.point1=app.clickedPoint
+			else:
+				return
+			app.onModePhase=1
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		elif app.onModePhase==1:
+			if app.clickedPoint!=None:
+				self.point2=app.clickedPoint
+			else:
+				return
+			### add a new point
+			newModule=point2point(self.point1, self.point2)
+			app.modules.append(newModule)	
+			### post-process
+			app.calculatorEvaluate(repeat=50)
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		pass
+
+class menuP2LItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=["Click one point.", "Click one line."]
+		self.point1=None
+		self.line1=None
+	def phaseActions(self, app):
+		if app.onModePhase==0:
+			if app.clickedPoint!=None:
+				self.point1=app.clickedPoint
+			else:
+				return
+			app.onModePhase=1
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		elif app.onModePhase==1:
+			if app.clickedLine!=None:
+				self.line1=app.clickedLine
+			else:
+				return
+			### add a new point
+			newModule=point2line(self.point1, self.line1)
+			app.modules.append(newModule)	
+			### post-process
+			app.calculatorEvaluate(repeat=50)
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		pass
+
+class menuP2CItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=["Click one point.", "Click one circle."]
+	def phaseActions(self, app):
+		pass
+
+class menuL2CItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=["Click one line.", "Click one circle."]
+	def phaseActions(self, app):
+		pass
+
+class menuC2CItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=["Click one circle.","Click another circle."]
+	def phaseActions(self, app):
+		pass
+
+
+class menuIsomItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=["Click one line.","Click another line."]
+	def phaseActions(self, app):
+		pass
+
+
+class menuRatioLengthItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=["Click one line.","Click another line."]
+	def phaseActions(self, app):
+		pass
+
+
+class menuParaItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=["Click one line.","Click another line."]
+	def phaseActions(self, app):
+		pass
+
+
+class menuPerpItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=["Click one line.","Click another line."]
+	def phaseActions(self, app):
+		pass
+
+
+class menuHoriItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=["Click one line."]
+	def phaseActions(self, app):
+		pass
+
+
+class menuBisectorItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=["Click one point.","Click the second point.","Click the third point."]
+	def phaseActions(self, app):
+		pass
+
+
