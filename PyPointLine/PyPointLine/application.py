@@ -16,10 +16,15 @@ class application:
 	def __init__(self, root):
 		""" """
 		self.root = root
-		self.headerCanvas=tk.Canvas(root, width=1000, height=100)
+		self.headerCanvas=tk.Canvas(root, width=900, height=100)
 		self.headerCanvas.place(x=0, y=0)
-		self.mainCanvas = tk.Canvas(root, width=1000, height=900)
+		self.headerPane=pane(self, 0,0,900,100)
+		self.mainCanvas = tk.Canvas(root, width=900, height=900)
 		self.mainCanvas.place(x=0, y=100)
+		self.mainPane=pane(self,0,100,900,900)
+		self.prefCanvas = tk.Canvas(root, width=300, height=1000)
+		self.prefCanvas.place(x=900, y=0)
+		self.prefPane=pane(self,900,0,300,1000)
 		self.mp=mousePosition()
 		self.nextID=0
 		self.pointName='A'
@@ -45,9 +50,6 @@ class application:
 		self.headerText=""
 		##self.file=fileIO(self)
 
-		self.headerPane=pane(self, 0,0,1000,100)
-		self.mainPane=pane(self,0,100,1000,900)
-		self.rightPane=pane(self,1000,0,200,1000)
 		self.initilizeMenuItems()
 
 
@@ -140,7 +142,12 @@ class application:
 	def updateCoordinates(self, event):
 		""" """
 		self.mp.canvasX, self.mp.canvasY = event.x, event.y
-		self.mp.x, self.mp.y = self.canvas2World( event.x, event.y)
+		if self.headerPane.isIn(self.mp.canvasX, self.mp.canvasY):
+			self.mp.x, self.mp.y = self.mp.canvasX, self.mp.canvasY
+		if self.mainPane.isIn(self.mp.canvasX, self.mp.canvasY):
+			self.mp.x, self.mp.y = self.canvas2World( event.x, event.y)
+		if self.prefPane.isIn(self.mp.canvasX, self.mp.canvasY):
+			self.mp.x, self.mp.y = self.mp.canvasX-900, self.mp.canvasY
 		pass
 
 
@@ -167,7 +174,7 @@ class application:
 		self.updateCoordinates(event)
 		self.mp.bpX, self.mp.bpY = self.mp.x, self.mp.y
 		x,y = self.world2Canvas(self.mp.x, self.mp.y)
-		if self.mainPane.inside(x,y):
+		if self.mainPane.isIn(x,y):
 			for pt in self.points:
 				if isNear(pt.x, pt.y, self.mp.x, self.mp.y, 10/self.zoom):
 					self.mp.magneticPoint = pt
@@ -212,6 +219,7 @@ class application:
 		if isNear(self.mp.x,self.mp.y,self.mp.bpX,self.mp.bpY,5/self.zoom):## has clicked
 			if self.dispMenu==False and isIn(self.mp.canvasX, self.mp.canvasY, 0, 0, 100, 100):
 				self.dispMenu=True
+				self.onMode=None
 				self.headerText=""
 				self.mp.magneticPoint=None
 				self.drawAll()
