@@ -1,5 +1,7 @@
 import tkinter as tk
+import sys
 from PIL import Image, ImageTk
+
 from object import point, line, circle, angle, locus
 from module import *
 
@@ -23,6 +25,8 @@ class menuItem:
 		canvas.create_image(100*self.x+12.5,100*self.y+12.5,image=self.icon, tag="menuIcon", anchor=tk.NW)
 	pass
 	def phaseActions(self, app):
+		pass
+	def onActions(self, app):
 		pass
 
 class addPointItem(menuItem):
@@ -380,5 +384,17 @@ class menuBisectorItem(menuItem):
 		self.headerText=["Click one point.","Click the second point.","Click the third point."]
 	def phaseActions(self, app):
 		pass
+
+
+
+class menuQuitItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=[""]
+	def onActions(self, app):
+		sys.exit()
+
+	pass
+
 
 

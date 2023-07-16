@@ -53,15 +53,15 @@ class application:
 		self.initilizeMenuItems()
 
 
-		point0=point(0,0)
-		self.points.append(point0)
-		point1=point(1,1)
-		self.points.append(point1)
-		point2=point(1,0)
-		self.points.append(point2)
+		#point0=point(0,0)
+		#self.points.append(point0)
+		#point1=point(1,1)
+		#self.points.append(point1)
+		#point2=point(1,0)
+		#self.points.append(point2)
 		
-		angle0=angle(point0, point1, point2)
-		self.angles.append(angle0)
+		#angle0=angle(point0, point1, point2)
+		#self.angles.append(angle0)
 
 		#point3=point(-1,0)
 		#self.points.append(point3)
@@ -243,6 +243,7 @@ class application:
 				for icon in self.allButtonIcons:
 					if isIn(self.mp.canvasX, self.mp.canvasY, icon.left, icon.top, icon.width, icon.height):
 						self.onMode=icon
+						self.onMode.onActions(self)
 						self.onModePhase=0
 						self.headerText=icon.headerText[self.onModePhase]
 						self.dispMenu=False
@@ -296,7 +297,7 @@ class application:
 		self.menuAddLine=addLineItem("images\\AddLine.png", 2, 0)
 		self.menuAddCircle=addCircleItem("images\\AddCircle.png", 3, 0)
 		self.menuAddAngle=addAngleItem("images\\Angle.png", 4, 0)
-		self.menuAddLocus=addLocusItem("images\\AddLocus.png",5 , 0)
+		self.menuAddLocus=menuItem("images\\AddLocus.png",5 , 0)
 		#####
 		self.menuP2P=menuP2PItem("images\\P2P.png", 0, 1)
 		self.menuP2L=menuP2LItem("images\\P2L.png", 1, 1)
@@ -322,7 +323,7 @@ class application:
 		self.menuOpen=menuItem("images\\Open.png", 1, 4)
 		self.menuSave=menuItem("images\\Save.png", 2, 4)
 		self.menuSave2TeX=menuItem("images\\Save2TeX.png", 3, 4)
-		self.menuQuit=menuItem("images\\Quit.png", 4, 4)
+		self.menuQuit=menuQuitItem("images\\Quit.png", 4, 4)
 		
 
 	def drawMenuOnIcon(self):
