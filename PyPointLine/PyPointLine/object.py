@@ -15,41 +15,66 @@ class object:
 	pass
 	def drawObject(self, app):
 		pass
+	def drawLog(self, app):
+		pass
+	def drawPreference(self, app):
+		pass
 
 
 
 class point(object):
 	def __init__(self, x, y):
+
 		self.x=x
 		self.y=y
 		self.thisis='point'
+		self.color='blue'
+		self.fixed=False
+		self.fixedColor='red'
+		self.showName=True
+		pass
 	def drawObject(self, app):
 		xx0,yy0=app.world2Canvas(self.x,self.y)
 		app.mainCanvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue')
-
-
+		pass
+	def drawLog(self, app):
+		pass
+	def drawPreference(self, app):
+		pass
 class line(object):
 	def __init__(self, point1:point, point2:point):
 		self.point1=point1
 		self.point2=point2
 		self.thisis='line'
+		self.length=1.0
+		self.showLength=False
+		self.isomID=-1
+		self.showIsom=False
+		self.showIsomFlag=0
+		self.showName=False
 	def drawObject(self, app):
 		pt1=self.point1
 		pt2=self.point2
 		x1,y1=app.world2Canvas(pt1.x, pt1.y)
 		x2,y2=app.world2Canvas(pt2.x, pt2.y)
 		app.mainCanvas.create_line(x1,y1,x2,y2, fill='grey', width=4)
+	def drawLog(self, app):
+		pass
+	def drawPreference(self, app):
+		pass
 
 class circle(object):
 	def __init__(self, point:point, radius):
 		self.point=point
 		self.radius=radius
 		self.thisis='circle'
-
+		self.showName=False
+		
 	def __init__(self, point1:point, point2:point):
 		self.point=point1
 		self.radius=dist(point1.x,point1.y,point2.x,point2.y)
 		self.thisis='circle'
+		self.showName=False
 
 	def drawObject(self, app):
 		x1,y1=app.world2Canvas(self.point.x, self.point.y)
@@ -57,6 +82,10 @@ class circle(object):
 		app.mainCanvas.create_oval(x1-r,y1-r,x1+r,y1+r, outline='grey', width=4)
 
 	pass
+	def drawLog(self, app):
+		pass
+	def drawPreference(self, app):
+		pass
 
 class angle(object):
 	def __init__(self, point1:point, point2:point, point3:point):
@@ -64,6 +93,10 @@ class angle(object):
 		self.point2=point2
 		self.point3=point3
 		self.thisis='angle'
+		self.showArc=True
+		self.showIsom=False
+		self.showIsomFrag=0
+		self.showValue=False
 
 	def drawObject(self, app):
 		xx1,yy1=app.world2Canvas(self.point1.x,self.point1.y)
@@ -83,10 +116,18 @@ class angle(object):
 		app.mainCanvas.create_arc(xx2-20, yy2-20, xx2+20, yy2+20, start=start, extent=extent, style=tk.ARC, width=4, outline='red')
 
 	pass
+	def drawLog(self, app):
+		pass
+	def drawPreference(self, app):
+		pass
 
 class locus(object):
 	def __init__(self, point1:point):
 		self.point1=point1
 		self.thisis='locus'
 	pass
+	def drawLog(self, app):
+		pass
+	def drawPreference(self, app):
+		pass
 

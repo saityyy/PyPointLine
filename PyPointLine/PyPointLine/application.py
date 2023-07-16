@@ -111,7 +111,7 @@ class application:
 			self.drawAllObjects()
 			#self.drawAllLogs()
 			if self.dispPreference==True:
-				#self.drawProference()
+				#self.drawPreference()
 				pass
 			pass
 		else: # dispMenu==True:

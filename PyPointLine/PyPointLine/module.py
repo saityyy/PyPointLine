@@ -16,6 +16,10 @@ class module(object):
 		self.thisis='module'
 	def evaluate(self):
 		pass
+	def drawLog(self, app):
+		pass
+	def drawPreference(self, app):
+		pass
 
 class midpoint(module):
 	def __init__(self, point1:point, point2:point, point3:point):
@@ -24,6 +28,9 @@ class midpoint(module):
 		self.p2=point2
 		self.p3=point3
 		self.thisis='module'
+		self.ratio1=1
+		self.ratio2=1
+		pass
 	def evaluate(self):
 		x1=(-self.p2.x+2*self.p3.x)*0.1+self.p1.x*0.9
 		y1=(-self.p2.y+2*self.p3.y)*0.1+self.p1.y*0.9
@@ -37,6 +44,8 @@ class midpoint(module):
 		self.p2.y=y2
 		self.p3.x=x3
 		self.p3.y=y3
+	def drawPreference(self, app):
+		pass
 
 
 class point2point(module):
@@ -62,6 +71,7 @@ class point2line(module):
 		self.p1=point
 		self.l1=line
 		self.thisis='module'
+		self.onlyOnSegment=True
 	def evaluate(self):
 		p2=self.l1.point1
 		p3=self.l1.point2
