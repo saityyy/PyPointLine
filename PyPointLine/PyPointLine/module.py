@@ -187,4 +187,54 @@ class circle2circle(module):
 				self.cc1.radius -= difference
 				self.cc2.radius += difference
 
+class isometry(module):
+	def __init__(self, line1:line, line2:line):
+		self.moduletype=ModuleType.TangentC2C
+		self.ln1=line1
+		self.ln2=line2
+		self.thisis='module'
+		self.ratio1=1
+		self.ratio2=1
+	def evaluate(self):
+		p1=self.ln1.point1
+		p2=self.ln1.point2
+		p3=self.ln2.point1
+		p4=self.ln2.point2
+		ax=p2.x-p1.x
+		ay=p2.y-p1.y
+		magA=magnitude(ax, ay)
+		bx=p4.x-p3.x
+		by=p4.y-p3.y
+		magB=magnitude(bx, by)
+		difference=(magB-magA)*0.1
+		cx, cy=ax/magA*difference, ay/magA*difference
+		self.ln1.point1.x -= cx
+		self.ln1.point1.y -= cy
+		self.ln1.point2.x += cx
+		self.ln1.point2.y += cy
+		dx, dy=bx/magB*difference, by/magB*difference
+		self.ln1.point1.x += dx
+		self.ln1.point1.y += dy
+		self.ln1.point2.x -= dx
+		self.ln1.point2.y -= dy
 
+
+
+class parallel(module):
+	def __init__(self, line1:line, line2:line):
+		pass
+	def evaluate(self):
+		pass
+
+
+class perpendicular(module):
+	def __init__(self, line1:line, line2:line):
+		pass
+	def evaluate(self):
+		pass
+
+class horizontal(module):
+	def __init__(self, line1:line):
+		pass
+	def evaluate(self):
+		pass
