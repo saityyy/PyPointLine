@@ -327,7 +327,7 @@ class menuC2CItem(menuItem):
 				self.circle2=app.clickedCircle
 			else:
 				return
-			### add a new point
+			### add a new module
 			newModule=circle2circle(self.circle1, self.circle2)
 			app.modules.append(newModule)	
 			### post-process
@@ -342,7 +342,30 @@ class menuIsomItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click one line.","Click another line."]
+		self.line1=None
+		self.line2=None
 	def phaseActions(self, app):
+		if app.onModePhase==0:
+			if app.clickedLine!=None:
+				self.line1=app.clickedLine
+			else:
+				return
+			app.onModePhase=1
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		elif app.onModePhase==1:
+			if app.clickedLine!=None:
+				self.line2=app.clickedLine
+			else:
+				return
+			### add a new module
+			newModule=isometry(self.line1, self.line2)
+			app.modules.append(newModule)	
+			### post-process
+			app.calculatorEvaluate(repeat=50)
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
 		pass
 
 

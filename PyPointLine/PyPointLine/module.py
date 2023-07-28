@@ -162,6 +162,8 @@ class circle2circle(module):
 		radius2=self.cc2.radius
 		cx, cy = p2.x - p1.x, p2.y - p1.y
 		mag = magnitude(cx,cy)
+		if mag==0.0:
+			return
 		deltaIn = mag - abs(radius1 - radius2)
 		deltaOut = mag-(radius1 + radius2)
 		if abs(deltaIn) > abs(deltaOut):## outer tangent
@@ -206,17 +208,19 @@ class isometry(module):
 		bx=p4.x-p3.x
 		by=p4.y-p3.y
 		magB=magnitude(bx, by)
-		difference=(magB-magA)*0.1
+		if magA==0.0 or magB==0.0:
+			return
+		difference=min((magB-magA)*0.1,0.01)
 		cx, cy=ax/magA*difference, ay/magA*difference
 		self.ln1.point1.x -= cx
 		self.ln1.point1.y -= cy
 		self.ln1.point2.x += cx
 		self.ln1.point2.y += cy
 		dx, dy=bx/magB*difference, by/magB*difference
-		self.ln1.point1.x += dx
-		self.ln1.point1.y += dy
-		self.ln1.point2.x -= dx
-		self.ln1.point2.y -= dy
+		self.ln2.point1.x += dx
+		self.ln2.point1.y += dy
+		self.ln2.point2.x -= dx
+		self.ln2.point2.y -= dy
 
 
 
