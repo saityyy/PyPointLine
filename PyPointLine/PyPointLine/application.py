@@ -142,11 +142,13 @@ class application:
 	def updateCoordinates(self, event):
 		""" """
 		self.mp.canvasX, self.mp.canvasY = event.x, event.y
-		if self.headerPane.isIn(self.mp.canvasX, self.mp.canvasY):
-			self.mp.x, self.mp.y = self.mp.canvasX, self.mp.canvasY
-		if self.mainPane.isIn(self.mp.canvasX, self.mp.canvasY):
+		if self.mp.magneticPoint!=None:
 			self.mp.x, self.mp.y = self.canvas2World( event.x, event.y)
-		if self.prefPane.isIn(self.mp.canvasX, self.mp.canvasY):
+		elif self.headerPane.isIn(self.mp.canvasX, self.mp.canvasY):
+			self.mp.x, self.mp.y = self.mp.canvasX, self.mp.canvasY
+		elif self.mainPane.isIn(self.mp.canvasX, self.mp.canvasY):
+			self.mp.x, self.mp.y = self.canvas2World( event.x, event.y)
+		elif self.prefPane.isIn(self.mp.canvasX, self.mp.canvasY):
 			self.mp.x, self.mp.y = self.mp.canvasX-900, self.mp.canvasY
 		pass
 
@@ -265,6 +267,18 @@ class application:
 
 	def wheelTurned(self, event):
 		""" """
+		self.updateCoordinates(event)
+		if event.delta>0:
+			ratio:float=41/40
+		elif event.delta<0:
+			ratio:float=39/40
+		else:
+			return
+		self.cx=(self.cx-self.mp.canvasX)*ratio+self.mp.canvasX
+		self.cy=(self.cy-self.mp.canvasY)*ratio+self.mp.canvasY
+		self.zoom = self.zoom * ratio
+		##print("%f->%f"%(event.delta, self.zoom))
+		self.drawAll()
 		pass
 
 	def keyPressed(self, event):

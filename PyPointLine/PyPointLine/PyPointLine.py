@@ -14,7 +14,7 @@ if __name__ == "__main__":
 	ROOT.bind("<Button-1>", APP.buttonPressed)  # 
 	ROOT.bind("<ButtonRelease-1>", APP.buttonReleased)  # 
 	ROOT.bind("<Motion>", APP.updateCoordinates) #
-	#ROOT.bind("<MouseWheel>", APP.wheelTurned)
+	ROOT.bind("<MouseWheel>", APP.wheelTurned)
 	path = os.getcwd()# root directory
 
 
