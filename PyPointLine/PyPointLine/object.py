@@ -41,6 +41,7 @@ class point(object):
 		pass
 	def drawPreference(self, app):
 		pass
+
 class line(object):
 	def __init__(self, point1:point, point2:point):
 		self.point1=point1

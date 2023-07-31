@@ -8,6 +8,7 @@ from pane import pane
 from menuitem import *
 from object import point, line, circle, angle, locus
 from module import *
+from preference import preference
 
 
 class application:
@@ -26,6 +27,7 @@ class application:
 		self.prefCanvas.place(x=900, y=0)
 		self.prefPane=pane(self,900,0,300,1000)
 		self.mp=mousePosition()
+		self.pref=preference(self)
 		self.nextID=0
 		self.pointName='A'
 		self.lineName='a'
@@ -33,13 +35,8 @@ class application:
 		self.lineWidth=3# global width of a line in canvas
 		self.cx=500
 		self.cy=500
+		self.logs=[]
 		self.zoom=100
-		self.points=[]
-		self.lines=[]
-		self.circles=[]
-		self.angles=[]
-		self.loci=[]
-		self.modules=[]
 		self.clickedPoint=None
 		self.clickedLine=None
 		self.clickedCircle=None
@@ -100,6 +97,25 @@ class application:
 	def canvas2World(self, x,y):
 		return (-self.cx+ x) / self.zoom , (-self.cy+ y)/self.zoom
 
+	@property
+	def points(self):
+		return [obj for obj in self.logs if obj.thisis=="point"]
+
+	@property
+	def lines(self):
+		return [obj for obj in self.logs if obj.thisis=="line"]
+
+	@property
+	def circles(self):
+		return [obj for obj in self.logs if obj.thisis=="circle"]
+
+	@property
+	def modules(self):
+		return [obj for obj in self.logs if obj.thisis=="module"]
+
+	@property
+	def angles(self):
+		return [obj for obj in self.logs if obj.thisis=="angle"]
 
 	def drawAll(self):
 		""" """
