@@ -23,7 +23,7 @@ class object:
 
 
 class point(object):
-	def __init__(self, x, y):
+	def __init__(self, app, x, y):
 
 		self.x=x
 		self.y=y
@@ -32,18 +32,31 @@ class point(object):
 		self.fixed=False
 		self.fixedColor='red'
 		self.showName=True
+		self.tag="tag_%00d"%(app.nextID)
+		app.nextID += 1
 		pass
 	def drawObject(self, app):
 		xx0,yy0=app.world2Canvas(self.x,self.y)
-		app.mainCanvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue')
+		app.mainCanvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue', tag=self.tag)
 		pass
 	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x=5
+		y=app.LoglineFeed+5
+		app.LoglineFeed=100
+		w=290
+		h=90
+		canvas.create_rectangle(x,y,x+w,y+h,fill="green",width=3)
+		canvas.create_text(x+5,y+5,text="Point : A", anchor=tk.NW, font=("",18), width=290 )
+		thisLine="(%f,%f)"%(self.x, self.y)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=290 )
+		canvas.create_text(x+5,y+57,text="Non Fixed, Hide Name",  anchor=tk.NW, font=("",18), width=290 )
 		pass
 	def drawPreference(self, app):
 		pass
 
 class line(object):
-	def __init__(self, point1:point, point2:point):
+	def __init__(self, app, point1:point, point2:point):
 		self.point1=point1
 		self.point2=point2
 		self.thisis='line'
@@ -53,6 +66,8 @@ class line(object):
 		self.showIsom=False
 		self.showIsomFlag=0
 		self.showName=False
+		self.tag="tag_%00d"%(app.nextID)
+		app.nextID += 1
 	def drawObject(self, app):
 		pt1=self.point1
 		pt2=self.point2
@@ -65,18 +80,14 @@ class line(object):
 		pass
 
 class circle(object):
-	def __init__(self, point:point, radius):
+	def __init__(self, app, point:point, radius:float):
 		self.point=point
 		self.radius=radius
 		self.thisis='circle'
 		self.showName=False
+		self.tag="tag_%00d"%(app.nextID)
+		app.nextID += 1
 		
-	def __init__(self, point1:point, point2:point):
-		self.point=point1
-		self.radius=dist(point1.x,point1.y,point2.x,point2.y)
-		self.thisis='circle'
-		self.showName=False
-
 	def drawObject(self, app):
 		x1,y1=app.world2Canvas(self.point.x, self.point.y)
 		r=self.radius * app.zoom
@@ -118,6 +129,7 @@ class angle(object):
 
 	pass
 	def drawLog(self, app):
+
 		pass
 	def drawPreference(self, app):
 		pass

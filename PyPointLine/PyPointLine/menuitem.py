@@ -37,7 +37,7 @@ class addPointItem(menuItem):
 		if app.clickedPoint==None and app.clickedLine==None and app.clickedCircle==None:
 			if app.mainPane.isIn(app.mp.canvasX, app.mp.canvasY):
 				## create new point
-				newPoint=point(app.mp.x, app.mp.y)
+				newPoint=point(app, app.mp.x, app.mp.y)
 				app.logs.append(newPoint)
 				app.drawAll()
 		pass
@@ -60,10 +60,10 @@ class midPointItem(menuItem):
 			### add a new point
 			x=(self.point1.x+self.point2.x)*0.5
 			y=(self.point1.y+self.point2.y)*0.5
-			newPoint=point(x,y)
+			newPoint=point(app, x, y)
 			app.logs.append(newPoint)			
 			### add a new addMidPoint(module)
-			newModule=midpoint(self.point1,self.point2,newPoint)
+			newModule=midpoint(app, self.point1, self.point2, newPoint)
 			app.logs.append(newModule)
 			### post-process
 			app.onModePhase=0
@@ -83,7 +83,7 @@ class addLineItem(menuItem):
 			if app.clickedPoint!=None:
 				self.point1=app.clickedPoint
 			else:#if app.clickedPoint==None:
-				newPoint=point(app.mp.x, app.mp.y)
+				newPoint=point(app, app.mp.x, app.mp.y)
 				app.logs.append(newPoint)
 				self.point1=newPoint
 			app.onModePhase=1
@@ -95,11 +95,11 @@ class addLineItem(menuItem):
 			if app.clickedPoint!=None:
 				self.point2=app.clickedPoint
 			else:#if app.clickedPoint==None:
-				newPoint=point(app.mp.x, app.mp.y)
+				newPoint=point(app, app.mp.x, app.mp.y)
 				app.logs.append(newPoint)
 				self.point2=newPoint
 			### add a new point
-			newLine=line(self.point1, self.point2)
+			newLine=line(app, self.point1, self.point2)
 			app.logs.append(newLine)	
 			### post-process
 			app.onModePhase=0
@@ -118,7 +118,7 @@ class addCircleItem(menuItem):
 			if app.mainPane.isIn(app.mp.canvasX, app.mp.canvasY)==False:
 				return
 			if app.clickedPoint==None:
-				newPoint=point(app.mp.x, app.mp.y)
+				newPoint=point(app, app.mp.x, app.mp.y)
 				app.logs.append(newPoint)
 				self.point1=newPoint
 			else:
@@ -129,14 +129,16 @@ class addCircleItem(menuItem):
 			app.drawAll()
 		elif app.onModePhase==1:
 			if app.clickedPoint==None:
-				newPoint=point(app.mp.x, app.mp.y)
-				app.logs.append(newPoint)
-				self.point2=newPoint
+				### add a new point
+				newCircle=circle(app, self.point1, dist(self.point1.x, self.point1.y, app.mp.x, app.mp.y))
+				app.logs.append(newCircle)	
 			else:
 				self.point2=app.clickedPoint
-			### add a new point
-			newCircle=circle(self.point1, self.point2)
-			app.logs.append(newCircle)	
+				### add a new point
+				newCircle=circle(app, self.point1, dist(self.point1.x, self.point1.y, self.point2.x, self.point2.y))
+				app.logs.append(newCircle)	
+				newModule=point2circle(app, self.point2, newCircle)
+				app.logs.append(newModule)	
 			### post-process
 			app.onModePhase=0
 			app.headerText=app.onMode.headerText[app.onModePhase]
@@ -154,7 +156,7 @@ class addAngleItem(menuItem):
 			if app.clickedPoint!=None:
 				self.point1=app.clickedPoint
 			elif app.clickedPoint==None:
-				newPoint=point(app.mp.x, app.mp.y)
+				newPoint=point(app, app.mp.x, app.mp.y)
 				app.logs.append(newPoint)
 				self.point1=newPoint
 			app.onModePhase=1
@@ -164,7 +166,7 @@ class addAngleItem(menuItem):
 			if app.clickedPoint!=None:
 				self.point2=app.clickedPoint
 			elif app.clickedPoint==None:
-				newPoint=point(app.mp.x, app.mp.y)
+				newPoint=point(app, app.mp.x, app.mp.y)
 				app.logs.append(newPoint)
 				self.point2=newPoint
 			app.onModePhase=2
@@ -174,7 +176,7 @@ class addAngleItem(menuItem):
 			if app.clickedPoint!=None:
 				self.point3=app.clickedPoint
 			elif app.clickedPoint==None:
-				newPoint=point(app.mp.x, app.mp.y)
+				newPoint=point(app, app.mp.x, app.mp.y)
 				app.logs.append(newPoint)
 				self.point3=newPoint
 			### add a new point
@@ -212,7 +214,7 @@ class menuP2PItem(menuItem):
 			else:
 				return
 			### add a new point
-			newModule=point2point(self.point1, self.point2)
+			newModule=point2point(app, self.point1, self.point2)
 			app.logs.append(newModule)	
 			### post-process
 			app.calculatorEvaluate(repeat=50)
@@ -242,7 +244,7 @@ class menuP2LItem(menuItem):
 			else:
 				return
 			### add a new point
-			newModule=point2line(self.point1, self.line1)
+			newModule=point2line(app, self.point1, self.line1)
 			app.logs.append(newModule)	
 			### post-process
 			app.calculatorEvaluate(repeat=50)
@@ -273,7 +275,7 @@ class menuP2CItem(menuItem):
 			else:
 				return
 			### add a new point
-			newModule=point2circle(self.point1, self.circle1)
+			newModule=point2circle(app, self.point1, self.circle1)
 			app.logs.append(newModule)	
 			### post-process
 			app.calculatorEvaluate(repeat=50)
@@ -304,7 +306,7 @@ class menuL2CItem(menuItem):
 			else:
 				return
 			### add a new point
-			newModule=line2circle(self.line1, self.circle1)
+			newModule=line2circle(app, self.line1, self.circle1)
 			app.logs.append(newModule)	
 			### post-process
 			app.calculatorEvaluate(repeat=50)
@@ -335,7 +337,7 @@ class menuC2CItem(menuItem):
 			else:
 				return
 			### add a new module
-			newModule=circle2circle(self.circle1, self.circle2)
+			newModule=circle2circle(app, self.circle1, self.circle2)
 			app.logs.append(newModule)	
 			### post-process
 			app.calculatorEvaluate(repeat=50)
@@ -366,7 +368,7 @@ class menuIsomItem(menuItem):
 			else:
 				return
 			### add a new module
-			newModule=isometry(self.line1, self.line2)
+			newModule=isometry(app, self.line1, self.line2)
 			app.logs.append(newModule)	
 			### post-process
 			app.calculatorEvaluate(repeat=50)

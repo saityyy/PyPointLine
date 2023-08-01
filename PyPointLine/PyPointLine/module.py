@@ -22,7 +22,8 @@ class module(object):
 		pass
 
 class midpoint(module):
-	def __init__(self, point1:point, point2:point, point3:point):
+	def __init__(self, app, point1:point, point2:point, point3:point):
+		self.app=app
 		self.moduletype=ModuleType.MIDPOINT
 		self.p1=point1
 		self.p2=point2
@@ -49,7 +50,8 @@ class midpoint(module):
 
 
 class point2point(module):
-	def __init__(self, point1:point, point2:point):
+	def __init__(self, app, point1:point, point2:point):
+		self.app=app
 		self.moduletype=ModuleType.P2P
 		self.p1=point1
 		self.p2=point2
@@ -66,7 +68,8 @@ class point2point(module):
 
 
 class point2line(module):
-	def __init__(self, point:point, line:line):
+	def __init__(self, app, point:point, line:line):
+		self.app=app
 		self.moduletype=ModuleType.P2L
 		self.p1=point
 		self.l1=line
@@ -95,7 +98,8 @@ class point2line(module):
 		##unfinished
 
 class point2circle(module):
-	def __init__(self, point:point, circle:circle):
+	def __init__(self, app, point:point, circle:circle):
+		self.app=app
 		self.moduletype=ModuleType.P2C
 		self.p1=point
 		self.c1=circle
@@ -117,7 +121,8 @@ class point2circle(module):
 		self.c1.radius += difference
 
 class line2circle(module):
-	def __init__(self, line:line, circle:circle):
+	def __init__(self, app, line:line, circle:circle):
+		self.app=app
 		self.moduletype=ModuleType.TangentL2C
 		self.cc=circle
 		self.ln=line
@@ -150,7 +155,8 @@ class line2circle(module):
 		self.ln.point2.y -= ey
 
 class circle2circle(module):
-	def __init__(self, circle1:circle, circle2:circle):
+	def __init__(self, app, circle1:circle, circle2:circle):
+		self.app=app
 		self.moduletype=ModuleType.TangentC2C
 		self.cc1=circle1
 		self.cc2=circle2
@@ -190,7 +196,8 @@ class circle2circle(module):
 				self.cc2.radius += difference
 
 class isometry(module):
-	def __init__(self, line1:line, line2:line):
+	def __init__(self, app, line1:line, line2:line):
+		self.app=app
 		self.moduletype=ModuleType.TangentC2C
 		self.ln1=line1
 		self.ln2=line2
@@ -225,20 +232,20 @@ class isometry(module):
 
 
 class parallel(module):
-	def __init__(self, line1:line, line2:line):
+	def __init__(self, app, line1:line, line2:line):
 		pass
 	def evaluate(self):
 		pass
 
 
 class perpendicular(module):
-	def __init__(self, line1:line, line2:line):
+	def __init__(self, app, line1:line, line2:line):
 		pass
 	def evaluate(self):
 		pass
 
 class horizontal(module):
-	def __init__(self, line1:line):
+	def __init__(self, app, line1:line):
 		pass
 	def evaluate(self):
 		pass

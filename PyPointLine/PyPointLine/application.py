@@ -44,6 +44,7 @@ class application:
 		self.dispMenu=False
 		self.onMode=None
 		self.dispPreference=False
+		self.LoglineFeed=0
 		self.headerText=""
 		##self.file=fileIO(self)
 
@@ -121,6 +122,8 @@ class application:
 		""" """
 		self.mainCanvas.delete("all")
 		self.headerCanvas.delete("all")
+		self.prefCanvas.delete("all")
+		self.LoglineFeed=0
 		if self.dispMenu==False:
 			self.drawMenuOnIcon()
 			self.headerCanvas.create_text(125 ,50, text=self.headerText, fill='black', anchor="w", font=("", 54))
@@ -134,7 +137,16 @@ class application:
 			self.drawAllMenu()
 			pass
 
+
 	def drawAllObjects(self):
+		if self.dispPreference:
+			## draw preference
+			pass
+		else:
+			## draw logs
+			for obj in self.logs:
+				obj.drawLog(self)
+
 		## draw angles
 		for ag in self.angles:
 			ag.drawObject(self)
