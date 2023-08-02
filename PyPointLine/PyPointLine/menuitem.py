@@ -35,7 +35,7 @@ class addPointItem(menuItem):
 		self.headerText=["Click in the open area."]
 	def phaseActions(self, app):
 		if app.clickedPoint==None and app.clickedLine==None and app.clickedCircle==None:
-			if app.mainPane.isIn(app.mp.canvasX, app.mp.canvasY):
+			if app.mp.widget==app.mainCanvas:
 				## create new point
 				newPoint=point(app, app.mp.x, app.mp.y)
 				app.logs.append(newPoint)
@@ -78,33 +78,33 @@ class addLineItem(menuItem):
 		self.point2=None
 	def phaseActions(self, app):
 		if app.onModePhase==0:
-			if app.mainPane.isIn(app.mp.canvasX, app.mp.canvasY)==False:
-				return
-			if app.clickedPoint!=None:
-				self.point1=app.clickedPoint
-			else:#if app.clickedPoint==None:
-				newPoint=point(app, app.mp.x, app.mp.y)
-				app.logs.append(newPoint)
-				self.point1=newPoint
-			app.onModePhase=1
-			app.headerText=app.onMode.headerText[app.onModePhase]
-			app.drawAll()
+			if app.mp.widget==app.mainCanvas:
+				if app.clickedPoint!=None:
+					self.point1=app.clickedPoint
+				else:#if app.clickedPoint==None:
+					newPoint=point(app, app.mp.x, app.mp.y)
+					app.logs.append(newPoint)
+					self.point1=newPoint
+				app.onModePhase=1
+				app.headerText=app.onMode.headerText[app.onModePhase]
+				app.drawAll()
 		elif app.onModePhase==1:
-			if app.mainPane.isIn(app.mp.canvasX, app.mp.canvasY)==False:
-				return
-			if app.clickedPoint!=None:
-				self.point2=app.clickedPoint
-			else:#if app.clickedPoint==None:
-				newPoint=point(app, app.mp.x, app.mp.y)
-				app.logs.append(newPoint)
-				self.point2=newPoint
-			### add a new point
-			newLine=line(app, self.point1, self.point2)
-			app.logs.append(newLine)	
-			### post-process
-			app.onModePhase=0
-			app.headerText=app.onMode.headerText[app.onModePhase]
-			app.drawAll()
+			if app.mp.widget==app.mainCanvas:
+				if app.clickedPoint!=None and app.clickedPoint!=self.point1:
+					self.point2=app.clickedPoint
+				elif app.clickedPoint==None:
+					newPoint=point(app, app.mp.x, app.mp.y)
+					app.logs.append(newPoint)
+					self.point2=newPoint
+				else:
+					return
+				### add a new point
+				newLine=line(app, self.point1, self.point2)
+				app.logs.append(newLine)	
+				### post-process
+				app.onModePhase=0
+				app.headerText=app.onMode.headerText[app.onModePhase]
+				app.drawAll()
 		pass
 
 class addCircleItem(menuItem):
@@ -115,18 +115,17 @@ class addCircleItem(menuItem):
 		self.point2=None
 	def phaseActions(self, app):
 		if app.onModePhase==0:
-			if app.mainPane.isIn(app.mp.canvasX, app.mp.canvasY)==False:
-				return
-			if app.clickedPoint==None:
-				newPoint=point(app, app.mp.x, app.mp.y)
-				app.logs.append(newPoint)
-				self.point1=newPoint
-			else:
-				self.point1=app.clickedPoint
-			if self.point1.thisis=='point':
-				app.onModePhase=1
-				app.headerText=app.onMode.headerText[app.onModePhase]
-			app.drawAll()
+			if app.mp.widget==app.mainCanvas:
+				if app.clickedPoint==None:
+					newPoint=point(app, app.mp.x, app.mp.y)
+					app.logs.append(newPoint)
+					self.point1=newPoint
+				else:
+					self.point1=app.clickedPoint
+				if self.point1.thisis=='point':
+					app.onModePhase=1
+					app.headerText=app.onMode.headerText[app.onModePhase]
+				app.drawAll()
 		elif app.onModePhase==1:
 			if app.clickedPoint==None:
 				### add a new point

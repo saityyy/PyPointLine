@@ -30,6 +30,7 @@ class point(object):
 		self.thisis='point'
 		self.color='blue'
 		self.fixed=False
+		self.name=self.youngestName(app)
 		self.fixedColor='red'
 		self.showName=True
 		self.tag="tag_%00d"%(app.nextID)
@@ -43,17 +44,28 @@ class point(object):
 		canvas=app.prefCanvas
 		x=5
 		y=app.LoglineFeed+5
-		app.LoglineFeed=100
-		w=290
+		app.LoglineFeed += 100
+		w=280
 		h=90
-		canvas.create_rectangle(x,y,x+w,y+h,fill="green",width=3)
-		canvas.create_text(x+5,y+5,text="Point : A", anchor=tk.NW, font=("",18), width=290 )
+		canvas.create_rectangle(x,y,x+w,y+h,fill="SeaGreen1",width=3)
+		canvas.create_text(x+5,y+5,text="Point : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="(%f,%f)"%(self.x, self.y)
-		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=290 )
-		canvas.create_text(x+5,y+57,text="Non Fixed, Hide Name",  anchor=tk.NW, font=("",18), width=290 )
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Non Fixed, Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def drawPreference(self, app):
 		pass
+	def youngestName(self, app):
+		for name in ["A","B","C","D","E","F","G","H","J","K","L","M","N","P","Q","R","S","T","U","V","W","X","Y","Z",
+			   "AA","AB","AC","AD","AE","AF","AG","AH","AJ","AK","AL","AM","AN","AP","AQ","AR","AS","AT","AU","AV","AW","AX","AY","AZ",]:
+			for obj in app.points:
+				if obj.name==name:
+					break
+			else:
+				return name
+		return "XX"
+
+
 
 class line(object):
 	def __init__(self, app, point1:point, point2:point):
@@ -65,6 +77,7 @@ class line(object):
 		self.isomID=-1
 		self.showIsom=False
 		self.showIsomFlag=0
+		self.name=self.youngestName(app)
 		self.showName=False
 		self.tag="tag_%00d"%(app.nextID)
 		app.nextID += 1
@@ -75,9 +88,28 @@ class line(object):
 		x2,y2=app.world2Canvas(pt2.x, pt2.y)
 		app.mainCanvas.create_line(x1,y1,x2,y2, fill='grey', width=4)
 	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x=5
+		y=app.LoglineFeed+5
+		app.LoglineFeed += 100
+		w=280
+		h=90
+		canvas.create_rectangle(x,y,x+w,y+h,fill="Orchid1",width=3)
+		canvas.create_text(x+5,y+5,text="Line : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="%s - %s"%(self.point1.name, self.point2.name)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Not Isomed, Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def drawPreference(self, app):
 		pass
+	def youngestName(self, app):
+		for name in ["a","b","c","d","e","f","g","h","j","k","m","n","p","q","r","s","t","u","v","w","x","y","z","aa"]:
+			for obj in app.lines:
+				if obj.name==name:
+					break
+			else:
+				return name
+		return "xx"
 
 class circle(object):
 	def __init__(self, app, point:point, radius:float):

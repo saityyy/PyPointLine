@@ -34,7 +34,7 @@ class application:
 		self.pointRadius=5# global radius of a point in canvas
 		self.lineWidth=3# global width of a line in canvas
 		self.cx=500
-		self.cy=500
+		self.cy=450
 		self.logs=[]
 		self.zoom=100
 		self.clickedPoint=None
@@ -93,10 +93,10 @@ class application:
 
 
 	def world2Canvas(self, x,y):
-		return self.cx+self.zoom * x, self.cy+self.zoom * y
+		return self.cx+self.zoom * x, self.cy-self.zoom * y
 
 	def canvas2World(self, x,y):
-		return (-self.cx+ x) / self.zoom , (-self.cy+ y)/self.zoom
+		return (-self.cx+ x) / self.zoom , -(-self.cy+ y)/self.zoom
 
 	@property
 	def points(self):
@@ -170,14 +170,8 @@ class application:
 	def updateCoordinates(self, event):
 		""" """
 		self.mp.canvasX, self.mp.canvasY = event.x, event.y
-		if self.mp.magneticPoint!=None:
-			self.mp.x, self.mp.y = self.canvas2World( event.x, event.y)
-		elif self.headerPane.isIn(self.mp.canvasX, self.mp.canvasY):
-			self.mp.x, self.mp.y = self.mp.canvasX, self.mp.canvasY
-		elif self.mainPane.isIn(self.mp.canvasX, self.mp.canvasY):
-			self.mp.x, self.mp.y = self.canvas2World( event.x, event.y)
-		elif self.prefPane.isIn(self.mp.canvasX, self.mp.canvasY):
-			self.mp.x, self.mp.y = self.mp.canvasX-900, self.mp.canvasY
+		self.mp.x, self.mp.y = self.canvas2World( event.x, event.y)
+		self.mp.widget=event.widget
 		pass
 
 
@@ -202,44 +196,44 @@ class application:
 	def buttonPressed(self, event):
 		""" """
 		self.updateCoordinates(event)
-		self.mp.bpX, self.mp.bpY = self.mp.x, self.mp.y
-		x,y = self.world2Canvas(self.mp.x, self.mp.y)
-		if self.mainPane.isIn(x,y):
+		if self.mp.widget==self.mainCanvas:
+			self.mp.bpX, self.mp.bpY = self.mp.x, self.mp.y
+			self.mp.magneticPoint = None
 			for pt in self.points:
 				if isNear(pt.x, pt.y, self.mp.x, self.mp.y, 10/self.zoom):
 					self.mp.magneticPoint = pt
 					break
 			pass
+		elif self.mp.widget==self.headerCanvas:
+			self.mp.bpX, self.mp.bpY = self.mp.x, self.mp.y
+			pass
 
 	def mouseOnPoint(self):
 		for pt in self.points:
-			if pt.thisis=='point':
-				if isNear(pt.x, pt.y, self.mp.x, self.mp.y, 10/self.zoom):
-					return pt
+			if isNear(pt.x, pt.y, self.mp.x, self.mp.y, 10/self.zoom):
+				return pt
 		return None
 
 	def mouseOnLine(self):
 		for ln in self.lines:
-			if ln.thisis=='line':
-				ax,ay=self.mp.x, self.mp.y
-				bx,by=ln.point1.x, ln.point1.y
-				cx,cy=ln.point2.x, ln.point2.y
-				tn=(ax-bx)*(cx-bx)+(ay-by)*(cy-by)
-				td=(cx-bx)*(cx-bx)+(cy-by)*(cy-by)
-				if td==0:
-					continue
-				tt=tn/td
-				dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
-				if magnitude(dx, dy)<10/self.zoom:
-					return ln
+			ax,ay=self.mp.x, self.mp.y
+			bx,by=ln.point1.x, ln.point1.y
+			cx,cy=ln.point2.x, ln.point2.y
+			tn=(ax-bx)*(cx-bx)+(ay-by)*(cy-by)
+			td=(cx-bx)*(cx-bx)+(cy-by)*(cy-by)
+			if td==0:
+				continue
+			tt=tn/td
+			dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
+			if magnitude(dx, dy)<10/self.zoom:
+				return ln
 		return None
 
 	def mouseOnCircle(self):
 		for cc in self.circles:
-			if cc.thisis=='circle':
-				mag=dist(cc.point.x, cc.point.y, self.mp.x, self.mp.y)
-				if abs(mag-cc.radius)<10/self.zoom:
-					return cc
+			mag=dist(cc.point.x, cc.point.y, self.mp.x, self.mp.y)
+			if abs(mag-cc.radius)<10/self.zoom:
+				return cc
 
 		return None
 
@@ -247,19 +241,33 @@ class application:
 		""" """
 		self.updateCoordinates(event)
 		if isNear(self.mp.x,self.mp.y,self.mp.bpX,self.mp.bpY,5/self.zoom):## has clicked
-			if self.dispMenu==False and isIn(self.mp.canvasX, self.mp.canvasY, 0, 0, 100, 100):
-				self.dispMenu=True
-				self.onMode=None
-				self.headerText=""
-				self.mp.magneticPoint=None
-				self.drawAll()
-			elif self.dispMenu==True and isIn(self.mp.canvasX, self.mp.canvasY, 0, 0, 100, 100):
-				self.dispMenu=False
-				self.onMode=self.menuAddPoint
-				self.headerText=""
-				self.mp.magneticPoint=None
-				self.drawAll()
-			elif self.dispMenu==False:
+			self.mp.bpX,self.mp.bpY=0,0
+			self.buttonClicked(event)
+		else:## finishing drag
+			##if self.mp.magenticPoint
+			#	if magneticPoint!=None:
+			#		self.drawAll(self.mainCanvas)
+			#		self.mp.magneticPoint=None
+			#else:## 空ドラッグ
+			#	図全体を平行移動する。		
+			self.mp.magneticPoint=None
+			self.calculatorEvaluate()
+			pass
+
+	def buttonClicked(self, event):
+		#if self.mp.widget==self.headerCanvas:
+		#	print("headerCaavas")
+		#elif self.mp.widget==self.mainCanvas:
+		#	print("mainCanvas")
+		if self.dispMenu==False:
+			if self.mp.widget==self.headerCanvas:
+				if isIn(self.mp.canvasX, self.mp.canvasY, 0, 0, 100, 100):
+					self.dispMenu=True
+					self.onMode=None
+					self.headerText=""
+					self.mp.magneticPoint=None
+					self.drawAll()
+			elif self.mp.widget==self.mainCanvas:
 				self.clickedPoint = self.mouseOnPoint()
 				self.clickedLine = self.mouseOnLine()
 				self.clickedCircle = self.mouseOnCircle()
@@ -267,7 +275,14 @@ class application:
 					self.onMode=self.menuAddPoint
 				self.onMode.phaseActions(self)
 				pass
-			elif self.dispMenu==True:
+		else:# elif self.dispMenu==True:
+			if self.mp.widget==self.headerCanvas and isIn(self.mp.canvasX, self.mp.canvasY, 0, 0, 100, 100):
+				self.dispMenu=False
+				self.onMode=self.menuAddPoint
+				self.headerText=""
+				self.mp.magneticPoint=None
+				self.drawAll()
+			else:
 				self.onMode=None
 				self.headerText=""
 				for icon in self.allButtonIcons:
@@ -281,17 +296,7 @@ class application:
 						break
 				else:
 					self.onMode=self.menuAddPoint
-			pass
-		else:## finishing drag
-			##if self.mp.magenticPoint
-			#	if magneticPoint!=None:
-			#		self.drawAll(self.mainCanvas)
-			#		self.mp.magneticPoint=None
-			#else:## 空ドラッグ
-			#	図全体を平行移動する。		
-			self.mp.magneticPoint=None
-			self.calculatorEvaluate()
-			pass
+		pass
 
 	def wheelTurned(self, event):
 		""" """
