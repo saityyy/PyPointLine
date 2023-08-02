@@ -240,6 +240,7 @@ class application:
 	def buttonReleased(self, event):
 		""" """
 		self.updateCoordinates(event)
+		self.mp.magneticPoint=None
 		if isNear(self.mp.x,self.mp.y,self.mp.bpX,self.mp.bpY,5/self.zoom):## has clicked
 			self.mp.bpX,self.mp.bpY=0,0
 			self.buttonClicked(event)
@@ -250,7 +251,6 @@ class application:
 			#		self.mp.magneticPoint=None
 			#else:## 空ドラッグ
 			#	図全体を平行移動する。		
-			self.mp.magneticPoint=None
 			self.calculatorEvaluate()
 			pass
 
@@ -265,7 +265,6 @@ class application:
 					self.dispMenu=True
 					self.onMode=None
 					self.headerText=""
-					self.mp.magneticPoint=None
 					self.drawAll()
 			elif self.mp.widget==self.mainCanvas:
 				self.clickedPoint = self.mouseOnPoint()
@@ -280,7 +279,6 @@ class application:
 				self.dispMenu=False
 				self.onMode=self.menuAddPoint
 				self.headerText=""
-				self.mp.magneticPoint=None
 				self.drawAll()
 			else:
 				self.onMode=None
