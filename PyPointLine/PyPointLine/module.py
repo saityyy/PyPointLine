@@ -1,34 +1,47 @@
+﻿import tkinter as tk
 from object import object, point, line, circle, angle, locus
 from utils import *
 
-class ModuleType:
-	NONE=0
-	MIDPOINT=10
-	P2P=20
-	P2L=21
-	P2C=22
-	TangentL2C=23
-	TangentC2C=24
 
 class module(object):
-	def __init__(self):
-		self.moduletype=ModuleType.NONE
+	def __init__(self, app):
+		self.app=app
+		self.moduletype="None"
 		self.thisis='module'
+		self.name=self.youngestName(app)
+		self.showName=False
+		self.tag="tag_%00d"%(app.nextID)
+		app.nextID += 1
 	def evaluate(self):
 		pass
 	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
+		app.LoglineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="Bisque1",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="-- - --"%()
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def drawPreference(self, app):
 		pass
+	def youngestName(self, app):
+		for name in ["M1","M2","M3","M4","M5","M6","M7","M8","M9","M10","M11","M12","M13","M14","M15","M16","M17","M18","M18","M19","M20"]:
+			for obj in app.lines:
+				if obj.name==name:
+					break
+			else:
+				return name
+		return "C0"
 
 class midpoint(module):
 	def __init__(self, app, point1:point, point2:point, point3:point):
-		self.app=app
-		self.moduletype=ModuleType.MIDPOINT
+		super().__init__(app)
+		self.moduletype="midpoint"
 		self.p1=point1
 		self.p2=point2
 		self.p3=point3
-		self.thisis='module'
 		self.ratio1=1
 		self.ratio2=1
 		pass
@@ -47,15 +60,24 @@ class midpoint(module):
 		self.p3.y=y3
 	def drawPreference(self, app):
 		pass
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
+		app.LoglineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="%s (%d) - %s - (%d) %s"%(self.p1.name, self.ratio1, self.p3.name, self.ratio2, self.p2.name)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
+		pass
 
 
 class point2point(module):
 	def __init__(self, app, point1:point, point2:point):
-		self.app=app
-		self.moduletype=ModuleType.P2P
+		super().__init__(app)
+		self.moduletype="point2point"
 		self.p1=point1
 		self.p2=point2
-		self.thisis='module'
 	def evaluate(self):
 		x1=self.p2.x*0.1+self.p1.x*0.9
 		y1=self.p2.y*0.1+self.p1.y*0.9
@@ -65,12 +87,22 @@ class point2point(module):
 		self.p1.y=y1
 		self.p2.x=x2
 		self.p2.y=y2
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
+		app.LoglineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="%s - %s"%(self.p1.name, self.p2.name)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
+		pass
 
 
 class point2line(module):
 	def __init__(self, app, point:point, line:line):
-		self.app=app
-		self.moduletype=ModuleType.P2L
+		super().__init__(app)
+		self.moduletype="point2line"
 		self.p1=point
 		self.l1=line
 		self.thisis='module'
@@ -96,11 +128,21 @@ class point2line(module):
 		self.l1.point2.x -= dx
 		self.l1.point2.y -= dy
 		##unfinished
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
+		app.LoglineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="%s - %s"%(self.p1.name, self.l1.name)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
+		pass
 
 class point2circle(module):
 	def __init__(self, app, point:point, circle:circle):
-		self.app=app
-		self.moduletype=ModuleType.P2C
+		super().__init__(app)
+		self.moduletype="point2circle"
 		self.p1=point
 		self.c1=circle
 		self.thisis='module'
@@ -119,11 +161,22 @@ class point2circle(module):
 		self.c1.point.x -= dx
 		self.c1.point.y -= dy
 		self.c1.radius += difference
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
+		app.LoglineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="%s - %s"%(self.p1.name, self.c1.name)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
+		pass
+
 
 class line2circle(module):
 	def __init__(self, app, line:line, circle:circle):
-		self.app=app
-		self.moduletype=ModuleType.TangentL2C
+		super().__init__(app)
+		self.moduletype="line2circle"
 		self.cc=circle
 		self.ln=line
 		self.thisis='module'
@@ -153,11 +206,21 @@ class line2circle(module):
 		self.ln.point1.y -= ey
 		self.ln.point2.x -= ex
 		self.ln.point2.y -= ey
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
+		app.LoglineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="%s - %s"%(self.ln.name, self.cc.name)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
+		pass
 
 class circle2circle(module):
 	def __init__(self, app, circle1:circle, circle2:circle):
-		self.app=app
-		self.moduletype=ModuleType.TangentC2C
+		super().__init__(app)
+		self.moduletype="circle2circle"
 		self.cc1=circle1
 		self.cc2=circle2
 		self.thisis='module'
@@ -194,11 +257,21 @@ class circle2circle(module):
 			else:
 				self.cc1.radius -= difference
 				self.cc2.radius += difference
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
+		app.LoglineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="%s - %s"%(self.cc1.name, self.cc2.name)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
+		pass
 
 class isometry(module):
 	def __init__(self, app, line1:line, line2:line):
-		self.app=app
-		self.moduletype=ModuleType.TangentC2C
+		super().__init__(app)
+		self.moduletype="isometry"
 		self.ln1=line1
 		self.ln2=line2
 		self.thisis='module'
@@ -228,6 +301,16 @@ class isometry(module):
 		self.ln2.point1.y += dy
 		self.ln2.point2.x -= dx
 		self.ln2.point2.y -= dy
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
+		app.LoglineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="%s - %s (%d : %d)"%(self.ln1.name, self.ln2.name, self.ratio1, self.ratio2)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
+		pass
 
 
 
@@ -236,6 +319,16 @@ class parallel(module):
 		pass
 	def evaluate(self):
 		pass
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
+		app.LoglineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="%s || %s "%(self.ln1.name, self.ln2.name)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
+		pass
 
 
 class perpendicular(module):
@@ -243,9 +336,31 @@ class perpendicular(module):
 		pass
 	def evaluate(self):
 		pass
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
+		app.LoglineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="%s ⟂ %s "%(self.ln1.name, self.ln2.name)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
+		pass
 
 class horizontal(module):
 	def __init__(self, app, line1:line):
 		pass
 	def evaluate(self):
 		pass
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
+		app.LoglineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="%s = "%(self.ln1.name)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
+		pass
+
+

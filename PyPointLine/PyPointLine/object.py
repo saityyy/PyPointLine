@@ -42,11 +42,8 @@ class point(object):
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x=5
-		y=app.LoglineFeed+5
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
 		app.LoglineFeed += 100
-		w=280
-		h=90
 		canvas.create_rectangle(x,y,x+w,y+h,fill="SeaGreen1",width=3)
 		canvas.create_text(x+5,y+5,text="Point : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="(%f,%f)"%(self.x, self.y)
@@ -89,11 +86,8 @@ class line(object):
 		app.mainCanvas.create_line(x1,y1,x2,y2, fill='grey', width=4)
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x=5
-		y=app.LoglineFeed+5
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
 		app.LoglineFeed += 100
-		w=280
-		h=90
 		canvas.create_rectangle(x,y,x+w,y+h,fill="Orchid1",width=3)
 		canvas.create_text(x+5,y+5,text="Line : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s - %s"%(self.point1.name, self.point2.name)
@@ -116,20 +110,38 @@ class circle(object):
 		self.point=point
 		self.radius=radius
 		self.thisis='circle'
+		self.name=self.youngestName(app)
 		self.showName=False
 		self.tag="tag_%00d"%(app.nextID)
 		app.nextID += 1
-		
+	
 	def drawObject(self, app):
 		x1,y1=app.world2Canvas(self.point.x, self.point.y)
 		r=self.radius * app.zoom
 		app.mainCanvas.create_oval(x1-r,y1-r,x1+r,y1+r, outline='grey', width=4)
+		pass
 
-	pass
 	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.LoglineFeed+5, 280, 90
+		app.LoglineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="Bisque1",width=3)
+		canvas.create_text(x+5,y+5,text="Circle : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="%s - %f"%(self.point.name, self.radius)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def drawPreference(self, app):
 		pass
+
+	def youngestName(self, app):
+		for name in ["C1","C2","C3","C4","C5","C6","C7","C8","C9","C10","C11","C12","C13","C14","C15","C16","C17","C18","C18","C19","C20"]:
+			for obj in app.lines:
+				if obj.name==name:
+					break
+			else:
+				return name
+		return "C0"
 
 class angle(object):
 	def __init__(self, point1:point, point2:point, point3:point):
