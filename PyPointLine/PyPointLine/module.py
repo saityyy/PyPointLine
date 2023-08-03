@@ -16,8 +16,8 @@ class module(object):
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="Bisque1",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="-- - --"%()
@@ -62,8 +62,8 @@ class midpoint(module):
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s (%d) - %s - (%d) %s"%(self.p1.name, self.ratio1, self.p3.name, self.ratio2, self.p2.name)
@@ -89,8 +89,8 @@ class point2point(module):
 		self.p2.y=y2
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s - %s"%(self.p1.name, self.p2.name)
@@ -130,8 +130,8 @@ class point2line(module):
 		##unfinished
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s - %s"%(self.p1.name, self.l1.name)
@@ -163,8 +163,8 @@ class point2circle(module):
 		self.c1.radius += difference
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s - %s"%(self.p1.name, self.c1.name)
@@ -208,8 +208,8 @@ class line2circle(module):
 		self.ln.point2.y -= ey
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s - %s"%(self.ln.name, self.cc.name)
@@ -259,8 +259,8 @@ class circle2circle(module):
 				self.cc2.radius += difference
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s - %s"%(self.cc1.name, self.cc2.name)
@@ -303,8 +303,8 @@ class isometry(module):
 		self.ln2.point2.y -= dy
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s - %s (%d : %d)"%(self.ln1.name, self.ln2.name, self.ratio1, self.ratio2)
@@ -321,8 +321,8 @@ class parallel(module):
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s || %s "%(self.ln1.name, self.ln2.name)
@@ -338,8 +338,8 @@ class perpendicular(module):
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s ⟂ %s "%(self.ln1.name, self.ln2.name)
@@ -354,8 +354,8 @@ class horizontal(module):
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s = "%(self.ln1.name)

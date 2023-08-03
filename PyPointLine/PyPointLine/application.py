@@ -44,7 +44,11 @@ class application:
 		self.dispMenu=False
 		self.onMode=None
 		self.dispPreference=False
-		self.LoglineFeedStart=-50## negative OK
+		self.logLineFeedDragging=False
+		self.logLineFeedDraggingWidth=0
+		self.logLineFeedStart=0## negative OK
+		self.logLineFeedMin=0
+		self.logLineFeedMax=0
 		self.headerText=""
 		##self.file=fileIO(self)
 
@@ -123,7 +127,7 @@ class application:
 		self.mainCanvas.delete("all")
 		self.headerCanvas.delete("all")
 		self.prefCanvas.delete("all")
-		self.LoglineFeed=self.LoglineFeedStart
+		self.logLineFeed=self.logLineFeedStart+self.logLineFeedDraggingWidth
 		if self.dispMenu==False:
 			self.drawMenuOnIcon()
 			self.headerCanvas.create_text(125 ,50, text=self.headerText, fill='black', anchor="w", font=("", 54))
@@ -184,6 +188,11 @@ class application:
 			if getattr(self.mp.magneticPoint, 'thisis', None)=='point':
 				self.mp.magneticPoint.x, self.mp.magneticPoint.y=self.mp.x, self.mp.y
 				self.calculatorEvaluate()
+		elif self.logLineFeedDragging:
+			self.logLineFeedDraggingWidth=(-self.mp.y+self.mp.bpY)*self.zoom
+			##print("%f"%(self.logLineFeedDraggingWidth))
+			self.drawAll()
+
 	# 
 
 	def calculatorEvaluate(self, repeat=10):
@@ -207,6 +216,11 @@ class application:
 		elif self.mp.widget==self.headerCanvas:
 			self.mp.bpX, self.mp.bpY = self.mp.x, self.mp.y
 			pass
+		elif self.mp.widget==self.prefCanvas:
+			self.mp.bpX, self.mp.bpY = self.mp.x, self.mp.y
+			self.logLineFeedDragging=True
+			self.logLineFeedDraggingWidth=0
+
 
 	def mouseOnPoint(self):
 		for pt in self.points:
@@ -245,6 +259,20 @@ class application:
 			self.mp.bpX,self.mp.bpY=0,0
 			self.buttonClicked(event)
 		else:## finishing drag
+			if self.logLineFeedDragging:
+				self.logLineFeedStart+=self.logLineFeedDraggingWidth
+				self.logLineFeedDraggingWidth=0
+				lenLogs=len(self.logs)
+				## 1000=window's height
+				## 100=logbox's height
+				if lenLogs<=1000/100:
+					self.logLineFeedStart=0
+				else:
+					if self.logLineFeedStart<1000-lenLogs*100:
+						self.logLineFeedStart=1000-lenLogs*100
+					elif self.logLineFeedStart>0:
+						self.logLineFeedStart=0
+				self.drawAll()
 			##if self.mp.magenticPoint
 			#	if magneticPoint!=None:
 			#		self.drawAll(self.mainCanvas)

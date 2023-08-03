@@ -42,8 +42,8 @@ class point(object):
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="SeaGreen1",width=3)
 		canvas.create_text(x+5,y+5,text="Point : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="(%f,%f)"%(self.x, self.y)
@@ -86,8 +86,8 @@ class line(object):
 		app.mainCanvas.create_line(x1,y1,x2,y2, fill='grey', width=4)
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="Orchid1",width=3)
 		canvas.create_text(x+5,y+5,text="Line : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s - %s"%(self.point1.name, self.point2.name)
@@ -123,8 +123,8 @@ class circle(object):
 
 	def drawLog(self, app):
 		canvas=app.prefCanvas
-		x,y,w,h=5, app.LoglineFeed+5, 280, 90
-		app.LoglineFeed += 100
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="Bisque1",width=3)
 		canvas.create_text(x+5,y+5,text="Circle : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s - %f"%(self.point.name, self.radius)
