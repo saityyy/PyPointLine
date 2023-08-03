@@ -44,7 +44,7 @@ class application:
 		self.dispMenu=False
 		self.onMode=None
 		self.dispPreference=False
-		self.LoglineFeed=0
+		self.LoglineFeedStart=-50## negative OK
 		self.headerText=""
 		##self.file=fileIO(self)
 
@@ -123,7 +123,7 @@ class application:
 		self.mainCanvas.delete("all")
 		self.headerCanvas.delete("all")
 		self.prefCanvas.delete("all")
-		self.LoglineFeed=0
+		self.LoglineFeed=self.LoglineFeedStart
 		if self.dispMenu==False:
 			self.drawMenuOnIcon()
 			self.headerCanvas.create_text(125 ,50, text=self.headerText, fill='black', anchor="w", font=("", 54))
