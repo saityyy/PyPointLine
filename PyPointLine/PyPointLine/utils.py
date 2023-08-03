@@ -37,8 +37,8 @@ def rotation(x0:float, y0:float, x1:float, y1:float, theta:float) :## theta : cl
 	mx=(x0+x1)*0.5
 	my=(y0+y1)*0.5
 	ax, ay=x0-mx, y0-my
-	bx, by=math.cos(theta)*ax+math.sin(theta)*ay, -math.sin(theta)*ax+math.cos(theta)*ay
-	return bx+mx, by+my, 3*mx-bx, 3*my-by
+	bx, by=math.cos(theta)*ax-math.sin(theta)*ay, math.sin(theta)*ax+math.cos(theta)*ay
+	return bx+mx, by+my, mx-bx, my-by
 
 
 	pass

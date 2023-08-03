@@ -405,7 +405,21 @@ class menuHoriItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click one line."]
+		self.line=None
 	def phaseActions(self, app):
+		if app.onModePhase==0:
+			if app.clickedLine!=None:
+				self.line=app.clickedLine
+			else:
+				return
+			### add a new module
+			newModule=horizontal(app, self.line)
+			app.logs.append(newModule)	
+			### post-process
+			app.calculatorEvaluate(repeat=50)
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
 		pass
 
 

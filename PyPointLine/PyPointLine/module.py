@@ -1,7 +1,7 @@
 ﻿import tkinter as tk
 from object import object, point, line, circle, angle, locus
 from utils import *
-
+import math
 
 class module(object):
 	def __init__(self, app):
@@ -349,8 +349,22 @@ class perpendicular(module):
 
 class horizontal(module):
 	def __init__(self, app, line1:line):
+		super().__init__(app)
+		self.thisis='module'
+		self.line=line1
 		pass
 	def evaluate(self):
+		p1:point=self.line.point1
+		p2:point=self.line.point2
+		theta=math.atan2(p2.y-p1.y, p2.x-p1.x)
+		if -math.pi/2<=theta and theta<=math.pi/2:
+			difference=-theta*0.1
+		elif -math.pi/2>theta:
+			difference=(-math.pi-theta)*0.1
+		else:
+			difference=(math.pi-theta)*0.1
+		self.line.point1.x, self.line.point1.y, self.line.point2.x, self.line.point2.y = rotation(p1.x, p1.y, p2.x, p2.y, difference)
+
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
@@ -358,7 +372,7 @@ class horizontal(module):
 		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
-		thisLine="%s = "%(self.ln1.name)
+		thisLine="%s = "%(self.line.name)
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
