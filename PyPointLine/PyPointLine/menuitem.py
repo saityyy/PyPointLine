@@ -445,7 +445,7 @@ class menuParaItem(menuItem):
 			app.headerText=app.onMode.headerText[app.onModePhase]
 			app.drawAll()
 		elif app.onModePhase==1:
-			if app.clickedLine!=None:
+			if app.clickedLine!=None and self.line1!=app.clickedLine:
 				self.line2=app.clickedLine
 			else:
 				return
@@ -464,9 +464,33 @@ class menuPerpItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=["Click one line.","Click another line."]
+		self.line1=None
+		self.line2=None
 	def phaseActions(self, app):
 		if app.mp.widget!=app.mainCanvas:
 			return
+		if app.onModePhase==0:
+			if app.clickedLine!=None:
+				self.line1=app.clickedLine
+			else:
+				return
+			app.onModePhase=1
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		elif app.onModePhase==1:
+			if app.clickedLine!=None and self.line1!=app.clickedLine:
+				self.line2=app.clickedLine
+			else:
+				return
+			### add a new module
+			newModule=perpendicular(app, self.line1, self.line2)
+			app.logs.append(newModule)	
+			### post-process
+			app.calculatorEvaluate(repeat=50)
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		pass
 		pass
 
 

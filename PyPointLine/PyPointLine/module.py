@@ -292,15 +292,19 @@ class isometry(module):
 			return
 		difference=min((magB-magA)*0.1,0.01)
 		cx, cy=ax/magA*difference, ay/magA*difference
-		self.ln1.point1.x -= cx
-		self.ln1.point1.y -= cy
-		self.ln1.point2.x += cx
-		self.ln1.point2.y += cy
+		if self.ln1.point1.fixed==False:
+			self.ln1.point1.x -= cx
+			self.ln1.point1.y -= cy
+		if self.ln1.point2.fixed==False:
+			self.ln1.point2.x += cx
+			self.ln1.point2.y += cy
 		dx, dy=bx/magB*difference, by/magB*difference
-		self.ln2.point1.x += dx
-		self.ln2.point1.y += dy
-		self.ln2.point2.x -= dx
-		self.ln2.point2.y -= dy
+		if self.ln2.point1.fixed==False:
+			self.ln2.point1.x += dx
+			self.ln2.point1.y += dy
+		if self.ln2.point2.fixed==False:
+			self.ln2.point2.x -= dx
+			self.ln2.point2.y -= dy
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -319,7 +323,7 @@ class parallel(module):
 		super().__init__(app)
 		self.line1=line1
 		self.line2=line2
-		self.moduletype="isometry"
+		self.moduletype="parallel"
 		self.thisis='module'
 		pass
 	def evaluate(self):
@@ -329,7 +333,7 @@ class parallel(module):
 		p4:point=self.line2.point2
 		theta1=math.atan2(p2.y-p1.y, p2.x-p1.x)
 		theta2=math.atan2(p4.y-p3.y, p4.x-p3.x)
-		print("theta = %f"%(theta2-theta1))
+		##print("theta = %f"%(theta2-theta1))
 		if theta1<theta2-math.pi*3/2:
 			difference=-(math.pi*2-theta2+theta1)*0.1
 		elif theta1<theta2-math.pi:
@@ -376,8 +380,42 @@ class parallel(module):
 
 class perpendicular(module):
 	def __init__(self, app, line1:line, line2:line):
+		super().__init__(app)
+		self.line1=line1
+		self.line2=line2
+		self.moduletype="perpendicular"
+		self.thisis='module'
 		pass
 	def evaluate(self):
+		p1:point=self.line1.point1
+		p2:point=self.line1.point2
+		p3:point=self.line2.point1
+		p4:point=self.line2.point2
+		theta1=math.atan2(p2.y-p1.y, p2.x-p1.x)
+		theta2=math.atan2(p4.y-p3.y, p4.x-p3.x)
+		##print("theta = %f"%(theta2-theta1))
+		if theta1<theta2-math.pi:
+			difference=-(math.pi*3/2-theta2+theta1)*0.1
+		elif theta1<theta2:
+			difference=(theta2-theta1-math.pi/2)*0.1
+		elif theta1<theta2+math.pi:
+			difference=-(theta1-theta2-math.pi/2)*0.1
+		else:#
+			difference=(math.pi*3/2-theta1+theta2)*0.1
+		x1,y1,x2,y2 = rotation(
+			self.line1.point1.x, self.line1.point1.y, self.line1.point2.x, self.line1.point2.y, difference
+			)
+		if self.line1.point1.fixed==False:
+			self.line1.point1.x, self.line1.point1.y=x1,y1
+		if self.line1.point2.fixed==False:
+			self.line1.point2.x, self.line1.point2.y=x2,y2
+		x3,y3,x4,y4 = rotation(
+			self.line2.point1.x, self.line2.point1.y, self.line2.point2.x, self.line2.point2.y, -difference
+			)
+		if self.line2.point1.fixed==False:
+			self.line2.point1.x, self.line2.point1.y=x3,y3
+		if self.line2.point2.fixed==False:
+			self.line2.point2.x, self.line2.point2.y=x4,y4
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
@@ -385,7 +423,7 @@ class perpendicular(module):
 		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
-		thisLine="%s ⟂ %s "%(self.ln1.name, self.ln2.name)
+		thisLine="%s ⟂ %s "%(self.line1.name, self.line2.name)
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
