@@ -255,6 +255,7 @@ class application:
 		""" """
 		self.updateCoordinates(event)
 		self.mp.magneticPoint=None
+		self.calculatorEvaluate(repeat=50)
 		if isNear(self.mp.x,self.mp.y,self.mp.bpX,self.mp.bpY,5/self.zoom):## has clicked
 			self.mp.bpX,self.mp.bpY=0,0
 			self.buttonClicked(event)
