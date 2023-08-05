@@ -27,7 +27,6 @@ class application:
 		self.prefCanvas.place(x=900, y=0)
 		self.prefPane=pane(self,900,0,300,1000)
 		self.mp=mousePosition()
-		self.pref=preference(self)
 		self.nextID=0
 		self.pointName='A'
 		self.lineName='a'
@@ -44,6 +43,7 @@ class application:
 		self.dispMenu=False
 		self.onMode=None
 		self.dispPreference=False
+		self.preferenceObject=None
 		self.logLineFeedDragging=False
 		self.logLineFeedDraggingWidth=0
 		self.logLineFeedStart=0## negative OK
@@ -132,10 +132,6 @@ class application:
 			self.drawMenuOnIcon()
 			self.headerCanvas.create_text(125 ,50, text=self.headerText, fill='black', anchor="w", font=("", 54))
 			self.drawAllObjects()
-			#self.drawAllLogs()
-			if self.dispPreference==True:
-				#self.drawPreference()
-				pass
 			pass
 		else: # dispMenu==True:
 			self.drawAllMenu()
@@ -144,7 +140,7 @@ class application:
 
 	def drawAllObjects(self):
 		if self.dispPreference:
-			## draw preference
+			self.preferenceObject.pref.showPreference()
 			pass
 		else:
 			## draw logs
@@ -303,6 +299,17 @@ class application:
 					self.onMode=self.menuAddPoint
 				self.onMode.phaseActions(self)
 				pass
+			elif self.mp.widget==self.prefCanvas:
+				if self.dispPreference:
+					self.dispPreference=False
+				else:# if self.dispPreference==False:
+					y=self.mp.canvasY
+					y=int(math.floor((y-self.logLineFeedStart)/100))
+					if y>=len(self.logs):
+						return
+					self.preferenceObject=self.logs[y]
+					self.dispPreference=True
+					self.drawAll()
 		else:# elif self.dispMenu==True:
 			if self.mp.widget==self.headerCanvas and isIn(self.mp.canvasX, self.mp.canvasY, 0, 0, 100, 100):
 				self.dispMenu=False

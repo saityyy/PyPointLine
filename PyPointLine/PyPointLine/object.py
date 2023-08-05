@@ -8,7 +8,7 @@ class object:
 		""" """
 		self.app=app
 		self.id=-1
-		self.preference=None
+		self.pref=None
 		self.name='X'
 		self.thisis=None
 		pass
@@ -24,7 +24,7 @@ class object:
 
 class point(object):
 	def __init__(self, app, x, y):
-
+		super().__init__(app)
 		self.x=x
 		self.y=y
 		self.thisis='point'
@@ -33,7 +33,9 @@ class point(object):
 		self.name=self.youngestName(app)
 		self.fixedColor='red'
 		self.showName=True
+		self.id=app.nextID
 		self.tag="tag_%00d"%(app.nextID)
+		self.pref=preference(self.app, self)
 		app.nextID += 1
 		pass
 	def drawObject(self, app):
@@ -49,8 +51,6 @@ class point(object):
 		thisLine="(%f,%f)"%(self.x, self.y)
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Non Fixed, Hide Name",  anchor=tk.NW, font=("",18), width=270 )
-		pass
-	def drawPreference(self, app):
 		pass
 	def youngestName(self, app):
 		for name in ["A","B","C","D","E","F","G","H","J","K","L","M","N","P","Q","R","S","T","U","V","W","X","Y","Z",
