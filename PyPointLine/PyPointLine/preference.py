@@ -42,11 +42,11 @@ class preference:
 			self.value=value
 			self.radio1=radio1
 			self.radio2=radio2
-			self.radio=tk.IntVar(value = radio)
+			self.radio_variable=tk.IntVar(value = radio)
 			self.button1=button1
 			self.button2=button2
 			self.lineFeedWidth=self.preference.lineFeedWidth
-			self.entry_text=""
+			self.entry_text=tk.StringVar(value="")
 			self.widget1=None
 			self.widget2=None
 			self.widget3=None
@@ -60,8 +60,8 @@ class preference:
 				self.widget2.place(x=x+90, y=y)
 			elif self.type=="radio":
 				self.widget1 = tk.Label(text=self.text, font=("",18))
-				self.widget2 = tk.Radiobutton(text=self.radio1, font=("",18), variable = self.radio, value=0, command = self.radio_click)
-				self.widget3 = tk.Radiobutton(text=self.radio2, font=("",18), variable = self.radio, value=1, command = self.radio_click)
+				self.widget2 = tk.Radiobutton(text=self.radio1, font=("",18), variable = self.radio_variable, value=0, command = self.radio_click)
+				self.widget3 = tk.Radiobutton(text=self.radio2, font=("",18), variable = self.radio_variable, value=1, command = self.radio_click)
 				self.widget1.place(x=x, y=y)
 				self.widget2.place(x=x+90, y=y)
 				self.widget3.place(x=x+180, y=y)
@@ -96,10 +96,10 @@ class preference:
 			app=pref.application
 			if parent.thisis=="point":
 				parent.name = pref.panes['label'].entry_text.get()
-				parent.showName = pref.panes['name'].radio.get()
+				parent.showName = pref.panes['name'].radio_variable.get()
 				parent.x = float(pref.panes['x'].entry_text.get())
 				parent.y = float(pref.panes['y'].entry_text.get())
-				parent.fixed = pref.panes['fixed'].radio.get()
+				parent.fixed = pref.panes['fixed'].radio_variable.get()
 
 			app.dispPreference=False
 			self.preference.destroyAllPreference()
@@ -116,21 +116,25 @@ class preference:
 		parent = self.parent
 		self.panes={}
 		self.panes['label']=self.prefPane(self, "label","Point : ","")
-		if parent.showName:
-			radio=1
-		else:
-			radio=0
+		radio = 1 if parent.showName else 0
 		self.panes['name']=self.prefPane(self, "radio","Name: ", radio1="Show", radio2="Hide", radio=radio)
 		self.panes['x']=self.prefPane(self, "float","X:", value=parent.x)
 		self.panes['y']=self.prefPane(self, "float","Y:", value=parent.y)
-		if parent.fixed:
-			radio=1
-		else:
-			radio=0
+		radio = 1 if parent.fixed else 0
 		self.panes['fixed']=self.prefPane(self, "radio","Fixed:", radio1="On", radio2="Off", radio=radio)
 		self.panes["OKbutton"]=self.prefPane(self, "buttons", "")
 		
 		pass
+
+	def restorePointPreference(self):
+		parent=self.parent
+		self.panes['label'].entry_text.set(parent.name)
+		value=1 if parent.showName else 0
+		self.panes['name'].radio_variable.set(value)
+		self.panes['x'].entry_text.set("%0.3f"%(parent.x))
+		self.panes['y'].entry_text.set("%0.3f"%(parent.y))
+		value=1 if parent.fixed else 0
+		self.panes['fixed'].radio_variable.set(value)
 
 	def destroyAllPreference(self):
 		for pane in self.panes.values():

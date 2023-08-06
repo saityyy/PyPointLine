@@ -34,6 +34,8 @@ class application:
 		self.lineWidth=3# global width of a line in canvas
 		self.cx=500
 		self.cy=450
+		self.pointNameCenterX=500
+		self.pointNameCenterY=450
 		self.logs=[]
 		self.zoom=100
 		self.clickedPoint=None
@@ -145,6 +147,7 @@ class application:
 				obj.drawLog(self)
 	def showPreference(self):
 		if self.dispPreference:
+			self.preferenceObject.pref.restorePointPreference()
 			self.preferenceObject.pref.showPreference()
 			pass
 

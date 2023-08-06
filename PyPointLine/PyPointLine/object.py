@@ -33,14 +33,22 @@ class point(object):
 		self.name=self.youngestName(app)
 		self.fixedColor='red'
 		self.showName=True
+		self.showNamePosition="free"
 		self.id=app.nextID
 		self.tag="tag_%00d"%(app.nextID)
 		self.pref=preference(self.app, self)
+		
 		app.nextID += 1
 		pass
 	def drawObject(self, app):
 		xx0,yy0=app.world2Canvas(self.x,self.y)
 		app.mainCanvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue', tag=self.tag)
+		if self.showName:
+			if self.showNamePosition=="free":
+				vx,vy=xx0-app.pointNameCenterX, yy0-app.pointNameCenterY
+				mag=math.sqrt(vx*vx+vy*vy)
+				vx,vy = vx*20/mag, vy*20/mag
+				app.mainCanvas.create_text(xx0+vx, yy0+vy, text=self.name, anchor=tk.CENTER, font=("",24))
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
@@ -50,7 +58,15 @@ class point(object):
 		canvas.create_text(x+5,y+5,text="Point : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="(%f,%f)"%(self.x, self.y)
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
-		canvas.create_text(x+5,y+57,text="Non Fixed, Hide Name",  anchor=tk.NW, font=("",18), width=270 )
+		if self.fixed:
+			text1="Fixed"
+		else:
+			text1="Not fixed"
+		if self.showName:
+			text2="Show name"
+		else:
+			text2="Hide name"
+		canvas.create_text(x+5,y+57,text="%s, %s"%(text1, text2),  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def youngestName(self, app):
 		for name in ["A","B","C","D","E","F","G","H","J","K","L","M","N","P","Q","R","S","T","U","V","W","X","Y","Z",
