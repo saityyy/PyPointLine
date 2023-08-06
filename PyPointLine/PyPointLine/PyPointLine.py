@@ -4,7 +4,6 @@ import os
 from application import application
 
 if __name__ == "__main__":
-
 	ROOT = tk.Tk()
 	ROOT.geometry("1200x1000")
 	ROOT.title("PyPointLine version 0.0")
@@ -16,9 +15,10 @@ if __name__ == "__main__":
 	ROOT.bind("<Motion>", APP.updateCoordinates) #
 	ROOT.bind("<MouseWheel>", APP.wheelTurned)
 	path = os.getcwd()# root directory
-
-
 	ROOT.mainloop()
+
+ 
+
 
 
 

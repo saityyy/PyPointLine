@@ -128,6 +128,7 @@ class application:
 		self.headerCanvas.delete("all")
 		self.prefCanvas.delete("all")
 		self.logLineFeed=self.logLineFeedStart+self.logLineFeedDraggingWidth
+		self.showLogs()
 		if self.dispMenu==False:
 			self.drawMenuOnIcon()
 			self.headerCanvas.create_text(125 ,50, text=self.headerText, fill='black', anchor="w", font=("", 54))
@@ -138,14 +139,16 @@ class application:
 			pass
 
 
-	def drawAllObjects(self):
+	def showLogs(self):
+		if self.dispPreference==False:
+			for obj in self.logs:
+				obj.drawLog(self)
+	def showPreference(self):
 		if self.dispPreference:
 			self.preferenceObject.pref.showPreference()
 			pass
-		else:
-			## draw logs
-			for obj in self.logs:
-				obj.drawLog(self)
+
+	def drawAllObjects(self):
 
 		## draw angles
 		for ag in self.angles:
@@ -281,7 +284,7 @@ class application:
 
 	def buttonClicked(self, event):
 		#if self.mp.widget==self.headerCanvas:
-		#	print("headerCaavas")
+		#	print("headerCanvas")
 		#elif self.mp.widget==self.mainCanvas:
 		#	print("mainCanvas")
 		if self.dispMenu==False:
@@ -300,16 +303,15 @@ class application:
 				self.onMode.phaseActions(self)
 				pass
 			elif self.mp.widget==self.prefCanvas:
-				if self.dispPreference:
-					self.dispPreference=False
-				else:# if self.dispPreference==False:
+				if self.dispPreference==False:
 					y=self.mp.canvasY
 					y=int(math.floor((y-self.logLineFeedStart)/100))
 					if y>=len(self.logs):
 						return
 					self.preferenceObject=self.logs[y]
 					self.dispPreference=True
-					self.drawAll()
+					self.prefCanvas.delete("all")
+					self.showPreference()
 		else:# elif self.dispMenu==True:
 			if self.mp.widget==self.headerCanvas and isIn(self.mp.canvasX, self.mp.canvasY, 0, 0, 100, 100):
 				self.dispMenu=False
