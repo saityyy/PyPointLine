@@ -25,12 +25,13 @@ class preference:
 
 
 	class prefPane:
-		def __init__(self, pref, type:str, label:str, radio1:str="", radio2:str="", radio:int=0, value:float=0.0, button1:str="Cancel", button2:str="OK"):
+		def __init__(self, pref, type:str, label:str, radio1:str="", radio2:str="", radio:int=0, value:float=0.0, tValue:str="", button1:str="Cancel", button2:str="OK"):
 			self.preference=pref
 			self.type=type# text, float, radio
 			self.label=""
 			self.text=label
 			self.value=value
+			self.tValue=tValue
 			self.radio1=radio1
 			self.radio2=radio2
 			self.radio_variable=tk.IntVar(value = radio)
@@ -60,6 +61,12 @@ class preference:
 				self.entry_text=tk.StringVar(app.root, value="%0.3f"%(self.value))
 				self.widget1 = tk.Label(app.root, text=self.text, font=("",18))
 				self.widget2 = tk.Entry(app.root, width=10, font=("",18), textvariable=self.entry_text)
+				self.widget1.place(x=x, y=y)
+				self.widget2.place(x=x+90, y=y)
+			if self.type=="text":
+				self.entry_text=tk.StringVar(value=self.tValue)
+				self.widget1 = tk.Label(app.root, text=self.text, font=("",18))
+				self.widget2 = tk.Entry(app.root, width=8, font=("",18), textvariable=self.entry_text)
 				self.widget1.place(x=x, y=y)
 				self.widget2.place(x=x+90, y=y)
 			elif self.type=="buttons":
@@ -145,8 +152,8 @@ class preference:
 		self.panes['label']=self.prefPane(self, "label","Line : ","")
 		radio = 1 if parent.showName else 0
 		self.panes['name']=self.prefPane(self, "radio","Name: ", radio1="Hide", radio2="Show", radio=0)
-		self.panes['point1']=self.prefPane(self, "label","P1:", value=parent.point1.name)
-		self.panes['point2']=self.prefPane(self, "label","P2:", value=parent.point2.name)
+		self.panes['point1']=self.prefPane(self, "text","P1:", tValue=parent.point1.name)
+		self.panes['point2']=self.prefPane(self, "text","P2:", tValue=parent.point2.name)
 		radio = 1 if parent.showIsom else 0
 		self.panes['showIsom']=self.prefPane(self, "radio","Brace:", radio1="Hide", radio2="Show", radio=radio)
 		radio = 1 if parent.showLength else 0
@@ -180,20 +187,18 @@ class preference:
 		self.application.root.update()
 
 	def restoreLinePreference(self):
-		#newPoint = pref.application.findPointByName(pref.panes['point1'].entry_text.get())
-		#if newPoint:
-		#	parent.point1 = newPoint
-		#newPoint = pref.application.findPointByName(pref.panes['point2'].entry_text.get())
-		#if newPoint:
-		#	parent.point2 = newPoint
-		#parent.showIsom = pref.panes['showIsom'].radio_variable.get()
-		#parent.showLength = pref.panes['showLength'].radio_variable.get()
-		#parent.fixedLength = pref.panes['fixedLength'].radio_variable.get()
 		parent=self.parent
 		self.panes['label'].entry_text.set(parent.name)
 		value=1 if parent.showName else 0
 		self.panes['name'].radio_variable.set(value)
-
+		self.panes['point1'].entry_text.set(parent.point1.name)
+		self.panes['point2'].entry_text.set(parent.point2.name)
+		value=1 if parent.showIsom else 0
+		self.panes['showIsom'].radio_variable.set(value)
+		value=1 if parent.showLength else 0
+		self.panes['showLength'].radio_variable.set(value)
+		value=1 if parent.fixedLength else 0
+		self.panes['fixedLength'].radio_variable.set(value)
 	def destroyAllPreference(self):
 		for pane in self.panes.values():
 			pane.destroy()

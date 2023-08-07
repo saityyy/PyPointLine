@@ -429,3 +429,9 @@ class application:
 		self.menuOff.showIcon(self.headerCanvas)
 		for icon in self.allButtonIcons:
 			icon.showIcon(self.mainCanvas)
+
+	def findPointByName(self, name:str):
+		for obj in self.points:
+			if obj.name==name:
+				return obj
+		return None
