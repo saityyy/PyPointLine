@@ -42,7 +42,10 @@ class point(object):
 		pass
 	def drawObject(self, app):
 		xx0,yy0=app.world2Canvas(self.x,self.y)
-		app.mainCanvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue', tag=self.tag)
+		if self.fixed:
+			app.mainCanvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='red', tag=self.tag)
+		else:
+			app.mainCanvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue', tag=self.tag)
 		if self.showName:
 			if self.showNamePosition=="free":
 				vx,vy=xx0-app.pointNameCenterX, yy0-app.pointNameCenterY
@@ -82,17 +85,20 @@ class point(object):
 
 class line(object):
 	def __init__(self, app, point1:point, point2:point):
+		super().__init__(app)
 		self.point1=point1
 		self.point2=point2
 		self.thisis='line'
 		self.length=1.0
 		self.showLength=False
+		self.fixedLength=False
 		self.isomID=-1
 		self.showIsom=False
 		self.showIsomFlag=0
 		self.name=self.youngestName(app)
 		self.showName=False
 		self.tag="tag_%00d"%(app.nextID)
+		self.pref=preference(self.app, self)
 		app.nextID += 1
 	def drawObject(self, app):
 		pt1=self.point1

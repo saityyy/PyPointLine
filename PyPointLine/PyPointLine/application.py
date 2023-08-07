@@ -147,7 +147,7 @@ class application:
 				obj.drawLog(self)
 	def showPreference(self):
 		if self.dispPreference:
-			self.preferenceObject.pref.restorePointPreference()
+			self.preferenceObject.pref.restorePreference()
 			self.preferenceObject.pref.showPreference()
 			pass
 
