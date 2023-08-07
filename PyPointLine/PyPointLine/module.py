@@ -2,6 +2,7 @@
 from object import object, point, line, circle, angle, locus
 from utils import *
 import math
+from preference import preference
 
 class module(object):
 	def __init__(self, app):
@@ -44,20 +45,26 @@ class midpoint(module):
 		self.p3=point3
 		self.ratio1=1
 		self.ratio2=1
+		self.pref=preference(self.app, self)
 		pass
 	def evaluate(self):
-		x1=(-self.p2.x+2*self.p3.x)*0.1+self.p1.x*0.9
-		y1=(-self.p2.y+2*self.p3.y)*0.1+self.p1.y*0.9
-		x2=(-self.p1.x+2*self.p3.x)*0.1+self.p2.x*0.9
-		y2=(-self.p1.y+2*self.p3.y)*0.1+self.p2.y*0.9
-		x3=(self.p1.x+self.p2.x)*0.5*0.1+self.p3.x*0.9
-		y3=(self.p1.y+self.p2.y)*0.5*0.1+self.p3.y*0.9
-		self.p1.x=x1
-		self.p1.y=y1
-		self.p2.x=x2
-		self.p2.y=y2
-		self.p3.x=x3
-		self.p3.y=y3
+		r1=self.ratio1
+		r2=self.ratio2
+		x1=(-self.p2.x*r1+(r1+r2)*self.p3.x)/r2*0.1+self.p1.x*0.9
+		y1=(-self.p2.y*r1+(r1+r2)*self.p3.y)/r2*0.1+self.p1.y*0.9
+		x2=(-self.p1.x*r2+(r1+r2)*self.p3.x)/r1*0.1+self.p2.x*0.9
+		y2=(-self.p1.y*r2+(r1+r2)*self.p3.y)/r1*0.1+self.p2.y*0.9
+		x3=(self.p1.x*r2+self.p2.x*r1)/(r1+r2)*0.1+self.p3.x*0.9
+		y3=(self.p1.y*r2+self.p2.y*r1)/(r1+r2)*0.1+self.p3.y*0.9
+		if self.p1.fixed==False:
+			self.p1.x=x1
+			self.p1.y=y1
+		if self.p2.fixed==False:
+			self.p2.x=x2
+			self.p2.y=y2
+		if self.p3.fixed==False:
+			self.p3.x=x3
+			self.p3.y=y3
 	def drawPreference(self, app):
 		pass
 	def drawLog(self, app):
@@ -78,6 +85,7 @@ class point2point(module):
 		self.moduletype="point2point"
 		self.p1=point1
 		self.p2=point2
+		self.pref=preference(self.app, self)
 	def evaluate(self):
 		x1=self.p2.x*0.1+self.p1.x*0.9
 		y1=self.p2.y*0.1+self.p1.y*0.9
@@ -107,6 +115,7 @@ class point2line(module):
 		self.l1=line
 		self.thisis='module'
 		self.onlyOnSegment=True
+		self.pref=preference(self.app, self)
 	def evaluate(self):
 		p2=self.l1.point1
 		p3=self.l1.point2
@@ -146,6 +155,7 @@ class point2circle(module):
 		self.p1=point
 		self.c1=circle
 		self.thisis='module'
+		self.pref=preference(self.app, self)
 	def evaluate(self):
 		c1=self.c1
 		p2=c1.point
@@ -180,6 +190,7 @@ class line2circle(module):
 		self.cc=circle
 		self.ln=line
 		self.thisis='module'
+		self.pref=preference(self.app, self)
 	def evaluate(self):
 		p1=self.cc.point
 		radius=self.cc.radius
@@ -224,6 +235,7 @@ class circle2circle(module):
 		self.cc1=circle1
 		self.cc2=circle2
 		self.thisis='module'
+		self.pref=preference(self.app, self)
 	def evaluate(self):
 		p1=self.cc1.point
 		radius1=self.cc1.radius
@@ -277,6 +289,7 @@ class isometry(module):
 		self.thisis='module'
 		self.ratio1=1
 		self.ratio2=1
+		self.pref=preference(self.app, self)
 	def evaluate(self):
 		p1=self.ln1.point1
 		p2=self.ln1.point2
@@ -325,6 +338,7 @@ class parallel(module):
 		self.line2=line2
 		self.moduletype="parallel"
 		self.thisis='module'
+		self.pref=preference(self.app, self)
 		pass
 	def evaluate(self):
 		p1:point=self.line1.point1
@@ -385,6 +399,7 @@ class perpendicular(module):
 		self.line2=line2
 		self.moduletype="perpendicular"
 		self.thisis='module'
+		self.pref=preference(self.app, self)
 		pass
 	def evaluate(self):
 		p1:point=self.line1.point1
@@ -433,6 +448,7 @@ class horizontal(module):
 		super().__init__(app)
 		self.thisis='module'
 		self.line=line1
+		self.pref=preference(self.app, self)
 		pass
 	def evaluate(self):
 		p1:point=self.line.point1

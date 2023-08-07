@@ -25,12 +25,13 @@ class preference:
 
 
 	class prefPane:
-		def __init__(self, pref, type:str, label:str, radio1:str="", radio2:str="", radio:int=0, value:float=0.0, tValue:str="", button1:str="Cancel", button2:str="OK"):
+		def __init__(self, pref, type:str, label:str, radio1:str="", radio2:str="", radio:int=0, value:float=0.0, iValue:int=0, tValue:str="", button1:str="Cancel", button2:str="OK"):
 			self.preference=pref
 			self.type=type# text, float, radio
 			self.label=""
 			self.text=label
 			self.value=value
+			self.iValue=iValue
 			self.tValue=tValue
 			self.radio1=radio1
 			self.radio2=radio2
@@ -50,6 +51,9 @@ class preference:
 				self.widget2 = tk.Entry(app.root, width=8, font=("",18), textvariable=self.entry_text)
 				self.widget1.place(x=x, y=y)
 				self.widget2.place(x=x+90, y=y)
+			elif self.type=="moduleLabel":
+				self.widget1 = tk.Label(app.root, text=self.text, font=("",18))
+				self.widget1.place(x=x, y=y)
 			elif self.type=="radio":
 				self.widget1 = tk.Label(app.root, text=self.text, font=("",18))
 				self.widget2 = tk.Radiobutton(app.root, text=self.radio1, font=("",18), variable = self.radio_variable, value=0, command = self.radio_click)
@@ -57,6 +61,12 @@ class preference:
 				self.widget1.place(x=x, y=y)
 				self.widget2.place(x=x+90, y=y)
 				self.widget3.place(x=x+180, y=y)
+			elif self.type=="int":
+				self.entry_text=tk.StringVar(app.root, value="%d"%(self.iValue))
+				self.widget1 = tk.Label(app.root, text=self.text, font=("",18))
+				self.widget2 = tk.Entry(app.root, width=10, font=("",18), textvariable=self.entry_text)
+				self.widget1.place(x=x, y=y)
+				self.widget2.place(x=x+90, y=y)
 			elif self.type=="float":
 				self.entry_text=tk.StringVar(app.root, value="%0.3f"%(self.value))
 				self.widget1 = tk.Label(app.root, text=self.text, font=("",18))
@@ -110,6 +120,18 @@ class preference:
 				parent.showIsom = pref.panes['showIsom'].radio_variable.get()
 				parent.showLength = pref.panes['showLength'].radio_variable.get()
 				parent.fixedLength = pref.panes['fixedLength'].radio_variable.get()
+			elif parent.thisis=="circle":
+				parent.name = pref.panes['label'].entry_text.get()
+				parent.showName = pref.panes['name'].radio_variable.get()
+			elif parent.thisis=="module":
+				if parent.moduletype=="midpoint":
+					r1=int(pref.panes['ratio1'].entry_text.get())
+					if r1>0:
+						parent.ratio1=r1
+					r2=int(pref.panes['ratio2'].entry_text.get())
+					if r2>0:
+						parent.ratio2=r2
+				pass
 			app.dispPreference=False
 			self.preference.destroyAllPreference()
 			app.showLogs()
@@ -129,7 +151,7 @@ class preference:
 		elif  getattr(self.parent, 'thisis', None)=='circle':
 			self.initCirclePreference()
 		elif  getattr(self.parent, 'thisis', None)=='module':
-			self.initCirclePreference()
+			self.initModulePreference()
 		pass
 
 	def initPointPreference(self):
@@ -161,8 +183,25 @@ class preference:
 		radio = 1 if parent.fixedLength else 0
 		self.panes['fixedLength']=self.prefPane(self, "radio","Fixed Length:", radio1="Off", radio2="On", radio=radio)
 		self.panes["OKbutton"]=self.prefPane(self, "buttons", "")
-		
 		pass
+
+	def initCirclePreference(self):
+		parent = self.parent
+		self.panes={}
+		self.panes['label']=self.prefPane(self, "label","Circle : ","")
+		radio = 1 if parent.showName else 0
+		self.panes['name']=self.prefPane(self, "radio","Name: ", radio1="Hide", radio2="Show", radio=1)
+		self.panes["OKbutton"]=self.prefPane(self, "buttons", "")
+
+	def initModulePreference(self):
+		parent = self.parent
+		self.panes={}
+		self.panes['label']=self.prefPane(self, "moduleLabel","Module : %s"%(parent.moduletype),"")
+		if parent.moduletype=='midpoint':
+			self.panes['ratio1']=self.prefPane(self, "int", "Ratio1=", iValue=parent.ratio1)
+			self.panes['ratio2']=self.prefPane(self, "int", "Ratio2=", iValue=parent.ratio2)
+		self.panes["OKbutton"]=self.prefPane(self, "buttons", "")
+
 
 	def restorePreference(self):
 		if getattr(self.parent, 'thisis', None)=='point':
@@ -172,7 +211,7 @@ class preference:
 		elif  getattr(self.parent, 'thisis', None)=='circle':
 			self.restoreCirclePreference()
 		elif  getattr(self.parent, 'thisis', None)=='module':
-			self.restoreCirclePreference()
+			self.restoreModulePreference()
 		pass
 
 	def restorePointPreference(self):
@@ -185,7 +224,7 @@ class preference:
 		value=1 if parent.fixed else 0
 		self.panes['fixed'].radio_variable.set(value)
 		self.application.root.update()
-
+		pass
 	def restoreLinePreference(self):
 		parent=self.parent
 		self.panes['label'].entry_text.set(parent.name)
@@ -199,6 +238,22 @@ class preference:
 		self.panes['showLength'].radio_variable.set(value)
 		value=1 if parent.fixedLength else 0
 		self.panes['fixedLength'].radio_variable.set(value)
+		pass
+	def restoreCirclePreference(self):
+		parent=self.parent
+		self.panes['label'].entry_text.set(parent.name)
+		value=1 if parent.showName else 0
+		self.panes['name'].radio_variable.set(value)
+		pass
+	def restoreModulePreference(self):
+		parent=self.parent
+		if parent.moduletype=='midpoint':
+			self.panes['ratio1'].iValue=parent.ratio1
+			self.panes['ratio2'].iValue=parent.ratio2
+		pass
+
+
+
 	def destroyAllPreference(self):
 		for pane in self.panes.values():
 			pane.destroy()

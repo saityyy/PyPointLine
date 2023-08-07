@@ -135,6 +135,7 @@ class circle(object):
 		self.name=self.youngestName(app)
 		self.showName=False
 		self.tag="tag_%00d"%(app.nextID)
+		self.pref=preference(self.app, self)
 		app.nextID += 1
 	
 	def drawObject(self, app):
@@ -175,6 +176,7 @@ class angle(object):
 		self.showIsom=False
 		self.showIsomFrag=0
 		self.showValue=False
+		self.pref=preference(self.app, self)
 
 	def drawObject(self, app):
 		xx1,yy1=app.world2Canvas(self.point1.x,self.point1.y)
