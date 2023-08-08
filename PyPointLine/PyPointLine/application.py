@@ -9,7 +9,7 @@ from menuitem import *
 from object import point, line, circle, angle, locus
 from module import *
 from preference import preference
-
+from fileIO import fileIO
 
 class application:
 	"""
@@ -52,7 +52,7 @@ class application:
 		self.logLineFeedMin=0
 		self.logLineFeedMax=0
 		self.headerText=""
-		##self.file=fileIO(self)
+		self.fileIO=fileIO(self)
 
 		self.initilizeMenuItems()
 
@@ -378,38 +378,61 @@ class application:
 		self.menuOn=menuItem("images\\MenuOn.png", 0, 0)
 		self.menuOff=menuItem("images\\MenuOff.png", 0, 0)
 		#####
-		self.menuAddPoint=addPointItem("images\\AddPoint.png", 0, 0)
-		self.menuMidPoint=midPointItem("images\\MidPoint.png", 1, 0)
-		self.menuAddLine=addLineItem("images\\AddLine.png", 2, 0)
-		self.menuAddCircle=addCircleItem("images\\AddCircle.png", 3, 0)
-		self.menuAddAngle=addAngleItem("images\\Angle.png", 4, 0)
-		self.menuAddLocus=menuItem("images\\AddLocus.png",5 , 0)
+		x=0
+		y=0
+		self.menuAddPoint=addPointItem("images\\AddPoint.png", x, y)
+		x+=1
+		self.menuMidPoint=midPointItem("images\\MidPoint.png", x, y)
+		x+=1
+		self.menuAddLine=addLineItem("images\\AddLine.png", x, y)
+		x+=1
+		self.menuAddCircle=addCircleItem("images\\AddCircle.png", x, y)
+		x+=1
+		self.menuAddAngle=addAngleItem("images\\Angle.png", x, y)
+		x+=1
 		#####
-		self.menuP2P=menuP2PItem("images\\P2P.png", 0, 1)
-		self.menuP2L=menuP2LItem("images\\P2L.png", 1, 1)
-		self.menuP2C=menuP2CItem("images\\P2C.png", 2, 1)
-		self.menuTangentL2C=menuL2CItem("images\\TangentL2C.png", 3, 1)
-		self.menuTangentC2C=menuC2CItem("images\\TangentC2C.png", 4, 1)
+		y+=1
+		x=0
+		self.menuP2P=menuP2PItem("images\\P2P.png", x, y)
+		x+=1
+		self.menuP2L=menuP2LItem("images\\P2L.png", x, y)
+		x+=1
+		self.menuP2C=menuP2CItem("images\\P2C.png", x, y)
+		x+=1
+		self.menuTangentL2C=menuL2CItem("images\\TangentL2C.png", x, y)
+		x+=1
+		self.menuTangentC2C=menuC2CItem("images\\TangentC2C.png", x, y)
 		#####
-		self.menuIsom=menuIsomItem("images\\Isom.png", 0, 2)
-		self.menuRatioLength=menuRatioLengthItem("images\\RatioLength.png", 1, 2)
-		self.menuPara=menuParaItem("images\\Para.png", 2, 2)
-		self.menuPerp=menuPerpItem("images\\Perp.png", 3, 2)
-		self.menuHori=menuHoriItem("images\\Hori.png", 4, 2)
-		self.menuBisector=menuBisectorItem("images\\Bisector.png", 5, 2)
+		y+=1
+		x=0
+		self.menuIsom=menuIsomItem("images\\Isom.png", x, y)
+		x+=1
+		self.menuPara=menuParaItem("images\\Para.png", x, y)
+		x+=1
+		self.menuPerp=menuPerpItem("images\\Perp.png", x, y)
+		x+=1
+		self.menuHori=menuHoriItem("images\\Hori.png", x, y)
 		#####
-		self.menuFixPoint=menuItem("images\\FixPoint.png", 0, 3)
-		self.menuUndo=menuItem("images\\Undo.png", 1, 3)
-		self.menuRedo=menuItem("images\\Redo.png", 2, 3)
-		self.menuDeletePoint=menuItem("images\\DeletePoint.png", 3, 3)
-		self.menuDeleteLocus=menuItem("images\\DeleteLocus.png", 4, 3)
-		self.menuDeleteAll=menuItem("images\\DeleteAll.png", 5, 3)
-		#####
-		self.menuLogs=menuItem("images\\Logs.png", 0, 4)
-		self.menuOpen=menuItem("images\\Open.png", 1, 4)
-		self.menuSave=menuItem("images\\Save.png", 2, 4)
-		self.menuSave2TeX=menuItem("images\\Save2TeX.png", 3, 4)
-		self.menuQuit=menuQuitItem("images\\Quit.png", 4, 4)
+		y+=1
+		x=0
+		self.menuFixPoint=menuItem("images\\FixPoint.png", x, y)
+		x+=1
+		self.menuDeleteAll=menuItem("images\\DeleteAll.png", x, y)
+		x+=1
+		self.menuOpen=menuItem("images\\Open.png", x, y)
+		x+=1
+		self.menuSave=menuItem("images\\Save.png", x, y)
+		x+=1
+		self.menuQuit=menuQuitItem("images\\Quit.png", x, y)
+		##self.menuAddLocus=menuItem("images\\AddLocus.png", x, y)
+		##self.menuRatioLength=menuRatioLengthItem("images\\RatioLength.png", 1, 2)
+		##self.menuBisector=menuBisectorItem("images\\Bisector.png", 5, 2)
+		#self.menuUndo=menuItem("images\\Undo.png", 1, y)
+		#self.menuRedo=menuItem("images\\Redo.png", 2, y)
+		#self.menuDeletePoint=menuItem("images\\DeletePoint.png", 3, y)
+		#self.menuDeleteLocus=menuItem("images\\DeleteLocus.png", 4, y)
+		#self.menuLogs=menuItem("images\\Logs.png", 0, y)
+		#self.menuSave2TeX=menuItem("images\\Save2TeX.png", x, y)
 		
 
 	def drawMenuOnIcon(self):
@@ -418,12 +441,12 @@ class application:
 	@property
 	def allButtonIcons(self):
 		return [\
-			self.menuAddPoint, self.menuMidPoint,self.menuAddLine,self.menuAddCircle,self.menuAddLocus,self.menuAddAngle,
+			self.menuAddPoint, self.menuMidPoint,self.menuAddLine,self.menuAddCircle,
 			self.menuP2P,self.menuP2L,self.menuP2C,self.menuTangentL2C,self.menuTangentC2C,
-			self.menuIsom,self.menuRatioLength,self.menuPara,self.menuPerp,self.menuHori,self.menuHori,self.menuBisector,
-			self.menuFixPoint,self.menuUndo,self.menuRedo,self.menuDeletePoint,self.menuDeleteLocus,self.menuDeleteAll,
-			self.menuLogs,self.menuOpen,self.menuSave,self.menuSave2TeX,self.menuSave2TeX,self.menuQuit
+			self.menuIsom,self.menuPara,self.menuPerp,self.menuHori,self.menuHori,
+			self.menuFixPoint,self.menuDeleteAll,self.menuOpen,self.menuSave,self.menuQuit
 			]
+	###self.menuAddLocus,self.menuAddAngle,self.menuRatioLength,self.menuBisector,self.menuUndo,self.menuRedo,self.menuDeletePoint,self.menuDeleteLocus,self.menuLogs,self.menuSave2TeX,self.menuSave2TeX,
 
 	def drawAllMenu(self):
 		self.menuOff.showIcon(self.headerCanvas)
@@ -435,3 +458,13 @@ class application:
 			if obj.name==name:
 				return obj
 		return None
+
+	def openFile(self):
+		pass
+	def saveFile(self):
+		pass
+	def saveTeXFile(self):
+		pass
+	def quitApp(self):
+		sys.exit(0)
+		pass

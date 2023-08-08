@@ -526,13 +526,36 @@ class menuBisectorItem(menuItem):
 		pass
 
 
+class menuOpenItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=[""]
+	def onActions(self, app):
+		app.openFile()
+		pass
+
+class menuSaveItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=[""]
+	def onActions(self, app):
+		app.saveFile()
+		pass
+
+class menuSaveTeXItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=[""]
+	def onActions(self, app):
+		app.saveTeXFile()
+		pass
 
 class menuQuitItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
 		self.headerText=[""]
 	def onActions(self, app):
-		sys.exit(0)
+		app.quitApp()
 
 	pass
 

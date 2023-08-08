@@ -24,6 +24,7 @@
     <Compile Include="application.py" />
     <Compile Include="button.py" />
     <Compile Include="calculator.py" />
+    <Compile Include="fileIO.py" />
     <Compile Include="menuitem.py" />
     <Compile Include="module.py" />
     <Compile Include="object.py" />
