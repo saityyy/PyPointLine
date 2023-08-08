@@ -79,9 +79,18 @@ class preference:
 				self.widget2 = tk.Entry(app.root, width=8, font=("",18), textvariable=self.entry_text)
 				self.widget1.place(x=x, y=y)
 				self.widget2.place(x=x+90, y=y)
+			elif self.type=="para":
+				self.entry_text=tk.StringVar(app.root, value="%0.3f"%(self.value))
+				self.widget1 = tk.Label(app.root, text=self.text, font=("",18), background="plum1")
+				self.widget2 = tk.Entry(app.root, width=10, font=("",18), textvariable=self.entry_text, background="plum1")
+				self.widget1.place(x=x, y=y)
+				self.widget2.place(x=x+90, y=y)
+			elif self.type=="destroyButton":
+				self.widget1=tk.Button(app.root, text="Destroy", background="green", font=("",18), anchor=tk.CENTER, width=8, command=self.click_destroy_btn)
+				self.widget1.place(x=x, y=y)
 			elif self.type=="buttons":
-				self.widget1=tk.Button(app.root, text="OK", background="green", font=("",20), anchor=tk.CENTER, width=8, height=1, command=self.click_OK_btn)
-				self.widget2=tk.Button(app.root, text="Cancel", background="green", font=("",20), anchor=tk.CENTER, width=8, height=1, command=self.click_NG_btn )
+				self.widget1=tk.Button(app.root, text="OK", background="green", font=("",18), anchor=tk.CENTER, width=8, command=self.click_OK_btn)
+				self.widget2=tk.Button(app.root, text="Cancel", background="green", font=("",18), anchor=tk.CENTER, width=8, command=self.click_NG_btn )
 				self.widget1.place(x=x, y=y)
 				self.widget2.place(x=x+150, y=y)
 			pass
@@ -98,6 +107,15 @@ class preference:
 		def entry_click(self):
 			value=self.entry_text.get()
 			print("entry text is %s"%(value))
+		def click_destroy_btn(self):
+			app=self.preference.application
+			obj=self.preference.parent
+			app.dispPreference=False
+			self.preference.destroyAllPreference()
+			app.logs.remove(obj)
+			del obj
+			app.showLogs()
+			pass
 		def click_OK_btn(self):
 			pref=self.preference
 			parent=pref.parent
@@ -123,15 +141,61 @@ class preference:
 			elif parent.thisis=="circle":
 				parent.name = pref.panes['label'].entry_text.get()
 				parent.showName = pref.panes['name'].radio_variable.get()
+				parent.fixedRadius = pref.panes['fixedRadius'].radio_variable.get()
 			elif parent.thisis=="module":
 				if parent.moduletype=="midpoint":
 					r1=int(pref.panes['ratio1'].entry_text.get())
-					if r1>0:
-						parent.ratio1=r1
 					r2=int(pref.panes['ratio2'].entry_text.get())
-					if r2>0:
+					if r1!=0 and r2!=0 and r1!=r2:
+						parent.ratio1=r1
 						parent.ratio2=r2
+					p1=float(pref.panes['para1'].entry_text.get())
+					if p1!=0.0 and p1!=1.0:
+						parent.para1=p1
+					p2=float(pref.panes['para2'].entry_text.get())
+					if p2!=0.0 and p2!=1.0:
+						parent.para2=p2
+					p3=float(pref.panes['para3'].entry_text.get())
+					if p3!=0.0 and p3!=1.0:
+						parent.para3=p3
+				elif parent.moduletype=="point2point":
+					p1=float(pref.panes['para1'].entry_text.get())
+					if p1!=0.0 and p1!=1.0:
+						parent.para1=p1
+				elif parent.moduletype=="point2line":
+					p1=float(pref.panes['para1'].entry_text.get())
+					if p1!=0.0 and p1!=1.0:
+						parent.para1=p1
+				elif parent.moduletype=="point2circle":
+					p1=float(pref.panes['para1'].entry_text.get())
+					if p1!=0.0 and p1!=1.0:
+						parent.para1=p1
+				elif parent.moduletype=="line2circle":
+					p1=float(pref.panes['para1'].entry_text.get())
+					if p1!=0.0 and p1!=1.0:
+						parent.para1=p1
+				elif parent.moduletype=="circle2circle":
+					p1=float(pref.panes['para1'].entry_text.get())
+					if p1!=0.0 and p1!=1.0:
+						parent.para1=p1
+				elif parent.moduletype=="isometry":
+					p1=float(pref.panes['para1'].entry_text.get())
+					if p1!=0.0 and p1!=1.0:
+						parent.para1=p1
+				elif parent.moduletype=="parallel":
+					p1=float(pref.panes['para1'].entry_text.get())
+					if p1!=0.0 and p1!=1.0:
+						parent.para1=p1
+				elif parent.moduletype=="perpendicular":
+					p1=float(pref.panes['para1'].entry_text.get())
+					if p1!=0.0 and p1!=1.0:
+						parent.para1=p1
+				elif parent.moduletype=="horizontal":
+					p1=float(pref.panes['para1'].entry_text.get())
+					if p1!=0.0 and p1!=1.0:
+						parent.para1=p1
 				pass
+
 			app.dispPreference=False
 			self.preference.destroyAllPreference()
 			app.showLogs()
@@ -164,6 +228,7 @@ class preference:
 		self.panes['y']=self.prefPane(self, "float","Y:", value=parent.y)
 		radio = 1 if parent.fixed else 0
 		self.panes['fixed']=self.prefPane(self, "radio","Fixed:", radio1="Off", radio2="On", radio=0)
+		self.panes["destroyButton"]=self.prefPane(self, "destroyButton", "")
 		self.panes["OKbutton"]=self.prefPane(self, "buttons", "")
 		
 		pass
@@ -181,7 +246,8 @@ class preference:
 		radio = 1 if parent.showLength else 0
 		self.panes['showLength']=self.prefPane(self, "radio","Length:", radio1="Hide", radio2="Show", radio=radio)
 		radio = 1 if parent.fixedLength else 0
-		self.panes['fixedLength']=self.prefPane(self, "radio","Fixed Length:", radio1="Off", radio2="On", radio=radio)
+		self.panes['fixedLength']=self.prefPane(self, "radio","Fixed :", radio1="Off", radio2="On", radio=radio)
+		self.panes["destroyButton"]=self.prefPane(self, "destroyButton", "")
 		self.panes["OKbutton"]=self.prefPane(self, "buttons", "")
 		pass
 
@@ -191,6 +257,9 @@ class preference:
 		self.panes['label']=self.prefPane(self, "label","Circle : ","")
 		radio = 1 if parent.showName else 0
 		self.panes['name']=self.prefPane(self, "radio","Name: ", radio1="Hide", radio2="Show", radio=1)
+		radio = 1 if parent.fixedRadius else 0
+		self.panes['fixedRadius']=self.prefPane(self, "radio","Fixed :", radio1="Off", radio2="On", radio=radio)
+		self.panes["destroyButton"]=self.prefPane(self, "destroyButton", "")
 		self.panes["OKbutton"]=self.prefPane(self, "buttons", "")
 
 	def initModulePreference(self):
@@ -200,6 +269,28 @@ class preference:
 		if parent.moduletype=='midpoint':
 			self.panes['ratio1']=self.prefPane(self, "int", "Ratio1=", iValue=parent.ratio1)
 			self.panes['ratio2']=self.prefPane(self, "int", "Ratio2=", iValue=parent.ratio2)
+			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
+			self.panes['para2']=self.prefPane(self, "para", "Para2=", iValue=parent.para2)
+			self.panes['para3']=self.prefPane(self, "para", "Para3=", iValue=parent.para3)
+		elif parent.moduletype=='point2point':
+			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
+		elif parent.moduletype=='point2line':
+			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
+		elif parent.moduletype=='point2circle':
+			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
+		elif parent.moduletype=='line2circle':
+			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
+		elif parent.moduletype=='circle2circle':
+			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
+		elif parent.moduletype=='isometry':
+			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
+		elif parent.moduletype=='parallel':
+			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
+		elif parent.moduletype=='perpendicular':
+			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
+		elif parent.moduletype=='horizontal':
+			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
+		self.panes["destroyButton"]=self.prefPane(self, "destroyButton", "")
 		self.panes["OKbutton"]=self.prefPane(self, "buttons", "")
 
 
@@ -244,12 +335,35 @@ class preference:
 		self.panes['label'].entry_text.set(parent.name)
 		value=1 if parent.showName else 0
 		self.panes['name'].radio_variable.set(value)
+		value=1 if parent.fixedRadius else 0
+		self.panes['fixedRadius'].radio_variable.set(value)
 		pass
 	def restoreModulePreference(self):
 		parent=self.parent
 		if parent.moduletype=='midpoint':
 			self.panes['ratio1'].iValue=parent.ratio1
 			self.panes['ratio2'].iValue=parent.ratio2
+			self.panes['para1'].value=parent.para1
+			self.panes['para2'].value=parent.para2
+			self.panes['para3'].value=parent.para3
+		elif parent.moduletype=='point2point':
+			self.panes['para1'].value=parent.para1
+		elif parent.moduletype=='point2line':
+			self.panes['para1'].value=parent.para1
+		elif parent.moduletype=='point2circle':
+			self.panes['para1'].value=parent.para1
+		elif parent.moduletype=='line2circle':
+			self.panes['para1'].value=parent.para1
+		elif parent.moduletype=='circle2circle':
+			self.panes['para1'].value=parent.para1
+		elif parent.moduletype=='isometry':
+			self.panes['para1'].value=parent.para1
+		elif parent.moduletype=='parallel':
+			self.panes['para1'].value=parent.para1
+		elif parent.moduletype=='perpendicular':
+			self.panes['para1'].value=parent.para1
+		elif parent.moduletype=='horizontal':
+			self.panes['para1'].value=parent.para1
 		pass
 
 
@@ -264,7 +378,7 @@ class preference:
 		y=30
 		for pane in self.panes.values():
 			pane.show(x, y, self.application)
-			y+=40
+			y+=45
 
 
 

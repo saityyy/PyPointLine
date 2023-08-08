@@ -45,17 +45,20 @@ class midpoint(module):
 		self.p3=point3
 		self.ratio1=1
 		self.ratio2=1
+		self.para1=0.1
+		self.para2=0.1
+		self.para3=0.1
 		self.pref=preference(self.app, self)
 		pass
 	def evaluate(self):
 		r1=self.ratio1
 		r2=self.ratio2
-		x1=(-self.p2.x*r1+(r1+r2)*self.p3.x)/r2*0.1+self.p1.x*0.9
-		y1=(-self.p2.y*r1+(r1+r2)*self.p3.y)/r2*0.1+self.p1.y*0.9
-		x2=(-self.p1.x*r2+(r1+r2)*self.p3.x)/r1*0.1+self.p2.x*0.9
-		y2=(-self.p1.y*r2+(r1+r2)*self.p3.y)/r1*0.1+self.p2.y*0.9
-		x3=(self.p1.x*r2+self.p2.x*r1)/(r1+r2)*0.1+self.p3.x*0.9
-		y3=(self.p1.y*r2+self.p2.y*r1)/(r1+r2)*0.1+self.p3.y*0.9
+		x1=(-self.p2.x*r1+(r1+r2)*self.p3.x)/r2*self.para1+self.p1.x*(1.0-self.para1)
+		y1=(-self.p2.y*r1+(r1+r2)*self.p3.y)/r2*self.para1+self.p1.y*(1.0-self.para1)
+		x2=(-self.p1.x*r2+(r1+r2)*self.p3.x)/r1*self.para2+self.p2.x*(1.0-self.para2)
+		y2=(-self.p1.y*r2+(r1+r2)*self.p3.y)/r1*self.para2+self.p2.y*(1.0-self.para2)
+		x3=(self.p1.x*r2+self.p2.x*r1)/(r1+r2)*self.para3+self.p3.x*(1.0-self.para3)
+		y3=(self.p1.y*r2+self.p2.y*r1)/(r1+r2)*self.para3+self.p3.y*(1.0-self.para3)
 		if self.p1.fixed==False:
 			self.p1.x=x1
 			self.p1.y=y1
@@ -85,16 +88,18 @@ class point2point(module):
 		self.moduletype="point2point"
 		self.p1=point1
 		self.p2=point2
+		self.para1=0.1
+		self.para2=0.1
 		self.pref=preference(self.app, self)
 	def evaluate(self):
-		x1=self.p2.x*0.1+self.p1.x*0.9
-		y1=self.p2.y*0.1+self.p1.y*0.9
-		x2=self.p1.x*0.1+self.p2.x*0.9
-		y2=self.p1.y*0.1+self.p2.y*0.9
-		self.p1.x=x1
-		self.p1.y=y1
-		self.p2.x=x2
-		self.p2.y=y2
+		x1=self.p2.x*self.para1+self.p1.x*(1.0-self.para1)
+		y1=self.p2.y*self.para1+self.p1.y*(1.0-self.para1)
+		x2=self.p1.x*self.para2+self.p2.x*(1.0-self.para2)
+		y2=self.p1.y*self.para2+self.p2.y*(1.0-self.para2)
+		if self.p1.fixed==False:
+			self.p1.x, self.p1.y = x1, y1
+		if self.p2.fixed==False:
+			self.p2.x, self.p2.y = x2, y2
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -115,6 +120,7 @@ class point2line(module):
 		self.l1=line
 		self.thisis='module'
 		self.onlyOnSegment=True
+		self.para1=0.1
 		self.pref=preference(self.app, self)
 	def evaluate(self):
 		p2=self.l1.point1
@@ -128,15 +134,15 @@ class point2line(module):
 			return
 		tt=tn/td
 		dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
-		dx *= 0.1
-		dy *= 0.1
-		self.p1.x += dx
-		self.p1.y += dy
-		self.l1.point1.x -= dx
-		self.l1.point1.y -= dy
-		self.l1.point2.x -= dx
-		self.l1.point2.y -= dy
-		##unfinished
+		if self.p1.fixed==False:
+			self.p1.x += dx*self.para1
+			self.p1.y += dy*self.para1
+		if self.l1.point1.fixed==False:
+			self.l1.point1.x -= dx*self.para1
+			self.l1.point1.y -= dy*self.para1
+		if self.l1.point2.fixed==False:
+			self.l1.point2.x -= dx*self.para1
+			self.l1.point2.y -= dy*self.para1
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -155,6 +161,7 @@ class point2circle(module):
 		self.p1=point
 		self.c1=circle
 		self.thisis='module'
+		self.para1=0.1
 		self.pref=preference(self.app, self)
 	def evaluate(self):
 		c1=self.c1
@@ -164,13 +171,16 @@ class point2circle(module):
 		mag=magnitude(ax,ay)
 		if mag==0:
 			return
-		difference=(mag-radius)*0.1
+		difference=(mag-radius)*self.para1
 		dx, dy=ax/mag*difference, ay/mag*difference
-		self.p1.x += dx
-		self.p1.y += dy
-		self.c1.point.x -= dx
-		self.c1.point.y -= dy
-		self.c1.radius += difference
+		if self.p1.fixed==False:
+			self.p1.x += dx
+			self.p1.y += dy
+		if self.c1.point.fixed==False:
+			self.c1.point.x -= dx
+			self.c1.point.y -= dy
+		if self.c1.fixedRadius==False:
+			self.c1.radius += difference
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -190,6 +200,7 @@ class line2circle(module):
 		self.cc=circle
 		self.ln=line
 		self.thisis='module'
+		self.para1=0.1
 		self.pref=preference(self.app, self)
 	def evaluate(self):
 		p1=self.cc.point
@@ -208,11 +219,12 @@ class line2circle(module):
 		mag=magnitude(dx,dy)
 		if mag==0:
 			return
-		difference=(mag-radius)*0.1
+		difference=(mag-radius)*self.para1
 		ex,ey = dx/mag*difference, dy/mag*difference
 		self.cc.point.x += ex
 		self.cc.point.y += ey
-		self.cc.radius += difference
+		if self.cc.fixedRadius==False:
+			self.cc.radius += difference
 		self.ln.point1.x -= ex
 		self.ln.point1.y -= ey
 		self.ln.point2.x -= ex
@@ -235,6 +247,7 @@ class circle2circle(module):
 		self.cc1=circle1
 		self.cc2=circle2
 		self.thisis='module'
+		self.para1=0.025
 		self.pref=preference(self.app, self)
 	def evaluate(self):
 		p1=self.cc1.point
@@ -248,27 +261,33 @@ class circle2circle(module):
 		deltaIn = mag - abs(radius1 - radius2)
 		deltaOut = mag-(radius1 + radius2)
 		if abs(deltaIn) > abs(deltaOut):## outer tangent
-			difference = deltaOut * 0.025
+			difference = deltaOut * self.para1
 			dx, dy = cx/mag*difference, cy/mag*difference
 			self.cc1.point.x += dx
 			self.cc1.point.y += dy
-			self.cc1.radius += difference
+			if self.cc1.fixedRadius==False:
+				self.cc1.radius += difference
 			self.cc2.point.x -= dx
 			self.cc2.point.y -= dy
-			self.cc2.radius += difference
+			if self.cc2.fixedRadius==False:
+				self.cc2.radius += difference
 		else:## inner tangent
-			difference=deltaIn*0.025
+			difference=deltaIn * self.para1
 			dx, dy = cx/mag*difference, cy/mag*difference
 			self.cc1.point.x += dx
 			self.cc1.point.y += dy
 			self.cc2.point.x -= dx
 			self.cc2.point.y -= dy
 			if radius1>radius2:
-				self.cc1.radius += difference
-				self.cc2.radius -= difference
+				if self.cc1.fixedRadius==False:
+					self.cc1.radius += difference
+				if self.cc2.fixedRadius==False:
+					self.cc2.radius -= difference
 			else:
-				self.cc1.radius -= difference
-				self.cc2.radius += difference
+				if self.cc1.fixedRadius==False:
+					self.cc1.radius -= difference
+				if self.cc2.fixedRadius==False:
+					self.cc2.radius += difference
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -289,6 +308,7 @@ class isometry(module):
 		self.thisis='module'
 		self.ratio1=1
 		self.ratio2=1
+		self.para1=0.1
 		self.pref=preference(self.app, self)
 	def evaluate(self):
 		p1=self.ln1.point1
@@ -303,7 +323,7 @@ class isometry(module):
 		magB=magnitude(bx, by)
 		if magA==0.0 or magB==0.0:
 			return
-		difference=min((magB-magA)*0.1,0.01)
+		difference=min((magB-magA)*self.para1,0.0)
 		cx, cy=ax/magA*difference, ay/magA*difference
 		if self.ln1.point1.fixed==False:
 			self.ln1.point1.x -= cx
@@ -338,6 +358,7 @@ class parallel(module):
 		self.line2=line2
 		self.moduletype="parallel"
 		self.thisis='module'
+		self.para1=0.1
 		self.pref=preference(self.app, self)
 		pass
 	def evaluate(self):
@@ -349,21 +370,21 @@ class parallel(module):
 		theta2=math.atan2(p4.y-p3.y, p4.x-p3.x)
 		##print("theta = %f"%(theta2-theta1))
 		if theta1<theta2-math.pi*3/2:
-			difference=-(math.pi*2-theta2+theta1)*0.1
+			difference=-(math.pi*2-theta2+theta1)*self.para1
 		elif theta1<theta2-math.pi:
-			difference=(theta2-theta1-math.pi)*0.1
+			difference=(theta2-theta1-math.pi)*self.para1
 		elif theta1<theta2-math.pi/2:
-			difference=-(math.pi-theta2+theta1)*0.1
+			difference=-(math.pi-theta2+theta1)*self.para1
 		elif theta1<theta2:
-			difference=(theta2-theta1)*0.1
+			difference=(theta2-theta1)*self.para1
 		elif theta1<theta2+math.pi/2:
-			difference=-(theta1-theta2)*0.1
+			difference=-(theta1-theta2)*self.para1
 		elif theta1<theta2+math.pi:
-			difference=(math.pi-theta1+theta2)*0.1
+			difference=(math.pi-theta1+theta2)*self.para1
 		elif theta1<theta2+math.pi*3/2:
-			difference=-(theta1-theta2-math.pi)*0.1
+			difference=-(theta1-theta2-math.pi)*self.para1
 		else:#if theta1<theta1-math.pi*3/2:
-			difference=(math.pi*2-theta1+theta2)*0.1
+			difference=(math.pi*2-theta1+theta2)*self.para1
 		x1,y1,x2,y2 = rotation(
 			self.line1.point1.x, self.line1.point1.y, self.line1.point2.x, self.line1.point2.y, difference
 			)
@@ -399,6 +420,7 @@ class perpendicular(module):
 		self.line2=line2
 		self.moduletype="perpendicular"
 		self.thisis='module'
+		self.para1=0.1
 		self.pref=preference(self.app, self)
 		pass
 	def evaluate(self):
@@ -410,13 +432,13 @@ class perpendicular(module):
 		theta2=math.atan2(p4.y-p3.y, p4.x-p3.x)
 		##print("theta = %f"%(theta2-theta1))
 		if theta1<theta2-math.pi:
-			difference=-(math.pi*3/2-theta2+theta1)*0.1
+			difference=-(math.pi*3/2-theta2+theta1)*self.para1
 		elif theta1<theta2:
-			difference=(theta2-theta1-math.pi/2)*0.1
+			difference=(theta2-theta1-math.pi/2)*self.para1
 		elif theta1<theta2+math.pi:
-			difference=-(theta1-theta2-math.pi/2)*0.1
+			difference=-(theta1-theta2-math.pi/2)*self.para1
 		else:#
-			difference=(math.pi*3/2-theta1+theta2)*0.1
+			difference=(math.pi*3/2-theta1+theta2)*self.para1
 		x1,y1,x2,y2 = rotation(
 			self.line1.point1.x, self.line1.point1.y, self.line1.point2.x, self.line1.point2.y, difference
 			)
@@ -447,7 +469,9 @@ class horizontal(module):
 	def __init__(self, app, line1:line):
 		super().__init__(app)
 		self.thisis='module'
+		self.moduletype='horizontal'
 		self.line=line1
+		self.para1=0.1
 		self.pref=preference(self.app, self)
 		pass
 	def evaluate(self):
@@ -455,13 +479,16 @@ class horizontal(module):
 		p2:point=self.line.point2
 		theta=math.atan2(p2.y-p1.y, p2.x-p1.x)
 		if -math.pi/2<=theta and theta<=math.pi/2:
-			difference=-theta*0.1
+			difference=-theta*self.para1
 		elif -math.pi/2>theta:
-			difference=(-math.pi-theta)*0.1
+			difference=(-math.pi-theta)*self.para1
 		else:
-			difference=(math.pi-theta)*0.1
-		self.line.point1.x, self.line.point1.y, self.line.point2.x, self.line.point2.y = rotation(p1.x, p1.y, p2.x, p2.y, difference)
-
+			difference=(math.pi-theta)*self.para1
+		x1,y1,x2,y2 = rotation(p1.x, p1.y, p2.x, p2.y, difference)
+		if self.line.point1.fixed==False:
+			self.line.point1.x, self.line.point1.y = x1,y1
+		if self.line.point2.fixed==False:
+			self.line.point2.x, self.line.point2.y = x2,y2
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas

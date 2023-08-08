@@ -129,11 +129,13 @@ class line(object):
 
 class circle(object):
 	def __init__(self, app, point:point, radius:float):
+		super().__init__(app)		
 		self.point=point
 		self.radius=radius
 		self.thisis='circle'
 		self.name=self.youngestName(app)
 		self.showName=False
+		self.fixedRadius=False
 		self.tag="tag_%00d"%(app.nextID)
 		self.pref=preference(self.app, self)
 		app.nextID += 1
