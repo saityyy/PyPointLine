@@ -28,13 +28,14 @@ class module(object):
 	def drawPreference(self, app):
 		pass
 	def youngestName(self, app):
-		for name in ["M1","M2","M3","M4","M5","M6","M7","M8","M9","M10","M11","M12","M13","M14","M15","M16","M17","M18","M18","M19","M20"]:
+		for name in ["M1","M2","M3","M4","M5","M6","M7","M8","M9","M10","M11","M12","M13","M14","M15","M16","M17","M18","M19","M20",
+				"M21","M22","M23","M24","M25","M26","M27","M28","M29","M30","M31","M32","M33","M34","M35","M36","M37","M38","M39","M40"]:
 			for obj in app.lines:
 				if obj.name==name:
 					break
 			else:
 				return name
-		return "C0"
+		return "M0"
 
 class midpoint(module):
 	def __init__(self, app, point1:point, point2:point, point3:point):
@@ -308,30 +309,31 @@ class isometry(module):
 		self.thisis='module'
 		self.ratio1=1
 		self.ratio2=1
-		self.para1=0.1
+		self.fixedRatio=True
+		self.para1=0.25
 		self.pref=preference(self.app, self)
 	def evaluate(self):
 		p1=self.ln1.point1
 		p2=self.ln1.point2
 		p3=self.ln2.point1
 		p4=self.ln2.point2
-		ax=p2.x-p1.x
-		ay=p2.y-p1.y
+		ax, ay=p2.x-p1.x, p2.y-p1.y
 		magA=magnitude(ax, ay)
-		bx=p4.x-p3.x
-		by=p4.y-p3.y
+		bx, by=p4.x-p3.x, p4.y-p3.y
 		magB=magnitude(bx, by)
 		if magA==0.0 or magB==0.0:
 			return
-		difference=min((magB-magA)*self.para1,0.0)
-		cx, cy=ax/magA*difference, ay/magA*difference
+		delta= (magB*self.ratio1 - magA*self.ratio2) * self.para1 / (self.ratio1 + self.ratio2)
+		delta1=delta*self.ratio2/ (self.ratio1 + self.ratio2)
+		delta2=delta*self.ratio1/ (self.ratio1 + self.ratio2)
+		cx, cy=ax/magA*delta1, ay/magA*delta1
+		dx, dy=ax/magA*delta2, ay/magA*delta2
 		if self.ln1.point1.fixed==False:
 			self.ln1.point1.x -= cx
 			self.ln1.point1.y -= cy
 		if self.ln1.point2.fixed==False:
 			self.ln1.point2.x += cx
 			self.ln1.point2.y += cy
-		dx, dy=bx/magB*difference, by/magB*difference
 		if self.ln2.point1.fixed==False:
 			self.ln2.point1.x += dx
 			self.ln2.point1.y += dy

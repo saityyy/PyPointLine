@@ -86,11 +86,11 @@ class preference:
 				self.widget1.place(x=x, y=y)
 				self.widget2.place(x=x+90, y=y)
 			elif self.type=="destroyButton":
-				self.widget1=tk.Button(app.root, text="Destroy", background="green", font=("",18), anchor=tk.CENTER, width=8, command=self.click_destroy_btn)
+				self.widget1=tk.Button(app.root, text="Destroy", background="red", font=("",18), anchor=tk.CENTER, width=8, command=self.click_destroy_btn)
 				self.widget1.place(x=x, y=y)
 			elif self.type=="buttons":
-				self.widget1=tk.Button(app.root, text="OK", background="green", font=("",18), anchor=tk.CENTER, width=8, command=self.click_OK_btn)
-				self.widget2=tk.Button(app.root, text="Cancel", background="green", font=("",18), anchor=tk.CENTER, width=8, command=self.click_NG_btn )
+				self.widget1=tk.Button(app.root, text="OK", background="OliveDrab1", font=("",18), anchor=tk.CENTER, width=8, command=self.click_OK_btn)
+				self.widget2=tk.Button(app.root, text="Cancel", background="OliveDrab1", font=("",18), anchor=tk.CENTER, width=8, command=self.click_NG_btn )
 				self.widget1.place(x=x, y=y)
 				self.widget2.place(x=x+150, y=y)
 			pass
@@ -179,6 +179,11 @@ class preference:
 					if p1!=0.0 and p1!=1.0:
 						parent.para1=p1
 				elif parent.moduletype=="isometry":
+					r1=int(pref.panes['ratio1'].entry_text.get())
+					r2=int(pref.panes['ratio2'].entry_text.get())
+					if r1!=0 and r2!=0 and r1!=r2:
+						parent.ratio1=r1
+						parent.ratio2=r2
 					p1=float(pref.panes['para1'].entry_text.get())
 					if p1!=0.0 and p1!=1.0:
 						parent.para1=p1
@@ -283,6 +288,8 @@ class preference:
 		elif parent.moduletype=='circle2circle':
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
 		elif parent.moduletype=='isometry':
+			self.panes['ratio1']=self.prefPane(self, "int", "Ratio1=", iValue=parent.ratio1)
+			self.panes['ratio2']=self.prefPane(self, "int", "Ratio2=", iValue=parent.ratio2)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
 		elif parent.moduletype=='parallel':
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", iValue=parent.para1)
@@ -357,6 +364,8 @@ class preference:
 		elif parent.moduletype=='circle2circle':
 			self.panes['para1'].value=parent.para1
 		elif parent.moduletype=='isometry':
+			self.panes['ratio1'].iValue=parent.ratio1
+			self.panes['ratio2'].iValue=parent.ratio2
 			self.panes['para1'].value=parent.para1
 		elif parent.moduletype=='parallel':
 			self.panes['para1'].value=parent.para1
