@@ -3,6 +3,7 @@ import tkinter as tk
 import os
 import math 
 
+from tkinter import filedialog
 from utils import mousePosition, isNear, isIn
 from pane import pane
 from menuitem import *
@@ -419,9 +420,9 @@ class application:
 		x+=1
 		self.menuDeleteAll=menuItem("images\\DeleteAll.png", x, y)
 		x+=1
-		self.menuOpen=menuItem("images\\Open.png", x, y)
+		self.menuOpen=menuOpenItem("images\\Open.png", x, y)
 		x+=1
-		self.menuSave=menuItem("images\\Save.png", x, y)
+		self.menuSave=menuSaveItem("images\\Save.png", x, y)
 		x+=1
 		self.menuQuit=menuQuitItem("images\\Quit.png", x, y)
 		##self.menuAddLocus=menuItem("images\\AddLocus.png", x, y)
@@ -464,14 +465,14 @@ class application:
 		iDir = os.path.abspath(os.path.dirname(__file__))
 		filePath = tk.filedialog.askopenfilename(filetypes=fTyp, initialdir=iDir)
 		print(filePath)
-		fileIO.openFile(self, filePath)
+		self.fileIO.openFile(self, filePath)
 		pass
 	def saveFile(self):
-		fTyp = [("", "*"),("text file", "txt"),("image file", "png"),("TeX file", "tex")]
+		fTyp = [("", ".*"),("text file", ".txt"),("image file", ".ps"),("TeX file", ".tex")]
 		iDir = os.path.abspath(os.path.dirname(__file__))
-		filePath = tk.filedialog.asksaveasfilename(filetypes=fTyp, initialdir=iDir)
+		filePath = filedialog.asksaveasfilename(filetypes=fTyp, initialdir=iDir, defaultextension = "txt", initialfile="untitled.txt")
 		print(filePath)
-		fileIO.openFile(self, filePath)
+		self.fileIO.saveFile(self, filePath)
 		pass
 	def quitApp(self):
 		self.root.destroy()

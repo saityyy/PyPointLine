@@ -37,9 +37,9 @@ class module(object):
 				return name
 		return "M0"
 	def toString(self)-> str:
-		return "Module, %s, %f, %s, %s, %s"%(self.point.tag, self.radius, self.tag, self.name, self.active)
+		return ""
 	def toTeXString(self)-> str:
-		return "\\draw(%f, %f) circle (%f);\n"%(self.point.x, self.point.y, self.radius)
+		return ""
 
 class midpoint(module):
 	def __init__(self, app, point1:point, point2:point, point3:point):
@@ -86,7 +86,7 @@ class midpoint(module):
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "Module, midpoint, %s, %s, %s, %d, %d, %f, %f, %f"%(self.p1.tag, self.p2.tag, self.p3.tag, self.ratio1, self.ratio2, self.para1, self.para2, self.para3)
+		return "type=module, moduletype=midpoint, p1=%s, p2=%s, p3=%s, ratio1=%d, ratio2=%d, para1=%f, para2=%f, para3=%f"%(self.p1.tag, self.p2.tag, self.p3.tag, self.ratio1, self.ratio2, self.para1, self.para2, self.para3)
 	def toTeXString(self)-> str:
 		return ""
 
@@ -119,6 +119,8 @@ class point2point(module):
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
+	def toString(self)-> str:
+		return "type=module, moduletype=point2point, p1=%s, p2=%s, para1=%f, para2=%f"%(self.p1.tag, self.p2.tag, self.para1, self.para2)
 
 
 class point2line(module):
@@ -162,6 +164,8 @@ class point2line(module):
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
+	def toString(self)-> str:
+		return "type=module, moduletype=point2line, p1=%s, l1=%s, onlyOnSegment=%d, para1=%f"%(self.p1.tag, self.l1.tag, int(self.onlyOnSegment), self.para1)
 
 class point2circle(module):
 	def __init__(self, app, point:point, circle:circle):
@@ -200,6 +204,8 @@ class point2circle(module):
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
+	def toString(self)-> str:
+		return "type=module, moduletype=point2circle, p1=%s, c1=%s, para1=%f"%(self.p1.tag, self.c1.tag, self.para1)
 
 
 class line2circle(module):
@@ -248,6 +254,8 @@ class line2circle(module):
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
+	def toString(self)-> str:
+		return "type=module, moduletype=line2circle, ln=%s, cc=%s, para1=%f"%(self.ln.tag, self.cc.tag, self.para1)
 
 class circle2circle(module):
 	def __init__(self, app, circle1:circle, circle2:circle):
@@ -307,6 +315,8 @@ class circle2circle(module):
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
+	def toString(self)-> str:
+		return "type=module, moduletype=circle2circle, cc1=%s, cc2=%s, para1=%f"%(self.cc1.tag, self.cc2.tag, self.para1)
 
 class isometry(module):
 	def __init__(self, app, line1:line, line2:line):
@@ -358,6 +368,8 @@ class isometry(module):
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
+	def toString(self)-> str:
+		return "type=module, moduletype=isometry, ln1=%s, ln2=%s, ratio1=%d, ratio2=%d, fixedRatio=%d, para1=%f"%(self.ln1.tag, self.ln2.tag, self.ratio1, self.ratio2, int(self.fixedRatio), self.para1)
 
 
 
@@ -421,6 +433,8 @@ class parallel(module):
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
+	def toString(self)-> str:
+		return "type=module, moduletype=parallel, line1=%s, line2=%s, para1=%f"%(self.line1.tag, self.line2.tag, self.para1)
 
 
 class perpendicular(module):
@@ -474,6 +488,10 @@ class perpendicular(module):
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
+	def toString(self)-> str:
+		return "type=module, moduletype=perpendicular, line1=%s, line2=%s, para1=%f"%(self.line1.tag, self.line2.tag, self.para1)
+
+
 
 class horizontal(module):
 	def __init__(self, app, line1:line):
@@ -510,5 +528,7 @@ class horizontal(module):
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
+	def toString(self)-> str:
+		return "type=module, moduletype=horizontal, line=%s, para1=%f"%(self.line.tag, self.para1)
 
 

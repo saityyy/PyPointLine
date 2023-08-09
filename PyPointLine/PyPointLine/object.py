@@ -55,8 +55,8 @@ class point(object):
 				app.mainCanvas.create_text(xx0+vx, yy0+vy, text=self.name, anchor=tk.CENTER, font=("",24))
 		pass
 	@property
-	def showNamePosition(self):
-		xx0,yy0=app.world2Canvas(self.x,self.y)
+	def getNamePosition(self):
+		xx0,yy0=self.app.world2Canvas(self.x,self.y)
 		if self.showNamePosition=="free":
 			vx,vy=xx0-self.app.pointNameCenterX, yy0-app.pointNameCenterY
 			mag=math.sqrt(vx*vx+vy*vy)
@@ -91,10 +91,10 @@ class point(object):
 				return name
 		return "XX"
 	def toString(self)-> str:
-		return "Point, %f, %f, %s, %s, %s, %s"%(self.x, self.y, self.tag, self.name, self.showName, self.active)
+		return "type=point, x=%f, y=%f, tag=%s, name=%s, fixed=%d, showName=%d, active=%d"%(self.x, self.y, self.tag, self.name, int(self.fixed), int(self.showName), int(self.active))
 	def toTeXString(self)-> str:
 		if self.showName:
-			return "\\draw[fill=black](%f, %f) circle  (1.5pt);\n\\draw[fill=black](%f, %f) node {%s};"%(self.x, self.y, self.showNamePosition[0], self.showNamePosition[1], self.name)
+			return "\\draw[fill=black](%f, %f) circle  (1.5pt);\n\\draw[fill=black](%f, %f) node {%s};"%(self.x, self.y, self.getNamePosition[0], self.getNamePosition[1], self.name)
 		else:
 			return "\\draw[fill=black](%f, %f) circle  (1.5pt);"%(self.x, self.y)
 
@@ -144,7 +144,7 @@ class line(object):
 				return name
 		return "xx"
 	def toString(self)-> str:
-		return "Line, %s, %f, %s, %s, %s"%(self.point.tag, self.radius, self.tag, self.name, self.active)
+		return "type=line, point1=%s, point2=%s, tag=%s, name=%s, showLength=%d, showName=%d, fixedLength=%d,showIsom= %d, active=%d"%(self.point1.tag, self.point2.tag, self.tag, self.name, int(self.showLength), int(self.showName), int(self.fixedLength), int(self.showIsom), int(self.active))
 	def toTeXString(self)-> str:
 		return "\\draw (%f, %f)-- (%f, %f);"%(self.point1.x, self.point1.y, self.point2.x, self.point2.y);
 
@@ -189,7 +189,7 @@ class circle(object):
 				return name
 		return "C0"
 	def toString(self)-> str:
-		return "Circle, %s, %f, %s, %s, %s"%(self.point.tag, self.radius, self.tag, self.name, self.active)
+		return "type=circle, point=%s, radius=%f, tag=%s, name=%s, fixedRadius=%d, active=%d"%(self.point.tag, self.radius, self.tag, self.name, int(self.fixedRadius), int(self.active))
 	def toTeXString(self)-> str:
 		return "\\draw(%f, %f) circle (%f);\n"%(self.point.x, self.point.y, self.radius)
 		
@@ -223,13 +223,14 @@ class angle(object):
 		else:
 			start, extent = theta1*rad2ang, (theta3 - theta1 + 2*math.pi)*rad2ang
 		app.mainCanvas.create_arc(xx2-20, yy2-20, xx2+20, yy2+20, start=start, extent=extent, style=tk.ARC, width=4, outline='red')
-
 	pass
 	def drawLog(self, app):
-
 		pass
 	def drawPreference(self, app):
 		pass
+	def toString(self)-> str:
+		return ""
+
 
 class locus(object):
 	def __init__(self, point1:point):

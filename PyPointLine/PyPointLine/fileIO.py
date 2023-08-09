@@ -1,4 +1,5 @@
 import cv2
+from object import point, line, circle, angle, locus
 
 class fileIO:
 	def __init__(self, app):
@@ -25,13 +26,37 @@ class fileIO:
 		f = open(filePath, 'r')
 		datalist = f.readlines()
 		line=0
-		while True:
-			texts=datalist[line].split(',')
-			# clear app.logs and destroy all objects on app.
-			app.logs.clear()
-			# clear 
-			app.nextID=0
-			# create a new objest on app (atama pon pon)
+		app.nextID=0
+		# clear app.logs and destroy all objects on app.
+		app.logs.clear()
+		for data in datalist:
+			texts=data.split(',')
+			if len(texts)==0:
+				continue
+			dic={}
+			for text in texts:
+				items=text.split('=')
+				dic[items[0]]=items[1]
+			if not "tag" in dic.keys():
+				continue
+			if dic['type']=='point':
+				x=float(dic['x'])
+				y=float(dic['y'])
+				newPoint=point(app, x, y)
+				newPoint.tag=dic['tag']
+				newPoint.name=dic['name']
+				newPoint.fixed=bool(int(dic['fixed']))
+				newPoint.showName=bool(int(dic['showName']))
+				newPoint.active=bool(int(dic['active']))
+				app.logs.append(newPoint)
+			elif dic['type']=='line':
+				point1=app.findObjectByTag(dic['point1'])
+				point2=app.findObjectByTag(dic['point2'])
+				if point1==None or point2==None:
+					continue
+				newLine=line(app, point1, point2)
+				newLine.tag=dic['tag']
+				newLine.
 			lg = app.GetLogFromString(texts)
 			line+=1
 			if line>=len(datalist):
@@ -60,63 +85,10 @@ class fileIO:
 		f.write("\\end{tikzpicture}");
 		f.write("\\end{document}");
 		f.close()
-
-					writer.Flush();
-					for (int i = 0; i < LogLength; i++)
-					{
-						Log l = logs[i];
-						//Debug.Log(""+ l.ObjectType);
-						if (l.Active == false)
-						{
-							;
-						}
-						else if (l.ObjectType == "Circle")
-						{
-						}
-						else if (l.ObjectType == "Line")
-						{
-							int j1 = -1, j2 = -1;
-							for (int j = 0; j < AppMgr.pts.Length; j++)
-							{
-								if (AppMgr.pts[j].Id == l.Object1Id)
-									j1 = j;
-								if (AppMgr.pts[j].Id == l.Object2Id)
-									j2 = j;
-							}
-							writer.Flush();
-						}
-						else if (l.ObjectType == "Point")
-						{
-							int id = l.Id;
-							//FindPointFromId();
-							Point pt = null;
-							for (int k = 0; k < AppMgr.pts.Length; k++)
-							{
-								if (AppMgr.pts[k].Id == id)
-								{
-									pt = AppMgr.pts[k];
-								}
-							}
-							writer.WriteLine("\\draw[fill=black](" + pt.Vec.x + "," + pt.Vec.y + ") circle  (1.5pt);");
-							if (pt.PTobject != null)							// 文字を添えるかどうか
-							{
-								if (pt.ShowPointName)
-								{// 文字を表示するかどうかのフラグ。
-									Vector3 textPos = pt.PTobject.transform.position;
-									writer.WriteLine("\\draw[fill=black](" + textPos.x + "," + textPos.y + ") node  {" + pt.PointName + "};");
-								}
-							}
-							writer.Flush();
-						}
-					}
-					writer.WriteLine("\\end{tikzpicture}");
-					writer.WriteLine("\\end{document}");
-					writer.Flush();
-					writer.Close();
-				}
 		pass
 	
 	def saveImageFile(self, app, filePath):
+		app.mainCanvas.postscript(file=filePath, colormode='color')
 		pass
 
 	def openImageFile(self, app, filePath):

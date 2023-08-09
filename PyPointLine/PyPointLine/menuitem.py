@@ -542,13 +542,6 @@ class menuSaveItem(menuItem):
 		app.saveFile()
 		pass
 
-class menuSaveTeXItem(menuItem):
-	def __init__(self, name, x, y):
-		super().__init__(name, x, y)
-		self.headerText=[""]
-	def onActions(self, app):
-		app.saveTeXFile()
-		pass
 
 class menuQuitItem(menuItem):
 	def __init__(self, name, x, y):
