@@ -36,6 +36,10 @@ class module(object):
 			else:
 				return name
 		return "M0"
+	def toString(self)-> str:
+		return "Module, %s, %f, %s, %s, %s"%(self.point.tag, self.radius, self.tag, self.name, self.active)
+	def toTeXString(self)-> str:
+		return "\\draw(%f, %f) circle (%f);\n"%(self.point.x, self.point.y, self.radius)
 
 class midpoint(module):
 	def __init__(self, app, point1:point, point2:point, point3:point):
@@ -81,6 +85,10 @@ class midpoint(module):
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
+	def toString(self)-> str:
+		return "Module, midpoint, %s, %s, %s, %d, %d, %f, %f, %f"%(self.p1.tag, self.p2.tag, self.p3.tag, self.ratio1, self.ratio2, self.para1, self.para2, self.para3)
+	def toTeXString(self)-> str:
+		return ""
 
 
 class point2point(module):

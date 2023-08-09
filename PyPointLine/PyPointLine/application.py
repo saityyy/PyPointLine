@@ -460,11 +460,20 @@ class application:
 		return None
 
 	def openFile(self):
+		fTyp = [("", "*"),("", "txt, TXT"),("", "png,PNG")]
+		iDir = os.path.abspath(os.path.dirname(__file__))
+		filePath = tk.filedialog.askopenfilename(filetypes=fTyp, initialdir=iDir)
+		print(filePath)
+		fileIO.openFile(self, filePath)
 		pass
 	def saveFile(self):
-		pass
-	def saveTeXFile(self):
+		fTyp = [("", "*"),("text file", "txt"),("image file", "png"),("TeX file", "tex")]
+		iDir = os.path.abspath(os.path.dirname(__file__))
+		filePath = tk.filedialog.asksaveasfilename(filetypes=fTyp, initialdir=iDir)
+		print(filePath)
+		fileIO.openFile(self, filePath)
 		pass
 	def quitApp(self):
-		sys.exit(0)
+		self.root.destroy()
+		#sys.exit(0)
 		pass

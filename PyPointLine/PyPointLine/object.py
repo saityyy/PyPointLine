@@ -11,6 +11,7 @@ class object:
 		self.pref=None
 		self.name='X'
 		self.thisis=None
+		self.active=True
 		pass
 	pass
 	def drawObject(self, app):
@@ -53,6 +54,15 @@ class point(object):
 				vx,vy = vx*20/mag, vy*20/mag
 				app.mainCanvas.create_text(xx0+vx, yy0+vy, text=self.name, anchor=tk.CENTER, font=("",24))
 		pass
+	@property
+	def showNamePosition(self):
+		xx0,yy0=app.world2Canvas(self.x,self.y)
+		if self.showNamePosition=="free":
+			vx,vy=xx0-self.app.pointNameCenterX, yy0-app.pointNameCenterY
+			mag=math.sqrt(vx*vx+vy*vy)
+			vx,vy = vx*20/mag, vy*20/mag
+			return [xx0+vx, yy0+vy]
+		return [0,0]
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -80,6 +90,13 @@ class point(object):
 			else:
 				return name
 		return "XX"
+	def toString(self)-> str:
+		return "Point, %f, %f, %s, %s, %s, %s"%(self.x, self.y, self.tag, self.name, self.showName, self.active)
+	def toTeXString(self)-> str:
+		if self.showName:
+			return "\\draw[fill=black](%f, %f) circle  (1.5pt);\n\\draw[fill=black](%f, %f) node {%s};"%(self.x, self.y, self.showNamePosition[0], self.showNamePosition[1], self.name)
+		else:
+			return "\\draw[fill=black](%f, %f) circle  (1.5pt);"%(self.x, self.y)
 
 
 
@@ -126,6 +143,10 @@ class line(object):
 			else:
 				return name
 		return "xx"
+	def toString(self)-> str:
+		return "Line, %s, %f, %s, %s, %s"%(self.point.tag, self.radius, self.tag, self.name, self.active)
+	def toTeXString(self)-> str:
+		return "\\draw (%f, %f)-- (%f, %f);"%(self.point1.x, self.point1.y, self.point2.x, self.point2.y);
 
 class circle(object):
 	def __init__(self, app, point:point, radius:float):
@@ -167,6 +188,12 @@ class circle(object):
 			else:
 				return name
 		return "C0"
+	def toString(self)-> str:
+		return "Circle, %s, %f, %s, %s, %s"%(self.point.tag, self.radius, self.tag, self.name, self.active)
+	def toTeXString(self)-> str:
+		return "\\draw(%f, %f) circle (%f);\n"%(self.point.x, self.point.y, self.radius)
+		
+
 
 class angle(object):
 	def __init__(self, point1:point, point2:point, point3:point):
