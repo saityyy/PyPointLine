@@ -124,6 +124,19 @@ class application:
 	@property
 	def angles(self):
 		return [obj for obj in self.logs if obj.thisis=="angle"]
+	@property
+	def left(self):
+		return -self.cx/self.zoom
+	@property
+	def right(self):
+		# cx+right*zoom=900
+		return (900.0-self.cx)/self.zoom
+	@property
+	def top(self):
+		return self.cy/self.zoom
+	@property
+	def bottom(self):
+		return -(900.0-self.cy)/self.zoom
 
 	def findObjectByTag(self, tagstr):
 		answer=[obj for obj in self.logs if obj.tag==tagstr]

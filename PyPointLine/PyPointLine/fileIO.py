@@ -161,13 +161,13 @@ class fileIO:
 	
 	def saveTexFile(self, app, filePath):
 		f = open(filePath, 'w')
-		f.write("\\documentclass[10pt,dvipdfmx]{article}");
-		f.write("\\usepackage{pgf,tikz}");
-		f.write("\\usepackage{mathrsfs}");
-		f.write("\\pagestyle{empty}");
-		f.write("\\begin{document}");
-		f.write("\\begin{tikzpicture}[line cap=round,line join=round,x=0.5cm,y=0.5cm]");
-		f.write("\\clip(" + app.left + "," + app.bottom + ") rectangle (" + app.right + "," + app.top + ");");
+		f.write("\\documentclass[10pt,dvipdfmx]{article}\n")
+		f.write("\\usepackage{pgf,tikz}\n")
+		f.write("\\usepackage{mathrsfs}\n")
+		f.write("\\pagestyle{empty}\n")
+		f.write("\\begin{document}\n")
+		f.write("\\begin{tikzpicture}[line cap=round,line join=round,x=1.0cm,y=1.0cm]\n")
+		f.write("\\clip(%f, %f) rectangle (%f, %f);\n"%(app.left, app.bottom, app.right, app.top))
 		for obj in app.logs:
 			if obj.thisis!="module":
 				f.write("%s\n"%(obj.toTeXString()))

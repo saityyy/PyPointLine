@@ -58,11 +58,11 @@ class point(object):
 	def getNamePosition(self):
 		xx0,yy0=self.app.world2Canvas(self.x,self.y)
 		if self.showNamePosition=="free":
-			vx,vy=xx0-self.app.pointNameCenterX, yy0-app.pointNameCenterY
+			vx,vy=xx0-self.app.pointNameCenterX, yy0-self.app.pointNameCenterY
 			mag=math.sqrt(vx*vx+vy*vy)
-			vx,vy = vx*20/mag, vy*20/mag
-			return [xx0+vx, yy0+vy]
-		return [0,0]
+			vx,vy = vx*25/mag, vy*25/mag
+			return self.app.canvas2World(xx0+vx, yy0+vy)
+		return 0,0
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -190,7 +190,7 @@ class circle(object):
 	def toString(self)-> str:
 		return "type=circle,point1=%s,radius=%f,tag=%s,name=%s,fixedRadius=%d,active=%d"%(self.point1.tag, self.radius, self.tag, self.name, int(self.fixedRadius), int(self.active))
 	def toTeXString(self)-> str:
-		return "\\draw(%f, %f) circle (%f);\n"%(self.point.x, self.point.y, self.radius)
+		return "\\draw(%f, %f) circle (%f);\n"%(self.point1.x, self.point1.y, self.radius)
 		
 
 
