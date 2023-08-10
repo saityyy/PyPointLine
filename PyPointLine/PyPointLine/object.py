@@ -91,7 +91,7 @@ class point(object):
 				return name
 		return "XX"
 	def toString(self)-> str:
-		return "type=point, x=%f, y=%f, tag=%s, name=%s, fixed=%d, showName=%d, active=%d"%(self.x, self.y, self.tag, self.name, int(self.fixed), int(self.showName), int(self.active))
+		return "type=point,x=%f,y=%f,tag=%s,name=%s,fixed=%d,showName=%d,active=%d"%(self.x, self.y, self.tag, self.name, int(self.fixed), int(self.showName), int(self.active))
 	def toTeXString(self)-> str:
 		if self.showName:
 			return "\\draw[fill=black](%f, %f) circle  (1.5pt);\n\\draw[fill=black](%f, %f) node {%s};"%(self.x, self.y, self.getNamePosition[0], self.getNamePosition[1], self.name)
@@ -144,14 +144,14 @@ class line(object):
 				return name
 		return "xx"
 	def toString(self)-> str:
-		return "type=line, point1=%s, point2=%s, tag=%s, name=%s, showLength=%d, showName=%d, fixedLength=%d,showIsom= %d, active=%d"%(self.point1.tag, self.point2.tag, self.tag, self.name, int(self.showLength), int(self.showName), int(self.fixedLength), int(self.showIsom), int(self.active))
+		return "type=line,point1=%s,point2=%s,tag=%s,name=%s,showLength=%d,showName=%d,fixedLength=%d,showIsom= %d,active=%d"%(self.point1.tag, self.point2.tag, self.tag, self.name, int(self.showLength), int(self.showName), int(self.fixedLength), int(self.showIsom), int(self.active))
 	def toTeXString(self)-> str:
 		return "\\draw (%f, %f)-- (%f, %f);"%(self.point1.x, self.point1.y, self.point2.x, self.point2.y);
 
 class circle(object):
 	def __init__(self, app, point:point, radius:float):
 		super().__init__(app)		
-		self.point=point
+		self.point1=point
 		self.radius=radius
 		self.thisis='circle'
 		self.name=self.youngestName(app)
@@ -162,7 +162,7 @@ class circle(object):
 		app.nextID += 1
 	
 	def drawObject(self, app):
-		x1,y1=app.world2Canvas(self.point.x, self.point.y)
+		x1,y1=app.world2Canvas(self.point1.x, self.point1.y)
 		r=self.radius * app.zoom
 		app.mainCanvas.create_oval(x1-r,y1-r,x1+r,y1+r, outline='grey', width=4)
 		pass
@@ -173,13 +173,12 @@ class circle(object):
 		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="Bisque1",width=3)
 		canvas.create_text(x+5,y+5,text="Circle : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
-		thisLine="%s - %f"%(self.point.name, self.radius)
+		thisLine="%s - %f"%(self.point1.name, self.radius)
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def drawPreference(self, app):
 		pass
-
 	def youngestName(self, app):
 		for name in ["C1","C2","C3","C4","C5","C6","C7","C8","C9","C10","C11","C12","C13","C14","C15","C16","C17","C18","C18","C19","C20"]:
 			for obj in app.lines:
@@ -189,7 +188,7 @@ class circle(object):
 				return name
 		return "C0"
 	def toString(self)-> str:
-		return "type=circle, point=%s, radius=%f, tag=%s, name=%s, fixedRadius=%d, active=%d"%(self.point.tag, self.radius, self.tag, self.name, int(self.fixedRadius), int(self.active))
+		return "type=circle,point1=%s,radius=%f,tag=%s,name=%s,fixedRadius=%d,active=%d"%(self.point1.tag, self.radius, self.tag, self.name, int(self.fixedRadius), int(self.active))
 	def toTeXString(self)-> str:
 		return "\\draw(%f, %f) circle (%f);\n"%(self.point.x, self.point.y, self.radius)
 		

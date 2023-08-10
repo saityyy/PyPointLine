@@ -125,6 +125,20 @@ class application:
 	def angles(self):
 		return [obj for obj in self.logs if obj.thisis=="angle"]
 
+	def findObjectByTag(self, tagstr):
+		answer=[obj for obj in self.logs if obj.tag==tagstr]
+		if len(answer):
+			return answer[0]
+		return None
+
+	def getNextID(self):
+		ids=[int(obj.tag[4:]) for obj in self.logs]
+		self.nextID=max(ids)+1
+		pass
+
+
+
+
 	def drawAll(self):
 		""" """
 		self.mainCanvas.delete("all")
@@ -468,7 +482,7 @@ class application:
 		self.fileIO.openFile(self, filePath)
 		pass
 	def saveFile(self):
-		fTyp = [("", ".*"),("text file", ".txt"),("image file", ".ps"),("TeX file", ".tex")]
+		fTyp = [("text file", ".txt"),("image file", ".ps"),("TeX file", ".tex")]
 		iDir = os.path.abspath(os.path.dirname(__file__))
 		filePath = filedialog.asksaveasfilename(filetypes=fTyp, initialdir=iDir, defaultextension = "txt", initialfile="untitled.txt")
 		print(filePath)

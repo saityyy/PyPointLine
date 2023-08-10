@@ -1,5 +1,6 @@
 import cv2
-from object import point, line, circle, angle, locus
+from object import point, line, circle
+from module import *
 
 class fileIO:
 	def __init__(self, app):
@@ -25,7 +26,6 @@ class fileIO:
 	def openTxtFile(self, app, filePath):
 		f = open(filePath, 'r')
 		datalist = f.readlines()
-		line=0
 		app.nextID=0
 		# clear app.logs and destroy all objects on app.
 		app.logs.clear()
@@ -56,12 +56,101 @@ class fileIO:
 					continue
 				newLine=line(app, point1, point2)
 				newLine.tag=dic['tag']
-				newLine.
-			lg = app.GetLogFromString(texts)
-			line+=1
-			if line>=len(datalist):
-				f.close()
-				return
+				newLine.name=dic['name']
+				newLine.showLength=bool(int(dic['showLength']))
+				newLine.showName=bool(int(dic['showName']))
+				newLine.fixedLength=bool(int(dic['fixedLength']))
+				newLine.showIsom=bool(int(dic['showIsom']))
+				newLine.active=bool(int(dic['active']))
+				app.logs.append(newLine)
+			elif dic['type']=='circle':
+				point1=app.findObjectByTag(dic['point1'])
+				radius=float(dic['radius'])
+				if point==None:
+					continue
+				newCircle=circle(app, point1, radius)
+				newCircle.tag=dic['tag']
+				newCircle.name=dic['name']
+				newCircle.fixedRadius=bool(int(dic['fixedRadius']))
+				newCircle.active=bool(int(dic['active']))
+				app.logs.append(newCircle)
+			elif dic['type']=='module':
+				if dic['moduletype']=='midpoint':
+					point1=app.findObjectByTag(dic['p1'])
+					point2=app.findObjectByTag(dic['p2'])
+					point3=app.findObjectByTag(dic['p3'])
+					if point1==None or point2==None or point3==None:
+						continue
+					newModule=midpoint(app, point1, point2, point3)
+					newModule.ratio1=int(dic['ratio1'])
+					newModule.ratio2=int(dic['ratio2'])
+					newModule.para1=float(dic['para1'])
+					newModule.para2=float(dic['para2'])
+					newModule.para3=float(dic['para3'])
+					app.logs.append(newModule)
+				elif dic['moduletype']=='point2point':
+					point1=app.findObjectByTag(dic['p1'])
+					point2=app.findObjectByTag(dic['p2'])
+					if point1==None or point2==None:
+						continue
+					newModule=point2point(app, point1, point2)
+					newModule.para1=float(dic['para1'])
+					newModule.para2=float(dic['para2'])
+					app.logs.append(newModule)
+				elif dic['moduletype']=='point2line':
+					point1=app.findObjectByTag(dic['p1'])
+					line1=app.findObjectByTag(dic['l1'])
+					newModule=point2line(app, point1, line1)
+					newModule.onlyOnSegment=bool(int(dic['onlyOnSegment']))
+					newModule.para1=float(dic['para1'])
+					app.logs.append(newModule)
+				elif dic['moduletype']=='point2circle':
+					point1=app.findObjectByTag(dic['p1'])
+					circle1=app.findObjectByTag(dic['c1'])
+					newModule=point2circle(app, point1, circle1)
+					newModule.para1=float(dic['para1'])
+					app.logs.append(newModule)
+				elif dic['moduletype']=='line2circle':
+					line1=app.findObjectByTag(dic['ln'])
+					circle1=app.findObjectByTag(dic['cc'])
+					newModule=line2circle(app, line1, circle1)
+					newModule.para1=float(dic['para1'])
+					app.logs.append(newModule)
+				elif dic['moduletype']=='circle2circle':
+					circle1=app.findObjectByTag(dic['cc1'])
+					circle2=app.findObjectByTag(dic['cc2'])
+					newModule=circle2circle(app, circle1, circle2)
+					newModule.para1=float(dic['para1'])
+					app.logs.append(newModule)
+				elif dic['moduletype']=='isometry':
+					line1=app.findObjectByTag(dic['ln1'])
+					line2=app.findObjectByTag(dic['ln2'])
+					newModule=isometry(app, line1, line2)
+					newModule.ratio1=int(dic['ratio1'])
+					newModule.ratio2=int(dic['ratio2'])
+					newModule.fixedRatio=bool(int(dic['fixedRatio']))
+					newModule.para1=float(dic['para1'])
+					app.logs.append(newModule)
+				elif dic['moduletype']=='parallel':
+					line1=app.findObjectByTag(dic['line1'])
+					line2=app.findObjectByTag(dic['line2'])
+					newModule=parallel(app, line1, line2)
+					newModule.para1=float(dic['para1'])
+					app.logs.append(newModule)
+				elif dic['moduletype']=='perpendicular':
+					line1=app.findObjectByTag(dic['line1'])
+					line2=app.findObjectByTag(dic['line2'])
+					newModule=perpendicular(app, line1, line2)
+					newModule.para1=float(dic['para1'])
+					app.logs.append(newModule)
+				elif dic['moduletype']=='horizontal':
+					line1=app.findObjectByTag(dic['line1'])
+					newModule=horizontal(app, line1)
+					newModule.para1=float(dic['para1'])
+					app.logs.append(newModule)
+				pass
+		## app.nextID
+		app.getNextID()
 		pass
 
 	def saveTxtFile(self, app, filePath):

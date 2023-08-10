@@ -86,7 +86,7 @@ class midpoint(module):
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "type=module, moduletype=midpoint, p1=%s, p2=%s, p3=%s, ratio1=%d, ratio2=%d, para1=%f, para2=%f, para3=%f"%(self.p1.tag, self.p2.tag, self.p3.tag, self.ratio1, self.ratio2, self.para1, self.para2, self.para3)
+		return "type=module,moduletype=midpoint,tag=%s,p1=%s,p2=%s,p3=%s,ratio1=%d,ratio2=%d,para1=%f,para2=%f,para3=%f"%(self.tag, self.p1.tag, self.p2.tag, self.p3.tag, self.ratio1, self.ratio2, self.para1, self.para2, self.para3)
 	def toTeXString(self)-> str:
 		return ""
 
@@ -120,15 +120,15 @@ class point2point(module):
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "type=module, moduletype=point2point, p1=%s, p2=%s, para1=%f, para2=%f"%(self.p1.tag, self.p2.tag, self.para1, self.para2)
+		return "type=module,moduletype=point2point,tag=%s,p1=%s,p2=%s,para1=%f,para2=%f"%(self.tag,self.tag, self.p1.tag, self.p2.tag, self.para1, self.para2)
 
 
 class point2line(module):
-	def __init__(self, app, point:point, line:line):
+	def __init__(self, app, point1:point, line1:line):
 		super().__init__(app)
 		self.moduletype="point2line"
-		self.p1=point
-		self.l1=line
+		self.p1=point1
+		self.l1=line1
 		self.thisis='module'
 		self.onlyOnSegment=True
 		self.para1=0.1
@@ -165,7 +165,7 @@ class point2line(module):
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "type=module, moduletype=point2line, p1=%s, l1=%s, onlyOnSegment=%d, para1=%f"%(self.p1.tag, self.l1.tag, int(self.onlyOnSegment), self.para1)
+		return "type=module,moduletype=point2line,tag=%s,p1=%s,l1=%s,onlyOnSegment=%d,para1=%f"%(self.tag,self.p1.tag, self.l1.tag, int(self.onlyOnSegment), self.para1)
 
 class point2circle(module):
 	def __init__(self, app, point:point, circle:circle):
@@ -178,7 +178,7 @@ class point2circle(module):
 		self.pref=preference(self.app, self)
 	def evaluate(self):
 		c1=self.c1
-		p2=c1.point
+		p2=c1.point1
 		radius=c1.radius
 		ax,ay=p2.x-self.p1.x, p2.y-self.p1.y
 		mag=magnitude(ax,ay)
@@ -189,9 +189,9 @@ class point2circle(module):
 		if self.p1.fixed==False:
 			self.p1.x += dx
 			self.p1.y += dy
-		if self.c1.point.fixed==False:
-			self.c1.point.x -= dx
-			self.c1.point.y -= dy
+		if self.c1.point1.fixed==False:
+			self.c1.point1.x -= dx
+			self.c1.point1.y -= dy
 		if self.c1.fixedRadius==False:
 			self.c1.radius += difference
 	def drawLog(self, app):
@@ -205,20 +205,20 @@ class point2circle(module):
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "type=module, moduletype=point2circle, p1=%s, c1=%s, para1=%f"%(self.p1.tag, self.c1.tag, self.para1)
+		return "type=module,moduletype=point2circle,tag=%s,p1=%s,c1=%s,para1=%f"%(self.tag,self.p1.tag, self.c1.tag, self.para1)
 
 
 class line2circle(module):
-	def __init__(self, app, line:line, circle:circle):
+	def __init__(self, app, line1:line, circle1:circle):
 		super().__init__(app)
 		self.moduletype="line2circle"
-		self.cc=circle
-		self.ln=line
+		self.cc=circle1
+		self.ln=line1
 		self.thisis='module'
 		self.para1=0.1
 		self.pref=preference(self.app, self)
 	def evaluate(self):
-		p1=self.cc.point
+		p1=self.cc.point1
 		radius=self.cc.radius
 		p2=self.ln.point1
 		p3=self.ln.point2
@@ -236,8 +236,8 @@ class line2circle(module):
 			return
 		difference=(mag-radius)*self.para1
 		ex,ey = dx/mag*difference, dy/mag*difference
-		self.cc.point.x += ex
-		self.cc.point.y += ey
+		self.cc.point1.x += ex
+		self.cc.point1.y += ey
 		if self.cc.fixedRadius==False:
 			self.cc.radius += difference
 		self.ln.point1.x -= ex
@@ -255,7 +255,7 @@ class line2circle(module):
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "type=module, moduletype=line2circle, ln=%s, cc=%s, para1=%f"%(self.ln.tag, self.cc.tag, self.para1)
+		return "type=module,moduletype=line2circle,tag=%s,ln=%s,cc=%s,para1=%f"%(self.tag,self.ln.tag, self.cc.tag, self.para1)
 
 class circle2circle(module):
 	def __init__(self, app, circle1:circle, circle2:circle):
@@ -267,9 +267,9 @@ class circle2circle(module):
 		self.para1=0.025
 		self.pref=preference(self.app, self)
 	def evaluate(self):
-		p1=self.cc1.point
+		p1=self.cc1.point1
 		radius1=self.cc1.radius
-		p2=self.cc2.point
+		p2=self.cc2.point1
 		radius2=self.cc2.radius
 		cx, cy = p2.x - p1.x, p2.y - p1.y
 		mag = magnitude(cx,cy)
@@ -280,21 +280,21 @@ class circle2circle(module):
 		if abs(deltaIn) > abs(deltaOut):## outer tangent
 			difference = deltaOut * self.para1
 			dx, dy = cx/mag*difference, cy/mag*difference
-			self.cc1.point.x += dx
-			self.cc1.point.y += dy
+			self.cc1.point1.x += dx
+			self.cc1.point1.y += dy
 			if self.cc1.fixedRadius==False:
 				self.cc1.radius += difference
-			self.cc2.point.x -= dx
-			self.cc2.point.y -= dy
+			self.cc2.point1.x -= dx
+			self.cc2.point1.y -= dy
 			if self.cc2.fixedRadius==False:
 				self.cc2.radius += difference
 		else:## inner tangent
 			difference=deltaIn * self.para1
 			dx, dy = cx/mag*difference, cy/mag*difference
-			self.cc1.point.x += dx
-			self.cc1.point.y += dy
-			self.cc2.point.x -= dx
-			self.cc2.point.y -= dy
+			self.cc1.point1.x += dx
+			self.cc1.point1.y += dy
+			self.cc2.point1.x -= dx
+			self.cc2.point1.y -= dy
 			if radius1>radius2:
 				if self.cc1.fixedRadius==False:
 					self.cc1.radius += difference
@@ -316,7 +316,7 @@ class circle2circle(module):
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "type=module, moduletype=circle2circle, cc1=%s, cc2=%s, para1=%f"%(self.cc1.tag, self.cc2.tag, self.para1)
+		return "type=module,moduletype=circle2circle,tag=%s,cc1=%s,cc2=%s,para1=%f"%(self.tag,self.cc1.tag, self.cc2.tag, self.para1)
 
 class isometry(module):
 	def __init__(self, app, line1:line, line2:line):
@@ -369,7 +369,7 @@ class isometry(module):
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "type=module, moduletype=isometry, ln1=%s, ln2=%s, ratio1=%d, ratio2=%d, fixedRatio=%d, para1=%f"%(self.ln1.tag, self.ln2.tag, self.ratio1, self.ratio2, int(self.fixedRatio), self.para1)
+		return "type=module,moduletype=isometry,tag=%s,ln1=%s,ln2=%s,ratio1=%d,ratio2=%d,fixedRatio=%d,para1=%f"%(self.tag,self.ln1.tag, self.ln2.tag, self.ratio1, self.ratio2, int(self.fixedRatio), self.para1)
 
 
 
@@ -434,7 +434,7 @@ class parallel(module):
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "type=module, moduletype=parallel, line1=%s, line2=%s, para1=%f"%(self.line1.tag, self.line2.tag, self.para1)
+		return "type=module,moduletype=parallel,tag=%s,line1=%s,line2=%s,para1=%f"%(self.tag,self.line1.tag, self.line2.tag, self.para1)
 
 
 class perpendicular(module):
@@ -489,7 +489,7 @@ class perpendicular(module):
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "type=module, moduletype=perpendicular, line1=%s, line2=%s, para1=%f"%(self.line1.tag, self.line2.tag, self.para1)
+		return "type=module,moduletype=perpendicular,tag=%s,line1=%s,line2=%s,para1=%f"%(self.tag,self.line1.tag, self.line2.tag, self.para1)
 
 
 
@@ -498,13 +498,13 @@ class horizontal(module):
 		super().__init__(app)
 		self.thisis='module'
 		self.moduletype='horizontal'
-		self.line=line1
+		self.line1=line1
 		self.para1=0.1
 		self.pref=preference(self.app, self)
 		pass
 	def evaluate(self):
-		p1:point=self.line.point1
-		p2:point=self.line.point2
+		p1:point=self.line1.point1
+		p2:point=self.line1.point2
 		theta=math.atan2(p2.y-p1.y, p2.x-p1.x)
 		if -math.pi/2<=theta and theta<=math.pi/2:
 			difference=-theta*self.para1
@@ -513,10 +513,10 @@ class horizontal(module):
 		else:
 			difference=(math.pi-theta)*self.para1
 		x1,y1,x2,y2 = rotation(p1.x, p1.y, p2.x, p2.y, difference)
-		if self.line.point1.fixed==False:
-			self.line.point1.x, self.line.point1.y = x1,y1
-		if self.line.point2.fixed==False:
-			self.line.point2.x, self.line.point2.y = x2,y2
+		if self.line1.point1.fixed==False:
+			self.line1.point1.x, self.line1.point1.y = x1,y1
+		if self.line1.point2.fixed==False:
+			self.line1.point2.x, self.line1.point2.y = x2,y2
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
@@ -524,11 +524,11 @@ class horizontal(module):
 		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
-		thisLine="%s = "%(self.line.name)
+		thisLine="%s = "%(self.line1.name)
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "type=module, moduletype=horizontal, line=%s, para1=%f"%(self.line.tag, self.para1)
+		return "type=module,moduletype=horizontal,tag=%s,line1=%s,para1=%f"%(self.tag,self.line1.tag, self.para1)
 
 
