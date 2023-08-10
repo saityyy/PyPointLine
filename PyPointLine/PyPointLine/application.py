@@ -262,7 +262,7 @@ class application:
 
 	def mouseOnCircle(self):
 		for cc in self.circles:
-			mag=dist(cc.point.x, cc.point.y, self.mp.x, self.mp.y)
+			mag=dist(cc.point1.x, cc.point1.y, self.mp.x, self.mp.y)
 			if abs(mag-cc.radius)<10/self.zoom:
 				return cc
 
