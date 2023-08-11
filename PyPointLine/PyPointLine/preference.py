@@ -135,7 +135,6 @@ class preference:
 				newPoint = pref.application.findPointByName(pref.panes['point2'].entry_text.get())
 				if newPoint:
 					parent.point2 = newPoint
-				parent.showIsom = pref.panes['showIsom'].radio_variable.get()
 				parent.showLength = pref.panes['showLength'].radio_variable.get()
 				parent.fixedLength = pref.panes['fixedLength'].radio_variable.get()
 			elif parent.thisis=="circle":
@@ -246,8 +245,6 @@ class preference:
 		self.panes['name']=self.prefPane(self, "radio","Name: ", radio1="Hide", radio2="Show", radio=0)
 		self.panes['point1']=self.prefPane(self, "text","P1:", tValue=parent.point1.name)
 		self.panes['point2']=self.prefPane(self, "text","P2:", tValue=parent.point2.name)
-		radio = 1 if parent.showIsom else 0
-		self.panes['showIsom']=self.prefPane(self, "radio","Brace:", radio1="Hide", radio2="Show", radio=radio)
 		radio = 1 if parent.showLength else 0
 		self.panes['showLength']=self.prefPane(self, "radio","Length:", radio1="Hide", radio2="Show", radio=radio)
 		radio = 1 if parent.fixedLength else 0
@@ -330,8 +327,6 @@ class preference:
 		self.panes['name'].radio_variable.set(value)
 		self.panes['point1'].entry_text.set(parent.point1.name)
 		self.panes['point2'].entry_text.set(parent.point2.name)
-		value=1 if parent.showIsom else 0
-		self.panes['showIsom'].radio_variable.set(value)
 		value=1 if parent.showLength else 0
 		self.panes['showLength'].radio_variable.set(value)
 		value=1 if parent.fixedLength else 0

@@ -330,6 +330,14 @@ class isometry(module):
 		self.fixedRatio=True
 		self.para1=0.25
 		self.pref=preference(self.app, self)
+		if self.ln1.isomParent!=None:
+			if self.ln2.isomParent!=None:
+				self.ln2.isomAncestor.isomParent=self.ln1.isomAncestor
+			else:
+				self.ln2.isomParent=self.ln1.isomParent
+		else:#if self.ln1.isomParent==None:
+			self.ln1.isomParent=self.ln1.isomParent
+			self.ln2.isomParent=self.ln1.isomParent
 	def evaluate(self):
 		p1=self.ln1.point1
 		p2=self.ln1.point2

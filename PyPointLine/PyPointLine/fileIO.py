@@ -60,7 +60,6 @@ class fileIO:
 				newLine.showLength=bool(int(dic['showLength']))
 				newLine.showName=bool(int(dic['showName']))
 				newLine.fixedLength=bool(int(dic['fixedLength']))
-				newLine.showIsom=bool(int(dic['showIsom']))
 				newLine.active=bool(int(dic['active']))
 				app.logs.append(newLine)
 			elif dic['type']=='circle':

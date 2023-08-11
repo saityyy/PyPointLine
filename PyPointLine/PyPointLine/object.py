@@ -110,8 +110,8 @@ class line(object):
 		self.showLength=False
 		self.fixedLength=False
 		self.isomID=-1
-		self.showIsom=False
-		self.showIsomFlag=0
+		self.isomColor='grey'
+		self.isomParent=None
 		self.name=self.youngestName(app)
 		self.showName=False
 		self.tag="tag_%00d"%(app.nextID)
@@ -122,14 +122,26 @@ class line(object):
 		pt2=self.point2
 		x1,y1=app.world2Canvas(pt1.x, pt1.y)
 		x2,y2=app.world2Canvas(pt2.x, pt2.y)
-		app.mainCanvas.create_line(x1,y1,x2,y2, fill='grey', width=4)
+		if self.app.showIsom:
+			pass
+		if self.showLength:
+			sx,sy=y2-y1,-x2+x1
+			mag=dist(x1,y1,x2,y2)
+			sx,sy=sx*15/mag, sy*15/mag
+			tx,ty=(x1+x2)/2,(y1+y2)/2
+			app.mainCanvas.create_text(tx+sx,ty+sy,text="%0.3f"%(mag/app.zoom), font=("",18), anchor=tk.CENTER)
+			pass
+		app.mainCanvas.create_line(x1,y1,x2,y2, fill=self.isomColor, width=4)
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
 		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="Orchid1",width=3)
 		canvas.create_text(x+5,y+5,text="Line : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
-		thisLine="%s - %s"%(self.point1.name, self.point2.name)
+		if self.showLength:
+			thisLine="%s - %s (%0.3f)"%(self.point1.name, self.point2.name, dist(self.point1.x,self.point1.y,self.point2.x,self.point2.y))
+		else:
+			thisLine="%s - %s "%(self.point1.name, self.point2.name)
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Not Isomed, Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
@@ -144,10 +156,21 @@ class line(object):
 				return name
 		return "xx"
 	def toString(self)-> str:
-		return "type=line,point1=%s,point2=%s,tag=%s,name=%s,showLength=%d,showName=%d,fixedLength=%d,showIsom= %d,active=%d"%(self.point1.tag, self.point2.tag, self.tag, self.name, int(self.showLength), int(self.showName), int(self.fixedLength), int(self.showIsom), int(self.active))
+		return "type=line,point1=%s,point2=%s,tag=%s,name=%s,showLength=%d,showName=%d,fixedLength=%d,active=%d"%(self.point1.tag, self.point2.tag, self.tag, self.name, int(self.showLength), int(self.showName), int(self.fixedLength), int(self.active))
 	def toTeXString(self)-> str:
 		return "\\draw (%f, %f)-- (%f, %f);"%(self.point1.x, self.point1.y, self.point2.x, self.point2.y);
-
+	@property
+	def isomAncestor(self):
+		count=len(self.app.lines)
+		node=self
+		for repeat in range(count):
+			if node.isomParent==None:
+				return None
+			elif node.isomParent==node:
+				return node
+			else:
+				node=node.isomParent
+		return None
 class circle(object):
 	def __init__(self, app, point:point, radius:float):
 		super().__init__(app)		
@@ -201,8 +224,6 @@ class angle(object):
 		self.point3=point3
 		self.thisis='angle'
 		self.showArc=True
-		self.showIsom=False
-		self.showIsomFrag=0
 		self.showValue=False
 		self.pref=preference(self.app, self)
 

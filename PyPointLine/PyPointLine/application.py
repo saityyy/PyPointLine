@@ -57,7 +57,8 @@ class application:
 
 		self.initilizeMenuItems()
 
-
+		self.showIsom=False
+		self.isomColors=["aquamarine4","chartreuse4","chocolate4","darkorchid3","indianred3"]
 		#point0=point(0,0)
 		#self.points.append(point0)
 		#point1=point(1,1)
@@ -186,6 +187,11 @@ class application:
 			ag.drawObject(self)
 
 		## draw lines
+		if self.showIsom:
+			count=0
+			for obj in [obj for obj in self.lines if obj.isomParent==obj]:
+				obj.isomColor=self.isomColors[count]
+				count+=1
 		for ln in self.lines:
 			ln.drawObject(self)
 		
