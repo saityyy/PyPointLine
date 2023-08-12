@@ -57,7 +57,7 @@ class application:
 
 		self.initilizeMenuItems()
 
-		self.showIsom=False
+		self.showIsom=True
 		self.isomColors=["aquamarine4","chartreuse4","chocolate4","darkorchid3","indianred3"]
 		#point0=point(0,0)
 		#self.points.append(point0)
@@ -475,12 +475,12 @@ class application:
 	@property
 	def allButtonIcons(self):
 		return [\
-			self.menuAddPoint, self.menuMidPoint,self.menuAddLine,self.menuAddCircle,
+			self.menuAddPoint, self.menuMidPoint,self.menuAddLine,self.menuAddCircle,self.menuAddAngle,
 			self.menuP2P,self.menuP2L,self.menuP2C,self.menuTangentL2C,self.menuTangentC2C,
 			self.menuIsom,self.menuPara,self.menuPerp,self.menuHori,self.menuHori,
 			self.menuFixPoint,self.menuDeleteAll,self.menuOpen,self.menuSave,self.menuQuit
 			]
-	###self.menuAddLocus,self.menuAddAngle,self.menuRatioLength,self.menuBisector,self.menuUndo,self.menuRedo,self.menuDeletePoint,self.menuDeleteLocus,self.menuLogs,self.menuSave2TeX,self.menuSave2TeX,
+	###self.menuAddLocus,self.menuRatioLength,self.menuBisector,self.menuUndo,self.menuRedo,self.menuDeletePoint,self.menuDeleteLocus,self.menuLogs,self.menuSave2TeX,self.menuSave2TeX,
 
 	def drawAllMenu(self):
 		self.menuOff.showIcon(self.headerCanvas)

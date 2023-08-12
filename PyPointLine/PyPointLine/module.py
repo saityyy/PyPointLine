@@ -333,11 +333,11 @@ class isometry(module):
 		if self.ln1.isomParent!=None:
 			if self.ln2.isomParent!=None:
 				self.ln2.isomAncestor.isomParent=self.ln1.isomAncestor
-			else:
-				self.ln2.isomParent=self.ln1.isomParent
+			else:#if self.ln2.isomParent==None:
+				self.ln2.isomParent=self.ln1
 		else:#if self.ln1.isomParent==None:
-			self.ln1.isomParent=self.ln1.isomParent
-			self.ln2.isomParent=self.ln1.isomParent
+			self.ln1.isomParent=self.ln1
+			self.ln2.isomParent=self.ln1
 	def evaluate(self):
 		p1=self.ln1.point1
 		p2=self.ln1.point2
@@ -353,7 +353,7 @@ class isometry(module):
 		delta1=delta*self.ratio2/ (self.ratio1 + self.ratio2)
 		delta2=delta*self.ratio1/ (self.ratio1 + self.ratio2)
 		cx, cy=ax/magA*delta1, ay/magA*delta1
-		dx, dy=ax/magA*delta2, ay/magA*delta2
+		dx, dy=bx/magB*delta2, by/magB*delta2
 		if self.ln1.point1.fixed==False:
 			self.ln1.point1.x -= cx
 			self.ln1.point1.y -= cy

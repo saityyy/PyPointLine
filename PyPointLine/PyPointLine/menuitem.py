@@ -207,7 +207,7 @@ class addAngleItem(menuItem):
 				app.logs.append(newPoint)
 				self.point3=newPoint
 			### add a new point
-			newAngle:angle=angle(self.point1, self.point2, self.point3)
+			newAngle:angle=angle(app, self.point1, self.point2, self.point3)
 			app.logs.append(newAngle)	
 			### post-process
 			app.onModePhase=0

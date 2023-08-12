@@ -37,9 +37,8 @@ class point(object):
 		self.showNamePosition="free"
 		self.id=app.nextID
 		self.tag="tag_%00d"%(app.nextID)
-		self.pref=preference(self.app, self)
-		
 		app.nextID += 1
+		self.pref=preference(self.app, self)
 		pass
 	def drawObject(self, app):
 		xx0,yy0=app.world2Canvas(self.x,self.y)
@@ -115,9 +114,11 @@ class line(object):
 		self.name=self.youngestName(app)
 		self.showName=False
 		self.tag="tag_%00d"%(app.nextID)
-		self.pref=preference(self.app, self)
 		app.nextID += 1
+		self.pref=preference(self.app, self)
 	def drawObject(self, app):
+		if self.isomParent!=None:
+			self.isomColor=self.isomAncestor.isomColor
 		pt1=self.point1
 		pt2=self.point2
 		x1,y1=app.world2Canvas(pt1.x, pt1.y)
@@ -171,6 +172,9 @@ class line(object):
 			else:
 				node=node.isomParent
 		return None
+
+
+
 class circle(object):
 	def __init__(self, app, point:point, radius:float):
 		super().__init__(app)		
@@ -194,7 +198,7 @@ class circle(object):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
 		app.logLineFeed += 100
-		canvas.create_rectangle(x,y,x+w,y+h,fill="Bisque1",width=3)
+		canvas.create_rectangle(x,y,x+w,y+h,fill="salmon1",width=3)
 		canvas.create_text(x+5,y+5,text="Circle : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
 		thisLine="%s - %f"%(self.point1.name, self.radius)
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
@@ -204,7 +208,7 @@ class circle(object):
 		pass
 	def youngestName(self, app):
 		for name in ["C1","C2","C3","C4","C5","C6","C7","C8","C9","C10","C11","C12","C13","C14","C15","C16","C17","C18","C18","C19","C20"]:
-			for obj in app.lines:
+			for obj in app.circles:
 				if obj.name==name:
 					break
 			else:
@@ -218,13 +222,19 @@ class circle(object):
 
 
 class angle(object):
-	def __init__(self, point1:point, point2:point, point3:point):
+	def __init__(self, app, point1:point, point2:point, point3:point):
+		super().__init__(app)		
 		self.point1=point1
 		self.point2=point2
 		self.point3=point3
 		self.thisis='angle'
+		self.name=self.youngestName(app)		
 		self.showArc=True
-		self.showValue=False
+		self.showValue=True
+		self.fixValue=False
+		self.value=0
+		self.tag="tag_%03d"%(app.nextID)
+		app.nextID += 1
 		self.pref=preference(self.app, self)
 
 	def drawObject(self, app):
@@ -242,13 +252,41 @@ class angle(object):
 			start, extent = theta3*rad2ang, (theta1 - theta3)*rad2ang
 		else:
 			start, extent = theta1*rad2ang, (theta3 - theta1 + 2*math.pi)*rad2ang
-		app.mainCanvas.create_arc(xx2-20, yy2-20, xx2+20, yy2+20, start=start, extent=extent, style=tk.ARC, width=4, outline='red')
+		midpoint = (start+extent/2)/rad2ang
+		self.value=extent
+		if self.showArc:
+			app.mainCanvas.create_arc(xx2-25, yy2-25, xx2+25, yy2+25, start=start, extent=extent, style=tk.ARC, width=4, outline='DarkGoldenrod4')
+		if self.showValue:
+			app.mainCanvas.create_text(xx2+40*math.cos(midpoint), yy2-40*math.sin(midpoint),text="%d"%(int(self.value)), anchor=tk.CENTER, font=("",18))
 	pass
 	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="gold1",width=3)
+		canvas.create_text(x+5,y+5,text="Angle : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
+		if self.showValue:
+			thisLine="∠%s - %s - %s (%d)"%(self.point1.name, self.point2.name, self.point3.name, int(self.value))
+		else:
+			thisLine="∠%s - %s - %s"%(self.point1.name, self.point2.name, self.point3.name)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		canvas.create_text(x+5,y+57,text="Hide Value",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def drawPreference(self, app):
 		pass
+	def youngestName(self, app):
+		for name in ["A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","A11","A12","A13","A14","A15","A16","A17","A18","A18","A19","A20"]:
+			for obj in app.angles:
+				if obj.name==name:
+					break
+			else:
+				return name
+		return "A0"
 	def toString(self)-> str:
+		return "type=angle,point1=%s,point2=%s,point3=%s,tag=%s,name=%s,showArc=%d,showValue=%d,value=%d,fixValue=%d,active=%d"%(
+			self.point1.tag, self.point2.tag, self.point3.tag, self.tag, self.name, int(self.showArc), int(self.showValue), int(self.value), int(self.fixValue), int(self.active))
+	def toTeXString(self)-> str:
+		##
 		return ""
 
 
