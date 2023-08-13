@@ -114,6 +114,7 @@ class line(object):
 		self.name=self.youngestName(app)
 		self.showName=False
 		self.tag="tag_%00d"%(app.nextID)
+		self.para1=0.1
 		app.nextID += 1
 		self.pref=preference(self.app, self)
 	def drawObject(self, app):
@@ -127,26 +128,46 @@ class line(object):
 		rx,ry=x2-x1,y2-y1
 		sx,sy=y2-y1,-x2+x1
 		mag=dist(x1,y1,x2,y2)
-		rx,ry=rx*7/mag, ry*7/mag
-		sx,sy=sx*15/mag, sy*15/mag
+		rx,ry=rx/mag, ry/mag
+		sx,sy=sx/mag, sy/mag
 		tx,ty=(x1+x2)/2,(y1+y2)/2
 		if self.showLength:
-			app.mainCanvas.create_text(tx+sx,ty+sy,text="%0.3f"%(mag/app.zoom), font=("",18), anchor=tk.CENTER)
+			app.mainCanvas.create_text(tx+sx*15,ty+sy*15,text="%0.3f"%(mag/app.zoom), font=("",18), anchor=tk.CENTER)
 			pass
 		app.mainCanvas.create_line(x1,y1,x2,y2, fill=self.isomColor, width=4)
 		if self.app.showIsom:
 			if self.isomColor==app.isomColors[0]:
-				app.mainCanvas.create_line(tx+sx,ty+sy,tx-sx,ty-sy, fill=self.isomColor, width=3)
+				app.mainCanvas.create_line(tx+sx*10,ty+sy*10,tx-sx*10,ty-sy*10, fill=self.isomColor, width=3)
 			elif self.isomColor==app.isomColors[1]:
-				app.mainCanvas.create_line(tx+sx+rx,ty+sy+ry,tx-sx+rx,ty-sy+ry, fill=self.isomColor, width=3)
-				app.mainCanvas.create_line(tx+sx-rx,ty+sy-ry,tx-sx-rx,ty-sy-ry, fill=self.isomColor, width=3)
+				app.mainCanvas.create_line(tx+sx*10+rx*5,ty+sy*10+ry*5,tx-sx*10+rx*5,ty-sy*10+ry*5, fill=self.isomColor, width=3)
+				app.mainCanvas.create_line(tx+sx*10-rx*5,ty+sy*10-ry*5,tx-sx*10-rx*5,ty-sy*10-ry*5, fill=self.isomColor, width=3)
 			pass
+	def evaluate(self):
+		if self.fixedLength:
+			p1=self.point1
+			p2=self.point2
+			ax, ay=p2.x-p1.x, p2.y-p1.y
+			magA=magnitude(ax, ay)
+			if magA==0.0:
+				return
+			delta= (self.length - magA) * self.para1 
+			cx, cy=ax/magA*delta, ay/magA*delta
+			if self.point1.fixed==False:
+				self.point1.x -= cx
+				self.point1.y -= cy
+			if self.point2.fixed==False:
+				self.point2.x += cx
+				self.point2.y += cy
+			
+		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
 		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="Orchid1",width=3)
 		canvas.create_text(x+5,y+5,text="Line : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
+		if self.fixedLength==False:
+			self.length=dist(self.point1.x,self.point1.y,self.point2.x,self.point2.y)
 		if self.showLength:
 			thisLine="%s - %s (%0.3f)"%(self.point1.name, self.point2.name, dist(self.point1.x,self.point1.y,self.point2.x,self.point2.y))
 		else:

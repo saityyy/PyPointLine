@@ -233,7 +233,7 @@ class application:
 
 	def calculatorEvaluate(self, repeat=10):
 		for i in range(repeat):
-			for md in self.modules:
+			for md in self.modules+self.lines:
 				md.evaluate()
 		self.drawAll()
 

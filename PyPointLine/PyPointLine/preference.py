@@ -137,6 +137,7 @@ class preference:
 					parent.point2 = newPoint
 				parent.showLength = pref.panes['showLength'].radio_variable.get()
 				parent.fixedLength = pref.panes['fixedLength'].radio_variable.get()
+				parent.length = float(pref.panes['length'].entry_text.get())
 			elif parent.thisis=="circle":
 				parent.name = pref.panes['label'].entry_text.get()
 				parent.showName = pref.panes['name'].radio_variable.get()
@@ -273,8 +274,10 @@ class preference:
 		self.panes['showLength']=self.prefPane(self, "radio","Length:", radio1="Hide", radio2="Show", radio=radio)
 		radio = 1 if parent.fixedLength else 0
 		self.panes['fixedLength']=self.prefPane(self, "radio","Fixed :", radio1="Off", radio2="On", radio=radio)
+		self.panes['length']=self.prefPane(self, "float", "Length :", value=parent.length)
 		self.panes["destroyButton"]=self.prefPane(self, "destroyButton", "")
 		self.panes["OKbutton"]=self.prefPane(self, "buttons", "")
+
 		pass
 
 	def initCirclePreference(self):
@@ -377,6 +380,7 @@ class preference:
 		self.panes['showLength'].radio_variable.set(value)
 		value=1 if parent.fixedLength else 0
 		self.panes['fixedLength'].radio_variable.set(value)
+		self.panes['length'].value=parent.length
 		pass
 	def restoreCirclePreference(self):
 		parent=self.parent

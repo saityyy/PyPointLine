@@ -41,6 +41,8 @@ class module(object):
 	def toTeXString(self)-> str:
 		return ""
 
+
+
 class midpoint(module):
 	def __init__(self, app, point1:point, point2:point, point3:point):
 		super().__init__(app)
