@@ -123,16 +123,24 @@ class line(object):
 		pt2=self.point2
 		x1,y1=app.world2Canvas(pt1.x, pt1.y)
 		x2,y2=app.world2Canvas(pt2.x, pt2.y)
-		if self.app.showIsom:
-			pass
+		isomID=0
+		rx,ry=x2-x1,y2-y1
+		sx,sy=y2-y1,-x2+x1
+		mag=dist(x1,y1,x2,y2)
+		rx,ry=rx*7/mag, ry*7/mag
+		sx,sy=sx*15/mag, sy*15/mag
+		tx,ty=(x1+x2)/2,(y1+y2)/2
 		if self.showLength:
-			sx,sy=y2-y1,-x2+x1
-			mag=dist(x1,y1,x2,y2)
-			sx,sy=sx*15/mag, sy*15/mag
-			tx,ty=(x1+x2)/2,(y1+y2)/2
 			app.mainCanvas.create_text(tx+sx,ty+sy,text="%0.3f"%(mag/app.zoom), font=("",18), anchor=tk.CENTER)
 			pass
 		app.mainCanvas.create_line(x1,y1,x2,y2, fill=self.isomColor, width=4)
+		if self.app.showIsom:
+			if self.isomColor==app.isomColors[0]:
+				app.mainCanvas.create_line(tx+sx,ty+sy,tx-sx,ty-sy, fill=self.isomColor, width=3)
+			elif self.isomColor==app.isomColors[1]:
+				app.mainCanvas.create_line(tx+sx+rx,ty+sy+ry,tx-sx+rx,ty-sy+ry, fill=self.isomColor, width=3)
+				app.mainCanvas.create_line(tx+sx-rx,ty+sy-ry,tx-sx-rx,ty-sy-ry, fill=self.isomColor, width=3)
+			pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
