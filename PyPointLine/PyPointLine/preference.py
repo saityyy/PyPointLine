@@ -103,7 +103,7 @@ class preference:
 				self.widget3.destroy()
 		def radio_click(self):
 			value = self.radio_variable.get()
-			print(f"radio button value is {value}.")
+			#print(f"radio button value is {value}.")
 		def entry_click(self):
 			value=self.entry_text.get()
 			print("entry text is %s"%(value))

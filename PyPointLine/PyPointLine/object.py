@@ -158,8 +158,8 @@ class line(object):
 			if self.point2.fixed==False:
 				self.point2.x += cx
 				self.point2.y += cy
-			
-		pass
+			return abs(delta)*2
+		return 0
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90

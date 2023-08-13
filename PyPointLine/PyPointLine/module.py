@@ -14,7 +14,7 @@ class module(object):
 		self.tag="tag_%00d"%(app.nextID)
 		app.nextID += 1
 	def evaluate(self):
-		pass
+		return 0
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -60,21 +60,22 @@ class midpoint(module):
 	def evaluate(self):
 		r1=self.ratio1
 		r2=self.ratio2
-		x1=(-self.p2.x*r1+(r1+r2)*self.p3.x)/r2*self.para1+self.p1.x*(1.0-self.para1)
-		y1=(-self.p2.y*r1+(r1+r2)*self.p3.y)/r2*self.para1+self.p1.y*(1.0-self.para1)
-		x2=(-self.p1.x*r2+(r1+r2)*self.p3.x)/r1*self.para2+self.p2.x*(1.0-self.para2)
-		y2=(-self.p1.y*r2+(r1+r2)*self.p3.y)/r1*self.para2+self.p2.y*(1.0-self.para2)
-		x3=(self.p1.x*r2+self.p2.x*r1)/(r1+r2)*self.para3+self.p3.x*(1.0-self.para3)
-		y3=(self.p1.y*r2+self.p2.y*r1)/(r1+r2)*self.para3+self.p3.y*(1.0-self.para3)
+		x1=((-self.p2.x*r1+(r1+r2)*self.p3.x)/r2-self.p1.x)*self.para1
+		y1=((-self.p2.y*r1+(r1+r2)*self.p3.y)/r2-self.p1.y)*self.para1
+		x2=((-self.p1.x*r2+(r1+r2)*self.p3.x)/r1-self.p2.x)*self.para2
+		y2=((-self.p1.y*r2+(r1+r2)*self.p3.y)/r1-self.p2.y)*self.para2
+		x3=((self.p1.x*r2+self.p2.x*r1)/(r1+r2)-self.p3.x)*self.para3
+		y3=((self.p1.y*r2+self.p2.y*r1)/(r1+r2)-self.p3.y)*self.para3
 		if self.p1.fixed==False:
-			self.p1.x=x1
-			self.p1.y=y1
+			self.p1.x+=x1
+			self.p1.y+=y1
 		if self.p2.fixed==False:
-			self.p2.x=x2
-			self.p2.y=y2
+			self.p2.x+=x2
+			self.p2.y+=y2
 		if self.p3.fixed==False:
-			self.p3.x=x3
-			self.p3.y=y3
+			self.p3.x+=x3
+			self.p3.y+=y3
+		return magnitude(x1,y1)+magnitude(x2,y2)+magnitude(x3,y3)
 	def drawPreference(self, app):
 		pass
 	def drawLog(self, app):
@@ -103,14 +104,17 @@ class point2point(module):
 		self.para2=0.1
 		self.pref=preference(self.app, self)
 	def evaluate(self):
-		x1=self.p2.x*self.para1+self.p1.x*(1.0-self.para1)
-		y1=self.p2.y*self.para1+self.p1.y*(1.0-self.para1)
-		x2=self.p1.x*self.para2+self.p2.x*(1.0-self.para2)
-		y2=self.p1.y*self.para2+self.p2.y*(1.0-self.para2)
+		x1=(self.p2.x-self.p1.x)*self.para1
+		y1=(self.p2.y-self.p1.y)*self.para1
+		x2=(self.p1.x-self.p2.x)*self.para2
+		y2=(self.p1.y-self.p2.y)*self.para2
 		if self.p1.fixed==False:
-			self.p1.x, self.p1.y = x1, y1
+			self.p1.x += x1
+			self.p1.y += y1
 		if self.p2.fixed==False:
-			self.p2.x, self.p2.y = x2, y2
+			self.p2.x += x2
+			self.p2.y += y2
+		return magnitude(x1,y1)+magnitude(x2,y2)
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -156,6 +160,7 @@ class point2line(module):
 		if self.l1.point2.fixed==False:
 			self.l1.point2.x -= dx*self.para1
 			self.l1.point2.y -= dy*self.para1
+		return magnitude(dx,dy)*self.para1*3
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -196,6 +201,7 @@ class point2circle(module):
 			self.c1.point1.y -= dy
 		if self.c1.fixedRadius==False:
 			self.c1.radius += difference
+		return abs(difference)*3
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -246,6 +252,7 @@ class line2circle(module):
 		self.ln.point1.y -= ey
 		self.ln.point2.x -= ex
 		self.ln.point2.y -= ey
+		return abs(difference)*3
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -290,6 +297,7 @@ class circle2circle(module):
 			self.cc2.point1.y -= dy
 			if self.cc2.fixedRadius==False:
 				self.cc2.radius += difference
+			return abs(difference)*2
 		else:## inner tangent
 			difference=deltaIn * self.para1
 			dx, dy = cx/mag*difference, cy/mag*difference
@@ -307,6 +315,7 @@ class circle2circle(module):
 					self.cc1.radius -= difference
 				if self.cc2.fixedRadius==False:
 					self.cc2.radius += difference
+			return abs(difference)*2
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -368,6 +377,7 @@ class isometry(module):
 		if self.ln2.point2.fixed==False:
 			self.ln2.point2.x -= dx
 			self.ln2.point2.y -= dy
+		return abs(delta)*2
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -431,7 +441,7 @@ class parallel(module):
 			self.line2.point1.x, self.line2.point1.y=x3,y3
 		if self.line2.point2.fixed==False:
 			self.line2.point2.x, self.line2.point2.y=x4,y4
-
+		return abs(difference)*2
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
@@ -487,7 +497,7 @@ class perpendicular(module):
 			self.line2.point1.x, self.line2.point1.y=x3,y3
 		if self.line2.point2.fixed==False:
 			self.line2.point2.x, self.line2.point2.y=x4,y4
-		pass
+		return abs(difference)*2
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
@@ -527,7 +537,7 @@ class horizontal(module):
 			self.line1.point1.x, self.line1.point1.y = x1,y1
 		if self.line1.point2.fixed==False:
 			self.line1.point2.x, self.line1.point2.y = x2,y2
-		pass
+		return abs(difference)
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90

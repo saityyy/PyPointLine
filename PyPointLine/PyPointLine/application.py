@@ -42,7 +42,7 @@ class application:
 		self.clickedPoint=None
 		self.clickedLine=None
 		self.clickedCircle=None
-		
+		self.repeat=10
 		self.dispMenu=False
 		self.onMode=None
 		self.dispPreference=False
@@ -232,9 +232,20 @@ class application:
 	# 
 
 	def calculatorEvaluate(self, repeat=10):
-		for i in range(repeat):
+		rep=max(repeat, self.repeat)
+		for i in range(rep):
+			totalErr=0
 			for md in self.modules+self.lines:
-				md.evaluate()
+				totalErr += md.evaluate()
+			if totalErr<0.00001 and i<rep-5:
+				self.repeat=max(self.repeat-5,10)
+				break
+		else: 
+			if totalErr>0.00001:
+				self.repeat+=5
+				for i in range(5):
+					md.evaluate()
+		print("%f(self.repeat=%d)"%(totalErr,self.repeat))
 		self.drawAll()
 
 
@@ -291,7 +302,7 @@ class application:
 		""" """
 		self.updateCoordinates(event)
 		self.mp.magneticPoint=None
-		self.calculatorEvaluate(repeat=50)
+		self.calculatorEvaluate()
 		if isNear(self.mp.x,self.mp.y,self.mp.bpX,self.mp.bpY,5/self.zoom):## has clicked
 			self.mp.bpX,self.mp.bpY=0,0
 			self.buttonClicked(event)
