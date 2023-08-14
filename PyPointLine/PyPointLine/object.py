@@ -1,3 +1,4 @@
+from logging.config import dictConfig
 import tkinter as tk
 from preference import preference
 from utils import *
@@ -277,7 +278,10 @@ class angle(object):
 		self.tag="tag_%03d"%(app.nextID)
 		app.nextID += 1
 		self.pref=preference(self.app, self)
-
+		self.start=0
+		self.extent=90
+		self.value=math.pi/2
+		self.para1=0.1
 	def drawObject(self, app):
 		xx1,yy1=app.world2Canvas(self.point1.x,self.point1.y)
 		xx2,yy2=app.world2Canvas(self.point2.x,self.point2.y)
@@ -286,20 +290,52 @@ class angle(object):
 		theta3=math.atan2(-yy3+yy2, xx3-xx2)
 		rad2ang=180/math.pi
 		if theta1+math.pi<theta3:
-			start, extent = theta3*rad2ang, (theta1 - theta3 + 2*math.pi)*rad2ang
+			self.start, self.extent = theta3, (theta1 - theta3 + 2*math.pi)
 		elif theta1<theta3:
-			start, extent = theta1*rad2ang, (theta3 - theta1)*rad2ang
+			self.start, self.extent = theta1, (theta3 - theta1)
 		elif theta1-math.pi<theta3:
-			start, extent = theta3*rad2ang, (theta1 - theta3)*rad2ang
+			self.start, self.extent = theta3, (theta1 - theta3)
 		else:
-			start, extent = theta1*rad2ang, (theta3 - theta1 + 2*math.pi)*rad2ang
-		midpoint = (start+extent/2)/rad2ang
-		self.value=extent
+			self.start, self.extent = theta1, (theta3 - theta1 + 2*math.pi)
+		midpoint = self.start+self.extent/2
+		start=self.start*rad2ang
+		extent=self.extent*rad2ang
+		if self.fixValue==False:
+			self.value=extent
 		if self.showArc:
 			app.mainCanvas.create_arc(xx2-25, yy2-25, xx2+25, yy2+25, start=start, extent=extent, style=tk.ARC, width=4, outline='DarkGoldenrod4')
 		if self.showValue:
 			app.mainCanvas.create_text(xx2+40*math.cos(midpoint), yy2-40*math.sin(midpoint),text="%d"%(int(self.value)), anchor=tk.CENTER, font=("",18))
-	pass
+	def evaluate(self):
+		if self.fixValue:
+			#app=self.app
+			##########################
+			theta1=math.atan2(self.point1.y-self.point2.y, self.point1.x-self.point2.x)
+			theta3=math.atan2(self.point3.y-self.point2.y, self.point3.x-self.point2.x)
+			rad2ang=180/math.pi
+			if theta1+math.pi<theta3:
+				self.start, self.extent = theta3, (theta1 - theta3 + 2*math.pi)
+				delta= -(self.extent - self.value/rad2ang)*self.para1
+			elif theta1<theta3:
+				self.start, self.extent = theta1, (theta3 - theta1)
+				delta= (self.extent - self.value/rad2ang)*self.para1
+			elif theta1-math.pi<theta3:
+				self.start, self.extent = theta3, (theta1 - theta3)
+				delta= -(self.extent - self.value/rad2ang)*self.para1
+			else:
+				self.start, self.extent = theta1, (theta3 - theta1 + 2*math.pi)
+				delta= (self.extent - self.value/rad2ang)*self.para1
+			x1,y1,x2,y2=rotation(self.point1.x,self.point1.y,self.point2.x,self.point2.y,delta)
+			x3,y3,x4,y4=rotation(self.point3.x,self.point3.y,x2,y2,-delta)
+			if self.point1.fixed==False:
+				self.point1.x, self.point1.y = x1,y1
+			if self.point2.fixed==False:
+				self.point2.x, self.point2.y = x4,y4
+			if self.point3.fixed==False:
+				self.point3.x, self.point3.y = x3,y3
+				
+			return abs(delta)*2
+		return 0.0
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90

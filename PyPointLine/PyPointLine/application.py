@@ -235,7 +235,7 @@ class application:
 		rep=max(repeat, self.repeat)
 		for i in range(rep):
 			totalErr=0
-			for md in self.modules+self.lines:
+			for md in self.modules+self.lines+self.angles:
 				totalErr += md.evaluate()
 			if totalErr<0.00001 and i<rep-5:
 				self.repeat=max(self.repeat-5,10)
@@ -295,9 +295,19 @@ class application:
 			mag=dist(cc.point1.x, cc.point1.y, self.mp.x, self.mp.y)
 			if abs(mag-cc.radius)<10/self.zoom:
 				return cc
-
 		return None
 
+	def mouseOnAngle(self):
+		for obj in self.angles:
+			mag = dist(obj.point2.x, obj.point2.y, self.mp.x, self.mp.y)
+			if mag<40/self.zoom:
+				theta=math.atan2(self.mp.y-obj.point2.y, self.mp.x-obj.point2.x)
+				if obj.start<=theta and theta<=obj.start+obj.extent:
+					return obj
+				if obj.start<=theta+math.pi*2 and theta+math.pi*2<=obj.start+obj.extent:
+					return obj
+		return None
+	
 	def buttonReleased(self, event):
 		""" """
 		self.updateCoordinates(event)
