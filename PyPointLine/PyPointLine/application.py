@@ -450,19 +450,21 @@ class application:
 		#####
 		y+=1
 		x=0
-		self.menuIsom=menuIsomItem("images\\Isom.png", x, y)
+		self.menuIsom=menuIsomItem("images\\RatioLength.png", x, y)
 		x+=1
 		self.menuPara=menuParaItem("images\\Para.png", x, y)
 		x+=1
 		self.menuPerp=menuPerpItem("images\\Perp.png", x, y)
 		x+=1
 		self.menuHori=menuHoriItem("images\\Hori.png", x, y)
+		x+=1
+		##self.menuBisector=menuBisectorItem("images\\Bisector.png", 5, 2)
 		#####
 		y+=1
 		x=0
-		self.menuFixPoint=menuItem("images\\FixPoint.png", x, y)
+		self.menuFixPoint=menuFixPointItem("images\\FixPoint.png", x, y)
 		x+=1
-		self.menuDeleteAll=menuItem("images\\DeleteAll.png", x, y)
+		self.menuDeleteAll=menuDeleteAllItem("images\\DeleteAll.png", x, y)
 		x+=1
 		self.menuOpen=menuOpenItem("images\\Open.png", x, y)
 		x+=1

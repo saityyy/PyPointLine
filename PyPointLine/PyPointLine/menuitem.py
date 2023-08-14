@@ -517,11 +517,40 @@ class menuHoriItem(menuItem):
 			app.drawAll()
 		pass
 
+class menuFixPointItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=["Click one point."]
+	def phaseActions(self, app):
+		if app.mp.widget!=app.mainCanvas:
+			return
+		if app.onModePhase==0:
+			if app.clickedPoint!=None:
+				app.clickedPoint.fixed = not app.clickedPoint.fixed
+			else:
+				return
+			### post-process
+			app.calculatorEvaluate(repeat=50)
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		pass		
+	
+class menuDeleteAllItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.headerText=[""]
+	def onActions(self, app):
+		for obj in reversed(app.logs):
+			app.logs.remove(obj)
+			del obj
+		pass
+	
 
 class menuBisectorItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
-		self.headerText=["Click one point.","Click the second point.","Click the third point."]
+		self.headerText=["Click one angle.","Click another angle."]
 	def phaseActions(self, app):
 		pass
 
