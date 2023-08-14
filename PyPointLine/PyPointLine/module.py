@@ -12,6 +12,7 @@ class module(object):
 		self.name=self.youngestName(app)
 		self.showName=False
 		self.tag="tag_%00d"%(app.nextID)
+		self.toBeDestroyed=False
 		app.nextID += 1
 	def evaluate(self):
 		return 0
@@ -92,6 +93,14 @@ class midpoint(module):
 		return "type=module,moduletype=midpoint,tag=%s,p1=%s,p2=%s,p3=%s,ratio1=%d,ratio2=%d,para1=%f,para2=%f,para3=%f"%(self.tag, self.p1.tag, self.p2.tag, self.p3.tag, self.ratio1, self.ratio2, self.para1, self.para2, self.para3)
 	def toTeXString(self)-> str:
 		return ""
+	def matter(self, obj):
+		if obj!=None and obj==self.point1:
+			return True
+		if obj!=None and obj==self.point2:
+			return True
+		if obj!=None and obj==self.point3:
+			return True
+		return False
 
 
 class point2point(module):
@@ -127,6 +136,12 @@ class point2point(module):
 		pass
 	def toString(self)-> str:
 		return "type=module,moduletype=point2point,tag=%s,p1=%s,p2=%s,para1=%f,para2=%f"%(self.tag,self.tag, self.p1.tag, self.p2.tag, self.para1, self.para2)
+	def matter(self, obj):
+		if obj!=None and obj==self.p1:
+			return True
+		if obj!=None and obj==self.p2:
+			return True
+		return False
 
 
 class point2line(module):
@@ -173,6 +188,12 @@ class point2line(module):
 		pass
 	def toString(self)-> str:
 		return "type=module,moduletype=point2line,tag=%s,p1=%s,l1=%s,onlyOnSegment=%d,para1=%f"%(self.tag,self.p1.tag, self.l1.tag, int(self.onlyOnSegment), self.para1)
+	def matter(self, obj):
+		if obj!=None and obj==self.p1:
+			return True
+		if obj!=None and obj==self.l1:
+			return True
+		return False
 
 class point2circle(module):
 	def __init__(self, app, point:point, circle:circle):
@@ -214,6 +235,12 @@ class point2circle(module):
 		pass
 	def toString(self)-> str:
 		return "type=module,moduletype=point2circle,tag=%s,p1=%s,c1=%s,para1=%f"%(self.tag,self.p1.tag, self.c1.tag, self.para1)
+	def matter(self, obj):
+		if obj!=None and obj==self.p1:
+			return True
+		if obj!=None and obj==self.c1:
+			return True
+		return False
 
 
 class line2circle(module):
@@ -265,6 +292,12 @@ class line2circle(module):
 		pass
 	def toString(self)-> str:
 		return "type=module,moduletype=line2circle,tag=%s,ln=%s,cc=%s,para1=%f"%(self.tag,self.ln.tag, self.cc.tag, self.para1)
+	def matter(self, obj):
+		if obj!=None and obj==self.cc:
+			return True
+		if obj!=None and obj==self.ln:
+			return True
+		return False
 
 class circle2circle(module):
 	def __init__(self, app, circle1:circle, circle2:circle):
@@ -328,6 +361,12 @@ class circle2circle(module):
 		pass
 	def toString(self)-> str:
 		return "type=module,moduletype=circle2circle,tag=%s,cc1=%s,cc2=%s,para1=%f"%(self.tag,self.cc1.tag, self.cc2.tag, self.para1)
+	def matter(self, obj):
+		if obj!=None and obj==self.cc1:
+			return True
+		if obj!=None and obj==self.cc2:
+			return True
+		return False
 
 class isometry(module):
 	def __init__(self, app, line1:line, line2:line):
@@ -390,6 +429,12 @@ class isometry(module):
 		pass
 	def toString(self)-> str:
 		return "type=module,moduletype=isometry,tag=%s,ln1=%s,ln2=%s,ratio1=%d,ratio2=%d,fixedRatio=%d,para1=%f"%(self.tag,self.ln1.tag, self.ln2.tag, self.ratio1, self.ratio2, int(self.fixedRatio), self.para1)
+	def matter(self, obj):
+		if obj!=None and obj==self.ln1:
+			return True
+		if obj!=None and obj==self.ln2:
+			return True
+		return False
 
 
 
@@ -455,6 +500,12 @@ class parallel(module):
 		pass
 	def toString(self)-> str:
 		return "type=module,moduletype=parallel,tag=%s,line1=%s,line2=%s,para1=%f"%(self.tag,self.line1.tag, self.line2.tag, self.para1)
+	def matter(self, obj):
+		if obj!=None and obj==self.line1:
+			return True
+		if obj!=None and obj==self.line2:
+			return True
+		return False
 
 
 class perpendicular(module):
@@ -510,6 +561,12 @@ class perpendicular(module):
 		pass
 	def toString(self)-> str:
 		return "type=module,moduletype=perpendicular,tag=%s,line1=%s,line2=%s,para1=%f"%(self.tag,self.line1.tag, self.line2.tag, self.para1)
+	def matter(self, obj):
+		if obj!=None and obj==self.line1:
+			return True
+		if obj!=None and obj==self.line2:
+			return True
+		return False
 
 
 
@@ -550,5 +607,9 @@ class horizontal(module):
 		pass
 	def toString(self)-> str:
 		return "type=module,moduletype=horizontal,tag=%s,line1=%s,para1=%f"%(self.tag,self.line1.tag, self.para1)
+	def matter(self, obj):
+		if obj!=None and obj==self.line1:
+			return True
+		return False
 
 

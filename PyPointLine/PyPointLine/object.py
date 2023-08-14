@@ -12,6 +12,7 @@ class object:
 		self.name='X'
 		self.thisis=None
 		self.active=True
+		self.toBeDestroyed=False
 		pass
 	pass
 	def drawObject(self, app):
@@ -20,15 +21,17 @@ class object:
 		pass
 	def drawPreference(self, app):
 		pass
+	def matter(self, obj:object)->bool:
+		return False
 
 
 
 class point(object):
 	def __init__(self, app, x, y):
 		super().__init__(app)
-		self.x=x
-		self.y=y
-		self.thisis='point'
+		self.x:float=x
+		self.y:float=y
+		self.thisis:str='point'
 		self.color='blue'
 		self.fixed=False
 		self.name=self.youngestName(app)
@@ -201,7 +204,12 @@ class line(object):
 			else:
 				node=node.isomParent
 		return None
-
+	def matter(self, obj):
+		if obj!=None and obj==self.point1:
+			return True
+		if obj!=None and obj==self.point2:
+			return True
+		return False
 
 
 class circle(object):
@@ -247,6 +255,10 @@ class circle(object):
 		return "type=circle,point1=%s,radius=%f,tag=%s,name=%s,fixedRadius=%d,active=%d"%(self.point1.tag, self.radius, self.tag, self.name, int(self.fixedRadius), int(self.active))
 	def toTeXString(self)-> str:
 		return "\\draw(%f, %f) circle (%f);\n"%(self.point1.x, self.point1.y, self.radius)
+	def matter(self, obj):
+		if obj!=None and obj==self.point1:
+			return True
+		return False
 		
 
 
@@ -317,6 +329,14 @@ class angle(object):
 	def toTeXString(self)-> str:
 		##
 		return ""
+	def matter(self, obj):
+		if obj!=None and obj==self.point1:
+			return True
+		if obj!=None and obj==self.point2:
+			return True
+		if obj!=None and obj==self.point3:
+			return True
+		return False
 
 
 class locus(object):

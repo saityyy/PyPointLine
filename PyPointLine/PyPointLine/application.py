@@ -245,7 +245,7 @@ class application:
 				self.repeat+=5
 				for i in range(5):
 					md.evaluate()
-		print("%f(self.repeat=%d)"%(totalErr,self.repeat))
+		#print("%f(self.repeat=%d)"%(totalErr,self.repeat))
 		self.drawAll()
 
 

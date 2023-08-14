@@ -112,8 +112,15 @@ class preference:
 			obj=self.preference.parent
 			app.dispPreference=False
 			self.preference.destroyAllPreference()
-			app.logs.remove(obj)
-			del obj
+			obj.toBeDestroyed=True
+			for i in app.logs:
+				for j in app.logs:
+					if i.toBeDestroyed and not j.toBeDestroyed and j.matter(i):
+						j.toBeDestroyed=True
+			for i in reversed(app.logs):
+				if i.toBeDestroyed:
+					app.logs.remove(i)
+					del i
 			app.showLogs()
 			pass
 		def click_OK_btn(self):
