@@ -282,6 +282,20 @@ class angle(object):
 		self.extent=90
 		self.value=math.pi/2
 		self.para1=0.1
+	def restoreValue(self):
+		if self.fixValue==False:
+			theta1=math.atan2(self.point1.y-self.point2.y, self.point1.x-self.point2.x)
+			theta3=math.atan2(self.point3.y-self.point2.y, self.point3.x-self.point2.x)
+			rad2ang=180/math.pi
+			if theta1+math.pi<theta3:
+				self.start, self.extent = theta3, (theta1 - theta3 + 2*math.pi)
+			elif theta1<theta3:
+				self.start, self.extent = theta1, (theta3 - theta1)
+			elif theta1-math.pi<theta3:
+				self.start, self.extent = theta3, (theta1 - theta3)
+			else:
+				self.start, self.extent = theta1, (theta3 - theta1 + 2*math.pi)
+			self.value=self.extent*rad2ang
 	def drawObject(self, app):
 		xx1,yy1=app.world2Canvas(self.point1.x,self.point1.y)
 		xx2,yy2=app.world2Canvas(self.point2.x,self.point2.y)
@@ -308,8 +322,6 @@ class angle(object):
 			app.mainCanvas.create_text(xx2+40*math.cos(midpoint), yy2-40*math.sin(midpoint),text="%d"%(int(self.value)), anchor=tk.CENTER, font=("",18))
 	def evaluate(self):
 		if self.fixValue:
-			#app=self.app
-			##########################
 			theta1=math.atan2(self.point1.y-self.point2.y, self.point1.x-self.point2.x)
 			theta3=math.atan2(self.point3.y-self.point2.y, self.point3.x-self.point2.x)
 			rad2ang=180/math.pi

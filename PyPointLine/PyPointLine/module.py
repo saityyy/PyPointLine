@@ -612,4 +612,83 @@ class horizontal(module):
 			return True
 		return False
 
-
+class bisector(module):
+	def __init__(self, app, angle1:angle, angle2:angle):
+		super().__init__(app)
+		self.thisis='module'
+		self.moduletype='bisector'
+		self.angle1=angle1
+		self.angle2=angle2
+		self.para1=0.1
+		self.pref=preference(self.app, self)
+		pass
+	def getDelta(self, angle1:angle, radianValue:float)->float:
+		theta1=math.atan2(angle1.point1.y-angle1.point2.y, angle1.point1.x-angle1.point2.x)
+		theta3=math.atan2(angle1.point3.y-angle1.point2.y, angle1.point3.x-angle1.point2.x)
+		rad2ang=180/math.pi
+		if theta1+math.pi<theta3:
+			extent = theta1 - theta3 + 2*math.pi
+			delta= -(extent - radianValue)*self.para1
+		elif theta1<theta3:
+			extent = theta3 - theta1
+			delta= (extent - radianValue)*self.para1
+		elif theta1-math.pi<theta3:
+			extent = theta1 - theta3
+			delta= -(extent - radianValue)*self.para1
+		else:
+			extent = theta3 - theta1 + 2*math.pi
+			delta= (extent - radianValue)*self.para1
+		return delta
+	def evaluate(self):
+		ang2rad=math.pi/180
+		self.angle2.restoreValue()
+		delta1=self.getDelta(self.angle1, self.angle2.value*ang2rad)
+		ret=0.0
+		if self.angle1.fixValue==False:
+			x1,y1,x2,y2=rotation(self.angle1.point1.x,self.angle1.point1.y,self.angle1.point2.x,self.angle1.point2.y, delta1)
+			x3,y3,x4,y4=rotation(self.angle1.point3.x,self.angle1.point3.y,x2,y2,-delta1)
+			if self.angle1.point1.fixed==False:
+				self.angle1.point1.x, self.angle1.point1.y = x1,y1
+				ret+=abs(delta1)
+			if self.angle1.point2.fixed==False:
+				self.angle1.point2.x, self.angle1.point2.y = x4,y4
+				ret+=abs(delta1)
+			if self.angle1.point3.fixed==False:
+				self.angle1.point3.x, self.angle1.point3.y = x3,y3
+				ret+=abs(delta1)
+		self.angle1.restoreValue()
+		delta2=self.getDelta(self.angle2, self.angle1.value*ang2rad)
+		if self.angle2.fixValue==False:
+			x1,y1,x2,y2=rotation(self.angle2.point1.x,self.angle2.point1.y,self.angle1.point2.x,self.angle2.point2.y, delta2)
+			x3,y3,x4,y4=rotation(self.angle2.point3.x,self.angle2.point3.y,x2,y2,-delta2)
+			if self.angle2.point1.fixed==False:
+				self.angle2.point1.x, self.angle2.point1.y = x1,y1
+				ret+=abs(delta2)
+			if self.angle2.point2.fixed==False:
+				self.angle2.point2.x, self.angle2.point2.y = x4,y4
+				ret+=abs(delta2)
+			if self.angle2.point3.fixed==False:
+				self.angle2.point3.x, self.angle2.point3.y = x3,y3
+				ret+=abs(delta2)
+		#self.angle1.restoreValue()
+		#self.angle2.restoreValue()
+		return ret*2
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		thisLine="∠%s%s%s = ∠%s%s%s"%(self.angle1.point1.name, self.angle1.point2.name, self.angle1.point3.name, self.angle2.point1.name, self.angle2.point2.name, self.angle2.point3.name)
+		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		#canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
+		pass
+	def toString(self)-> str:
+		return "type=module,moduletype=busector,tag=%s,angle1=%s,angle2=%s,para1=%f"%(self.tag,self.angle1.tag,self.angle2.tag, self.para1)
+	def matter(self, obj):
+		if obj!=None and obj==self.angle1:
+			return True
+		if obj!=None and obj==self.angle2:
+			return True
+		return False
+	

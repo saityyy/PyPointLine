@@ -356,6 +356,7 @@ class application:
 				self.clickedPoint = self.mouseOnPoint()
 				self.clickedLine = self.mouseOnLine()
 				self.clickedCircle = self.mouseOnCircle()
+				self.clickedAngle = self.mouseOnAngle()
 				if self.onMode==None:
 					self.onMode=self.menuAddPoint
 				self.onMode.phaseActions(self)
@@ -468,7 +469,7 @@ class application:
 		x+=1
 		self.menuHori=menuHoriItem("images\\Hori.png", x, y)
 		x+=1
-		##self.menuBisector=menuBisectorItem("images\\Bisector.png", 5, 2)
+		self.menuBisector=menuBisectorItem("images\\Bisector.png", x, y)
 		#####
 		y+=1
 		x=0
@@ -500,10 +501,10 @@ class application:
 		return [\
 			self.menuAddPoint, self.menuMidPoint,self.menuAddLine,self.menuAddCircle,self.menuAddAngle,
 			self.menuP2P,self.menuP2L,self.menuP2C,self.menuTangentL2C,self.menuTangentC2C,
-			self.menuIsom,self.menuPara,self.menuPerp,self.menuHori,self.menuHori,
+			self.menuIsom,self.menuPara,self.menuPerp,self.menuHori,self.menuHori,self.menuBisector,
 			self.menuFixPoint,self.menuDeleteAll,self.menuOpen,self.menuSave,self.menuQuit
 			]
-	###self.menuAddLocus,self.menuRatioLength,self.menuBisector,self.menuUndo,self.menuRedo,self.menuDeletePoint,self.menuDeleteLocus,self.menuLogs,self.menuSave2TeX,self.menuSave2TeX,
+	###self.menuAddLocus,self.menuRatioLength,,self.menuUndo,self.menuRedo,self.menuDeletePoint,self.menuDeleteLocus,self.menuLogs,self.menuSave2TeX,self.menuSave2TeX,
 
 	def drawAllMenu(self):
 		self.menuOff.showIcon(self.headerCanvas)

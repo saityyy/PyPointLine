@@ -1,4 +1,4 @@
-import tkinter as tk
+﻿import tkinter as tk
 
 
 class preference:
@@ -228,6 +228,10 @@ class preference:
 					p1=float(pref.panes['para1'].entry_text.get())
 					if p1!=0.0 and p1!=1.0:
 						parent.para1=p1
+				elif parent.moduletype=="bisector":
+					p1=float(pref.panes['para1'].entry_text.get())
+					if p1!=0.0 and p1!=1.0:
+						parent.para1=p1
 				pass
 
 			app.dispPreference=False
@@ -323,30 +327,54 @@ class preference:
 		self.panes={}
 		self.panes['label']=self.prefPane(self, "moduleLabel","Module : %s"%(parent.moduletype),"")
 		if parent.moduletype=='midpoint':
+			thisLine="%s (%d) - %s - (%d) %s"%(parent.p1.name, parent.ratio1, parent.p3.name, parent.ratio2, parent.p2.name)
+			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['ratio1']=self.prefPane(self, "int", "Ratio1=", iValue=parent.ratio1)
 			self.panes['ratio2']=self.prefPane(self, "int", "Ratio2=", iValue=parent.ratio2)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
 			self.panes['para2']=self.prefPane(self, "para", "Para2=", value=parent.para2)
 			self.panes['para3']=self.prefPane(self, "para", "Para3=", value=parent.para3)
 		elif parent.moduletype=='point2point':
+			thisLine="%s - %s"%(parent.p1.name, parent.p2.name)
+			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
 		elif parent.moduletype=='point2line':
+			thisLine="%s - %s"%(parent.p1.name, parent.l1.name)
+			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
 		elif parent.moduletype=='point2circle':
+			thisLine="%s - %s"%(parent.p1.name, parent.c1.name)
+			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
 		elif parent.moduletype=='line2circle':
+			thisLine="%s - %s"%(parent.ln.name, parent.cc.name)
+			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
 		elif parent.moduletype=='circle2circle':
+			thisLine="%s - %s"%(parent.cc1.name, parent.cc2.name)
+			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
 		elif parent.moduletype=='isometry':
+			thisLine="%s - %s (%d : %d)"%(parent.ln1.name, parent.ln2.name, parent.ratio1, parent.ratio2)
+			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['ratio1']=self.prefPane(self, "int", "Ratio1=", iValue=parent.ratio1)
 			self.panes['ratio2']=self.prefPane(self, "int", "Ratio2=", iValue=parent.ratio2)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
 		elif parent.moduletype=='parallel':
+			thisLine="%s || %s "%(parent.line1.name, parent.line2.name)
+			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
 		elif parent.moduletype=='perpendicular':
+			thisLine="%s ⟂ %s "%(parent.line1.name, parent.line2.name)
+			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
 		elif parent.moduletype=='horizontal':
+			thisLine="%s = "%(parent.line1.name)
+			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
+			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
+		elif parent.moduletype=='bisector':
+			thisLine="∠%s%s%s = ∠%s%s%s"%(parent.angle1.point1.name, parent.angle1.point2.name, parent.angle1.point3.name, parent.angle2.point1.name, parent.angle2.point2.name, parent.angle2.point3.name)
+			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
 		self.panes["destroyButton"]=self.prefPane(self, "destroyButton", "")
 		self.panes["OKbutton"]=self.prefPane(self, "buttons", "")
@@ -440,6 +468,8 @@ class preference:
 		elif parent.moduletype=='perpendicular':
 			self.panes['para1'].value=parent.para1
 		elif parent.moduletype=='horizontal':
+			self.panes['para1'].value=parent.para1
+		elif parent.moduletype=='bisector':
 			self.panes['para1'].value=parent.para1
 		pass
 

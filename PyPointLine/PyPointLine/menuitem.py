@@ -550,8 +550,32 @@ class menuDeleteAllItem(menuItem):
 class menuBisectorItem(menuItem):
 	def __init__(self, name, x, y):
 		super().__init__(name, x, y)
+		self.angle1=None
+		self.angle2=None
 		self.headerText=["Click one angle.","Click another angle."]
 	def phaseActions(self, app):
+		if app.mp.widget!=app.mainCanvas:
+			return
+		if app.onModePhase==0:
+			if app.clickedAngle!=None:
+				self.angle1=app.clickedAngle
+				app.onModePhase=1
+				app.headerText=app.onMode.headerText[app.onModePhase]
+				app.drawAll()
+			else:
+				return
+		elif app.onModePhase==1:
+			if app.clickedAngle!=None and app.clickedAngle!=self.angle1:
+				self.angle2=app.clickedAngle
+				newModule=bisector(app, self.angle1, self.angle2)
+				app.logs.append(newModule)
+			else:
+				return
+			### post-process
+			app.calculatorEvaluate(repeat=50)
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
 		pass
 
 
