@@ -54,7 +54,8 @@ class application:
 		self.logLineFeedMax=0
 		self.headerText=""
 		self.fileIO=fileIO(self)
-
+		self.quitApplication=False
+		
 		self.initilizeMenuItems()
 
 		self.showIsom=True
@@ -384,10 +385,11 @@ class application:
 					if isIn(self.mp.canvasX, self.mp.canvasY, icon.left, icon.top, icon.width, icon.height):
 						self.onMode=icon
 						self.onMode.onActions(self)
-						self.onModePhase=0
-						self.headerText=icon.headerText[self.onModePhase]
-						self.dispMenu=False
-						self.drawAll()
+						if self.quitApplication==False:
+							self.onModePhase=0
+							self.headerText=icon.headerText[self.onModePhase]
+							self.dispMenu=False
+							self.drawAll()
 						break
 				else:
 					self.onMode=self.menuAddPoint
@@ -532,6 +534,8 @@ class application:
 		self.fileIO.saveFile(self, filePath)
 		pass
 	def quitApp(self):
+		self.quitApplication=True
 		self.root.destroy()
-		#sys.exit(0)
+		self.root.quit()
+
 		pass

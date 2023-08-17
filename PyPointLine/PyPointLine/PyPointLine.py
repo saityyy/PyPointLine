@@ -14,6 +14,7 @@ if __name__ == "__main__":
 	ROOT.bind("<ButtonRelease-1>", APP.buttonReleased)  # 
 	ROOT.bind("<Motion>", APP.updateCoordinates) #
 	ROOT.bind("<MouseWheel>", APP.wheelTurned)
+	ROOT.protocol("WM_DELETE_WINDOW", APP.quitApp)
 	path = os.getcwd()# root directory
 	ROOT.mainloop()
 
