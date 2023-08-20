@@ -1,5 +1,5 @@
-from logging.config import dictConfig
 import tkinter as tk
+import random
 from preference import preference
 from utils import *
 
@@ -100,7 +100,10 @@ class point(object):
 			return "\\draw[fill=black](%f, %f) circle  (1.5pt);\n\\draw[fill=black](%f, %f) node {%s};"%(self.x, self.y, self.getNamePosition[0], self.getNamePosition[1], self.name)
 		else:
 			return "\\draw[fill=black](%f, %f) circle  (1.5pt);"%(self.x, self.y)
-
+	def purturb(self, delta):
+		theta=math.pi*random.random()*2
+		self.x += delta*math.cos(theta)
+		self.y += delta*math.sin(theta)
 
 
 class line(object):
@@ -145,6 +148,8 @@ class line(object):
 			elif self.isomColor==app.isomColors[1]:
 				app.mainCanvas.create_line(tx+sx*10+rx*5,ty+sy*10+ry*5,tx-sx*10+rx*5,ty-sy*10+ry*5, fill=self.isomColor, width=3)
 				app.mainCanvas.create_line(tx+sx*10-rx*5,ty+sy*10-ry*5,tx-sx*10-rx*5,ty-sy*10-ry*5, fill=self.isomColor, width=3)
+			elif self.isomColor==app.isomColors[2]:
+				app.mainCanvas.create_oval(tx-10,ty-10,tx+10,ty+10, outline=self.isomColor, width=3)
 			pass
 	def evaluate(self):
 		if self.fixedLength:
@@ -317,9 +322,9 @@ class angle(object):
 		if self.fixValue==False:
 			self.value=extent
 		if self.showArc:
-			app.mainCanvas.create_arc(xx2-25, yy2-25, xx2+25, yy2+25, start=start, extent=extent, style=tk.ARC, width=4, outline='DarkGoldenrod4')
+			app.mainCanvas.create_arc(xx2-35, yy2-35, xx2+35, yy2+35, start=start, extent=extent, style=tk.ARC, width=4, outline='DarkGoldenrod4')
 		if self.showValue:
-			app.mainCanvas.create_text(xx2+40*math.cos(midpoint), yy2-40*math.sin(midpoint),text="%d"%(int(self.value)), anchor=tk.CENTER, font=("",18))
+			app.mainCanvas.create_text(xx2+55*math.cos(midpoint), yy2-55*math.sin(midpoint),text="%d"%(int(self.value)), anchor=tk.CENTER, font=("",18))
 	def evaluate(self):
 		if self.fixValue:
 			theta1=math.atan2(self.point1.y-self.point2.y, self.point1.x-self.point2.x)

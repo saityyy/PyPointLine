@@ -233,6 +233,9 @@ class application:
 	# 
 
 	def calculatorEvaluate(self, repeat=10):
+		for obj in self.points:
+			if obj.fixed==False:
+				obj.purturb(0.001)
 		rep=max(repeat, self.repeat)
 		for i in range(rep):
 			totalErr=0
@@ -287,7 +290,7 @@ class application:
 				continue
 			tt=tn/td
 			dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
-			if magnitude(dx, dy)<10/self.zoom:
+			if magnitude(dx, dy)<10/self.zoom and 0.0<tt and tt<1.0:
 				return ln
 		return None
 

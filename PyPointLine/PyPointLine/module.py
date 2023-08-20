@@ -271,14 +271,17 @@ class line2circle(module):
 			return
 		difference=(mag-radius)*self.para1
 		ex,ey = dx/mag*difference, dy/mag*difference
-		self.cc.point1.x += ex
-		self.cc.point1.y += ey
+		if self.cc.point1.fixed==False:
+			self.cc.point1.x += ex
+			self.cc.point1.y += ey
 		if self.cc.fixedRadius==False:
 			self.cc.radius += difference
-		self.ln.point1.x -= ex
-		self.ln.point1.y -= ey
-		self.ln.point2.x -= ex
-		self.ln.point2.y -= ey
+		if self.ln.point1.fixed==False:
+			self.ln.point1.x -= ex
+			self.ln.point1.y -= ey
+		if self.ln.point2.fixed==False:
+			self.ln.point2.x -= ex
+			self.ln.point2.y -= ey
 		return abs(difference)*3
 	def drawLog(self, app):
 		canvas=app.prefCanvas
@@ -334,10 +337,12 @@ class circle2circle(module):
 		else:## inner tangent
 			difference=deltaIn * self.para1
 			dx, dy = cx/mag*difference, cy/mag*difference
-			self.cc1.point1.x += dx
-			self.cc1.point1.y += dy
-			self.cc2.point1.x -= dx
-			self.cc2.point1.y -= dy
+			if self.cc1.point1.fixed==False:
+				self.cc1.point1.x += dx
+				self.cc1.point1.y += dy
+			if self.cc2.point1.fixed==False:	
+				self.cc2.point1.x -= dx	
+				self.cc2.point1.y -= dy
 			if radius1>radius2:
 				if self.cc1.fixedRadius==False:
 					self.cc1.radius += difference
@@ -659,7 +664,7 @@ class bisector(module):
 		self.angle1.restoreValue()
 		delta2=self.getDelta(self.angle2, self.angle1.value*ang2rad)
 		if self.angle2.fixValue==False:
-			x1,y1,x2,y2=rotation(self.angle2.point1.x,self.angle2.point1.y,self.angle1.point2.x,self.angle2.point2.y, delta2)
+			x1,y1,x2,y2=rotation(self.angle2.point1.x,self.angle2.point1.y,self.angle2.point2.x,self.angle2.point2.y, delta2)
 			x3,y3,x4,y4=rotation(self.angle2.point3.x,self.angle2.point3.y,x2,y2,-delta2)
 			if self.angle2.point1.fixed==False:
 				self.angle2.point1.x, self.angle2.point1.y = x1,y1
