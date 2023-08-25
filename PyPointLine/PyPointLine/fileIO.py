@@ -180,8 +180,8 @@ class fileIO:
 		pass
 
 	def openImageFile(self, app, filePath):
-		im0 = cv2.imread(self.filename)
-		width, height, x = im0.shape
+		#im0 = cv2.imread(self.filename)
+		#width, height, x = im0.shape
 		##
 
 
