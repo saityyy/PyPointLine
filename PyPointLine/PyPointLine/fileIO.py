@@ -1,4 +1,4 @@
-import cv2
+#import cv2
 from object import point, line, circle
 from module import *
 
