@@ -173,6 +173,15 @@ class preference:
 				pass
 			elif parent.thisis=="module":
 				if parent.moduletype=="midpoint":
+					newPoint = pref.application.findPointByName(pref.panes['point1'].entry_text.get())
+					if newPoint:
+						parent.p1 = newPoint
+					newPoint = pref.application.findPointByName(pref.panes['point2'].entry_text.get())
+					if newPoint:
+						parent.p2 = newPoint
+					newPoint = pref.application.findPointByName(pref.panes['point3'].entry_text.get())
+					if newPoint:
+						parent.p3 = newPoint
 					r1=int(pref.panes['ratio1'].entry_text.get())
 					r2=int(pref.panes['ratio2'].entry_text.get())
 					if r1!=0 and r2!=0 and r1!=r2:
@@ -328,6 +337,9 @@ class preference:
 		self.panes['label']=self.prefPane(self, "moduleLabel","Module : %s"%(parent.moduletype),"")
 		if parent.moduletype=='midpoint':
 			thisLine="%s (%d) - %s - (%d) %s"%(parent.p1.name, parent.ratio1, parent.p3.name, parent.ratio2, parent.p2.name)
+			self.panes['point1']=self.prefPane(self, "text","point1:", tValue=parent.p1.name)
+			self.panes['point2']=self.prefPane(self, "text","point2:", tValue=parent.p2.name)
+			self.panes['point3']=self.prefPane(self, "text","point3:", tValue=parent.p3.name)
 			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['ratio1']=self.prefPane(self, "int", "Ratio1=", iValue=parent.ratio1)
 			self.panes['ratio2']=self.prefPane(self, "int", "Ratio2=", iValue=parent.ratio2)
@@ -444,6 +456,9 @@ class preference:
 	def restoreModulePreference(self):
 		parent=self.parent
 		if parent.moduletype=='midpoint':
+			self.panes['point1'].tValue=parent.p1.name
+			self.panes['point2'].tValue=parent.p2.name
+			self.panes['point3'].tValue=parent.p3.name
 			self.panes['ratio1'].iValue=parent.ratio1
 			self.panes['ratio2'].iValue=parent.ratio2
 			self.panes['para1'].value=parent.para1
