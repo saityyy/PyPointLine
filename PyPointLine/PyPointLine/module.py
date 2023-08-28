@@ -94,11 +94,11 @@ class midpoint(module):
 	def toTeXString(self)-> str:
 		return ""
 	def matter(self, obj):
-		if obj!=None and obj==self.point1:
+		if obj!=None and obj==self.p1:
 			return True
-		if obj!=None and obj==self.point2:
+		if obj!=None and obj==self.p2:
 			return True
-		if obj!=None and obj==self.point3:
+		if obj!=None and obj==self.p3:
 			return True
 		return False
 
