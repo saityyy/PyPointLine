@@ -40,8 +40,10 @@ class xxxxx(object):
 		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="white",width=3)
 		canvas.create_text(x+5,y+5,text="PointLine : application", anchor=tk.NW, font=("",18), width=270 )
+		
 		thisLine=""
-		#canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		if app.conflictEvaluation:	
+			canvas.create_text(x+5,y+31,text="Conflict evaluations", anchor=tk.NW, font=("",18), width=270, fill="red")
 		#canvas.create_text(x+5,y+57,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		pass
 	

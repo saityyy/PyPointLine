@@ -45,6 +45,7 @@ class application:
 		self.repeatThreshold=0.000001
 		self.previousTotalError=0.0
 		self.repeat=10
+		self.conflictEvaluation=False
 		self.dispMenu=False
 		self.onMode=None
 		self.dispPreference=False
@@ -245,6 +246,7 @@ class application:
 		rep=self.repeat
 		rep=max(repeat, self.repeat)
 		repeatCount=0
+		self.conflictEvaluation=False
 		while True:
 			totalError=0
 			for md in self.modules+self.lines+self.angles:
@@ -252,7 +254,8 @@ class application:
 			if totalError>=self.previousTotalError:
 				repeatCount+=1
 				if repeatCount>self.repeat:
-					print("Conflict simulatings.")
+					self.conflictEvaluation=True
+					#print("Conflict simulatings.")
 					break
 			if totalError<self.repeatThreshold:
 				break
