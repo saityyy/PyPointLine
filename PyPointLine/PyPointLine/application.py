@@ -42,6 +42,8 @@ class application:
 		self.clickedPoint=None
 		self.clickedLine=None
 		self.clickedCircle=None
+		self.repeatThreshold=0.000001
+		self.previousTotalError=0.0
 		self.repeat=10
 		self.dispMenu=False
 		self.onMode=None
@@ -236,23 +238,25 @@ class application:
 
 	# 
 
-	def calculatorEvaluate(self, repeat=10):
+	def calculatorEvaluate(self, repeat=10,):
 		for obj in self.points:
 			if obj.fixed==False:
 				obj.purturb(0.001)
+		rep=self.repeat
 		rep=max(repeat, self.repeat)
-		for i in range(rep):
-			totalErr=0
+		repeatCount=0
+		while True:
+			totalError=0
 			for md in self.modules+self.lines+self.angles:
-				totalErr += md.evaluate()
-			if totalErr<0.00001 and i<rep-5:
-				self.repeat=max(self.repeat-5,10)
+				totalError += md.evaluate()
+			if totalError>=self.previousTotalError:
+				repeatCount+=1
+				if repeatCount>self.repeat:
+					print("Conflict simulatings.")
+					break
+			if totalError<self.repeatThreshold:
 				break
-		else: 
-			if totalErr>0.00001:
-				self.repeat+=5
-				for i in range(5):
-					md.evaluate()
+			self.previousTotalError=totalError
 		#print("%f(self.repeat=%d)"%(totalErr,self.repeat))
 		self.drawAll()
 
