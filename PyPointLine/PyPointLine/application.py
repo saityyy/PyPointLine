@@ -7,7 +7,7 @@ from tkinter import filedialog
 from utils import mousePosition, isNear, isIn
 from pane import pane
 from menuitem import *
-from object import point, line, circle, angle, locus
+from object import xxxxx, point, line, circle, angle, locus
 from module import *
 from preference import preference
 from fileIO import fileIO
@@ -55,11 +55,15 @@ class application:
 		self.headerText=""
 		self.fileIO=fileIO(self)
 		self.quitApplication=False
-		
+
 		self.initilizeMenuItems()
 
 		self.showIsom=True
 		self.isomColors=["aquamarine4","chartreuse4","chocolate4","darkorchid3","indianred3"]
+		
+		newXXXXX=xxxxx(self)
+		self.logs.append(newXXXXX)
+		
 		#point0=point(0,0)
 		#self.points.append(point0)
 		#point1=point(1,1)

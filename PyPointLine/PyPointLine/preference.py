@@ -66,25 +66,25 @@ class preference:
 				self.widget1 = tk.Label(app.root, text=self.text, font=("",18))
 				self.widget2 = tk.Entry(app.root, width=10, font=("",18), textvariable=self.entry_text)
 				self.widget1.place(x=x, y=y)
-				self.widget2.place(x=x+90, y=y)
+				self.widget2.place(x=x+120, y=y)
 			elif self.type=="float":
 				self.entry_text=tk.StringVar(app.root, value="%0.3f"%(self.value))
 				self.widget1 = tk.Label(app.root, text=self.text, font=("",18))
 				self.widget2 = tk.Entry(app.root, width=10, font=("",18), textvariable=self.entry_text)
 				self.widget1.place(x=x, y=y)
-				self.widget2.place(x=x+90, y=y)
+				self.widget2.place(x=x+120, y=y)
 			if self.type=="text":
 				self.entry_text=tk.StringVar(value=self.tValue)
 				self.widget1 = tk.Label(app.root, text=self.text, font=("",18))
 				self.widget2 = tk.Entry(app.root, width=8, font=("",18), textvariable=self.entry_text)
 				self.widget1.place(x=x, y=y)
-				self.widget2.place(x=x+90, y=y)
+				self.widget2.place(x=x+120, y=y)
 			elif self.type=="para":
 				self.entry_text=tk.StringVar(app.root, value="%0.3f"%(self.value))
 				self.widget1 = tk.Label(app.root, text=self.text, font=("",18), background="plum1")
 				self.widget2 = tk.Entry(app.root, width=10, font=("",18), textvariable=self.entry_text, background="plum1")
 				self.widget1.place(x=x, y=y)
-				self.widget2.place(x=x+90, y=y)
+				self.widget2.place(x=x+120, y=y)
 			elif self.type=="destroyButton":
 				self.widget1=tk.Button(app.root, text="Destroy", background="red", font=("",18), anchor=tk.CENTER, width=8, command=self.click_destroy_btn)
 				self.widget1.place(x=x, y=y)
@@ -127,7 +127,15 @@ class preference:
 			pref=self.preference
 			parent=pref.parent
 			app=pref.application
-			if parent.thisis=="point":
+			if parent.thisis=="xxxxx":
+				app.pointRadius=int(pref.panes['pointRadius'].entry_text.get())
+				app.lineWidth=int(pref.panes['lineWidth'].entry_text.get())
+				app.cx=float(pref.panes['cx'].entry_text.get())
+				app.cy=float(pref.panes['cy'].entry_text.get())
+				app.zoom=float(pref.panes['zoom'].entry_text.get())
+				app.repeat=int(pref.panes['repeat'].entry_text.get())
+				pass
+			elif parent.thisis=="point":
 				parent.name = pref.panes['label'].entry_text.get()
 				parent.showName = pref.panes['name'].radio_variable.get()
 				parent.x = float(pref.panes['x'].entry_text.get())
@@ -255,7 +263,9 @@ class preference:
 			pass
 
 	def initPreference(self):
-		if getattr(self.parent, 'thisis', None)=='point':
+		if getattr(self.parent, 'thisis', None)=='xxxxx':
+			self.initApplicationPreference()
+		elif getattr(self.parent, 'thisis', None)=='point':
 			self.initPointPreference()
 		elif  getattr(self.parent, 'thisis', None)=='line':
 			self.initLinePreference()
@@ -266,6 +276,22 @@ class preference:
 		elif  getattr(self.parent, 'thisis', None)=='module':
 			self.initModulePreference()
 		pass
+
+	def initApplicationPreference(self):
+		parent=self.parent
+		app=parent.app
+		self.panes={}
+		self.panes['label']=self.prefPane(self, "label","Name ","")
+		self.panes['pointRadius']=self.prefPane(self, "int", "pointR=", iValue=parent.app.pointRadius)
+		self.panes['lineWidth']=self.prefPane(self, "int", "lineWidth=", iValue=parent.app.lineWidth)
+		self.panes['cx']=self.prefPane(self, "float", "center(x)=", value=parent.app.cx)
+		self.panes['cy']=self.prefPane(self, "float", "center(y)=", value=parent.app.cy)
+		self.panes['zoom']=self.prefPane(self, "float", "zoom=", value=parent.app.zoom)
+		self.panes['repeat']=self.prefPane(self, "int", "iteration=", iValue=parent.app.repeat)
+		
+		self.panes["OKbutton"]=self.prefPane(self, "buttons", "")
+		pass
+
 
 	def initPointPreference(self):
 		parent = self.parent
@@ -393,7 +419,9 @@ class preference:
 
 
 	def restorePreference(self):
-		if getattr(self.parent, 'thisis', None)=='point':
+		if getattr(self.parent, 'thisis', None)=='xxxxx':
+			self.restoreApplicationPreference()
+		elif getattr(self.parent, 'thisis', None)=='point':
 			self.restorePointPreference()
 		elif  getattr(self.parent, 'thisis', None)=='line':
 			self.restoreLinePreference()
@@ -403,6 +431,17 @@ class preference:
 			self.restoreAnglePreference()
 		elif  getattr(self.parent, 'thisis', None)=='module':
 			self.restoreModulePreference()
+		pass
+
+	def restoreApplicationPreference(self):
+		parent=self.parent
+		self.panes['label'].entry_text.set(parent.name)
+		self.panes['pointRadius'].iValue=parent.app.pointRadius
+		self.panes['lineWidth'].iValue=parent.app.lineWidth
+		self.panes['cx'].value=parent.app.cx
+		self.panes['cy'].value=parent.app.cy
+		self.panes['zoom'].value=parent.app.zoom
+		self.panes['repeat'].iValue=parent.app.repeat
 		pass
 
 	def restorePointPreference(self):

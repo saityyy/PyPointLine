@@ -1,3 +1,4 @@
+from itertools import filterfalse
 import tkinter as tk
 import random
 from preference import preference
@@ -26,6 +27,24 @@ class object:
 		return False
 
 
+class xxxxx(object):
+	def __init__(self, app):
+		super().__init__(app)
+		self.thisis:str='xxxxx'
+		self.name=''
+		self.pref=preference(self.app, self)
+		pass
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="white",width=3)
+		canvas.create_text(x+5,y+5,text="PointLine : application", anchor=tk.NW, font=("",18), width=270 )
+		thisLine=""
+		#canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		#canvas.create_text(x+5,y+57,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
+		pass
+	
 
 class point(object):
 	def __init__(self, app, x, y):
@@ -46,10 +65,11 @@ class point(object):
 		pass
 	def drawObject(self, app):
 		xx0,yy0=app.world2Canvas(self.x,self.y)
+		r=app.pointRadius
 		if self.fixed:
-			app.mainCanvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='red', tag=self.tag)
+			app.mainCanvas.create_oval(xx0-r,yy0-r,xx0+r,yy0+r, fill=self.fixedColor, tag=self.tag)
 		else:
-			app.mainCanvas.create_oval(xx0-5,yy0-5,xx0+5,yy0+5, fill='blue', tag=self.tag)
+			app.mainCanvas.create_oval(xx0-r,yy0-r,xx0+r,yy0+r, fill=self.color, tag=self.tag)
 		if self.showName:
 			if self.showNamePosition=="free":
 				vx,vy=xx0-app.pointNameCenterX, yy0-app.pointNameCenterY
@@ -141,7 +161,8 @@ class line(object):
 		if self.showLength:
 			app.mainCanvas.create_text(tx+sx*15,ty+sy*15,text="%0.3f"%(mag/app.zoom), font=("",18), anchor=tk.CENTER)
 			pass
-		app.mainCanvas.create_line(x1,y1,x2,y2, fill=self.isomColor, width=4)
+		width=app.lineWidth
+		app.mainCanvas.create_line(x1,y1,x2,y2, fill=self.isomColor, width=width)
 		if self.app.showIsom:
 			if self.isomColor==app.isomColors[0]:
 				app.mainCanvas.create_line(tx+sx*10,ty+sy*10,tx-sx*10,ty-sy*10, fill=self.isomColor, width=3)
