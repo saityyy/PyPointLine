@@ -14,3 +14,8 @@ Let us assume that we move several such modules simultaneously. At that time, th
 
 The PyPointLine project is available in Python source code. This makes it easier for researchers to study the architecture of PointLine. Project members hope to make progress in researching the mathematical properties associated with PointLine's modules.
 
+## discussion
+
+[discussion](https://github.com/aharalabMeiji/PyPointLine/issues/1)
+
+
