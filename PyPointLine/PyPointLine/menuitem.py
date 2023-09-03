@@ -2,7 +2,7 @@ import tkinter as tk
 import sys
 from PIL import Image, ImageTk
 
-from object import point, line, circle, angle, locus
+from object import point, line, circle, angle, xxxxx
 from module import *
 
 class menuItem:
@@ -541,9 +541,9 @@ class menuDeleteAllItem(menuItem):
 		super().__init__(name, x, y)
 		self.headerText=[""]
 	def onActions(self, app):
-		for obj in reversed(app.logs):
-			app.logs.remove(obj)
-			del obj
+		app.logs.clear()
+		newXXXXX=xxxxx(self)
+		self.logs.append(newXXXXX)
 		pass
 	
 

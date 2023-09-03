@@ -336,13 +336,13 @@ class application:
 				self.logLineFeedStart+=self.logLineFeedDraggingWidth
 				self.logLineFeedDraggingWidth=0
 				lenLogs=len(self.logs)
-				## 1000=window's height
+				## 900=window's height-100
 				## 100=logbox's height
-				if lenLogs<=1000/100:
+				if lenLogs<=900/100:
 					self.logLineFeedStart=0
 				else:
-					if self.logLineFeedStart<1000-lenLogs*100:
-						self.logLineFeedStart=1000-lenLogs*100
+					if self.logLineFeedStart<900-lenLogs*100:
+						self.logLineFeedStart=900-lenLogs*100
 					elif self.logLineFeedStart>0:
 						self.logLineFeedStart=0
 				self.drawAll()
