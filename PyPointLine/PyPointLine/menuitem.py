@@ -542,8 +542,8 @@ class menuDeleteAllItem(menuItem):
 		self.headerText=[""]
 	def onActions(self, app):
 		app.logs.clear()
-		newXXXXX=xxxxx(self)
-		self.logs.append(newXXXXX)
+		newXXXXX=xxxxx(app)
+		app.logs.append(newXXXXX)
 		pass
 	
 

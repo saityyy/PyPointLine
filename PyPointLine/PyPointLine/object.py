@@ -32,7 +32,7 @@ class xxxxx(object):
 		super().__init__(app)
 		self.thisis:str='xxxxx'
 		self.name=''
-		self.pref=preference(self.app, self)
+		self.pref=preference(app, self)
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
@@ -56,6 +56,9 @@ class point(object):
 		self.thisis:str='point'
 		self.color='blue'
 		self.fixed=False
+		self.fixedX=x
+		self.fixedY=y
+		self.para1=0.1
 		self.name=self.youngestName(app)
 		self.fixedColor='red'
 		self.showName=True
@@ -78,6 +81,16 @@ class point(object):
 				mag=math.sqrt(vx*vx+vy*vy)
 				vx,vy = vx*20/mag, vy*20/mag
 				app.mainCanvas.create_text(xx0+vx, yy0+vy, text=self.name, anchor=tk.CENTER, font=("",24))
+		pass
+	def evaluate(self):
+		if self.fixed:
+			x1=(self.x-self.fixedX)*self.para1
+			y1=(self.y-self.fixedY)*self.para1
+			self.x -= x1
+			self.y -= y1
+			return magnitude(x1,y1)
+		else:
+			return 0
 		pass
 	@property
 	def getNamePosition(self):
