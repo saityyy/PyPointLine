@@ -350,9 +350,42 @@ class angle(object):
 			app.mainCanvas.create_text(xx2+55*math.cos(midpoint), yy2-55*math.sin(midpoint),text="%d"%(int(self.value)), anchor=tk.CENTER, font=("",18))
 	def evaluate(self):
 		if self.fixValue:
+			rad2ang=180/math.pi
+			if self.point1.fixed and (not self.point2.fixed) and self.point3.fixed:
+				Ax, Ay = self.point1.x, self.point1.y
+				Bx, By = self.point2.x, self.point2.y
+				Cx, Cy = self.point3.x, self.point3.y
+				BA = dist(Ax, Ay, Bx, By)
+				BC = dist(Cx, Cy, Bx, By)
+				AC = dist(Ax, Ay, Cx, Cy)
+				Mx = (Ax * BC + Cx * BA) / (BA + BC)
+				My = (Ay * BC + Cy * BA) / (BA + BC)
+				Dx, Dy = Bx - Mx, By - My
+				ND = dist(Dx, Dy, 0, 0)
+				if ND < 0.00001: 
+					return 0
+				Dx /= ND
+				Dy /= ND
+				DeclineBA = math.atan2(Ay - By, Ax - Bx)
+				DeclineBC = math.atan2(Cy - By, Cx - Bx)
+				Angle = DeclineBC - DeclineBA
+				PI = math.pi
+				if Angle < -2*PI:
+					Angle += 2*PI
+				if Angle < 0:
+					Angle += 2*PI
+				if Angle >= 2*PI:
+					Angle -= 2*PI
+				if PI <= Angle and Angle < 2*PI:
+					Angle = 2*PI - Angle
+				Error = (Angle - self.value/rad2ang) * AC * 0.1 * self.para1;
+				Dx *= Error;
+				Dy *= Error;
+				self.point2.x += Dx
+				self.point2.y += Dy
+				return abs(Error);
 			theta1=math.atan2(self.point1.y-self.point2.y, self.point1.x-self.point2.x)
 			theta3=math.atan2(self.point3.y-self.point2.y, self.point3.x-self.point2.x)
-			rad2ang=180/math.pi
 			if theta1+math.pi<theta3:
 				self.start, self.extent = theta3, (theta1 - theta3 + 2*math.pi)
 				delta= -(self.extent - self.value/rad2ang)*self.para1
