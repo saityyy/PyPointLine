@@ -67,15 +67,12 @@ class midpoint(module):
 		y2=((-self.p1.y*r2+(r1+r2)*self.p3.y)/r1-self.p2.y)*self.para2
 		x3=((self.p1.x*r2+self.p2.x*r1)/(r1+r2)-self.p3.x)*self.para3
 		y3=((self.p1.y*r2+self.p2.y*r1)/(r1+r2)-self.p3.y)*self.para3
-		if self.p1.fixed==False:
-			self.p1.x+=x1
-			self.p1.y+=y1
-		if self.p2.fixed==False:
-			self.p2.x+=x2
-			self.p2.y+=y2
-		if self.p3.fixed==False:
-			self.p3.x+=x3
-			self.p3.y+=y3
+		self.p1.x+=x1
+		self.p1.y+=y1
+		self.p2.x+=x2
+		self.p2.y+=y2
+		self.p3.x+=x3
+		self.p3.y+=y3
 		return magnitude(x1,y1)+magnitude(x2,y2)+magnitude(x3,y3)
 	def drawPreference(self, app):
 		pass

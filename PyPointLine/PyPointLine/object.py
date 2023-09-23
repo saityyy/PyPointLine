@@ -32,7 +32,7 @@ class xxxxx(object):
 		super().__init__(app)
 		self.thisis:str='xxxxx'
 		self.name=''
-		self.pref=preference(self.app, self)
+		self.pref=preference(app, self)
 		pass
 	def drawLog(self, app):
 		canvas=app.prefCanvas
@@ -56,6 +56,9 @@ class point(object):
 		self.thisis:str='point'
 		self.color='blue'
 		self.fixed=False
+		self.fixedX=x
+		self.fixedY=y
+		self.para1=0.1
 		self.name=self.youngestName(app)
 		self.fixedColor='red'
 		self.showName=True
@@ -79,6 +82,16 @@ class point(object):
 				vx,vy = vx*20/mag, vy*20/mag
 				app.mainCanvas.create_text(xx0+vx, yy0+vy, text=self.name, anchor=tk.CENTER, font=("",24))
 		pass
+	def evaluate(self):
+		if self.fixed:
+			x1=(self.x-self.fixedX)*self.para1
+			y1=(self.y-self.fixedY)*self.para1
+			self.x -= x1
+			self.y -= y1
+			return magnitude(x1,y1)
+		else:
+			return 0
+		pass
 	@property
 	def getNamePosition(self):
 		xx0,yy0=self.app.world2Canvas(self.x,self.y)
@@ -94,7 +107,7 @@ class point(object):
 		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="SeaGreen1",width=3)
 		canvas.create_text(x+5,y+5,text="Point : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
-		thisLine="(%f,%f)"%(self.x, self.y)
+		thisLine="(%0.3f,%0.3f)"%(self.x, self.y)
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		if self.fixed:
 			text1="Fixed"
@@ -137,6 +150,7 @@ class line(object):
 		self.length=1.0
 		self.showLength=False
 		self.fixedLength=False
+		self.equationType=0
 		self.isomID=-1
 		self.isomColor='grey'
 		self.isomParent=None
@@ -197,13 +211,26 @@ class line(object):
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
 		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="Orchid1",width=3)
-		canvas.create_text(x+5,y+5,text="Line : %s"%(self.name), anchor=tk.NW, font=("",18), width=270 )
-		if self.fixedLength==False:
-			self.length=dist(self.point1.x,self.point1.y,self.point2.x,self.point2.y)
 		if self.showLength:
 			thisLine="%s - %s (%0.3f)"%(self.point1.name, self.point2.name, dist(self.point1.x,self.point1.y,self.point2.x,self.point2.y))
 		else:
 			thisLine="%s - %s "%(self.point1.name, self.point2.name)
+		canvas.create_text(x+5,y+5,text="Line : %s (%s)"%(self.name, thisLine), anchor=tk.NW, font=("",18), width=270 )
+		if self.fixedLength==False:
+			self.length=dist(self.point1.x,self.point1.y,self.point2.x,self.point2.y)
+		if abs(self.point1.x-self.point2.x)<0.001:
+			thisLine="x=(%0.3f)"%(self.point1.x)
+		else:
+			a=(self.point1.y-self.point2.y)/(self.point1.x-self.point2.x)
+			b=(-self.point2.x*self.point1.y+self.point1.x*self.point2.y)/(self.point1.x-self.point2.x)
+			if abs(a)<0.001:
+				thisLine="y=%f0.3f"%(b)
+			elif abs(b)<0.001:
+				thisLine="y=%0.3fx"%(a)
+			elif b<0:
+				thisLine="y=%0.3fx%0.3f"%(a,b)
+			else:
+				thisLine="y=%0.3fx+%0.3f"%(a,b)
 		canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		canvas.create_text(x+5,y+57,text="Not Isomed, Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass

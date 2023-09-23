@@ -249,7 +249,7 @@ class application:
 		self.conflictEvaluation=False
 		while True:
 			totalError=0
-			for md in self.modules+self.lines+self.angles:
+			for md in self.modules+self.points+self.lines+self.angles:
 				totalError += md.evaluate()
 			if totalError>=self.previousTotalError:
 				repeatCount+=1

@@ -141,6 +141,9 @@ class preference:
 				parent.x = float(pref.panes['x'].entry_text.get())
 				parent.y = float(pref.panes['y'].entry_text.get())
 				parent.fixed = pref.panes['fixed'].radio_variable.get()
+				if parent.fixed:
+					parent.fixedX=parent.x
+					parent.fixedY=parent.y
 			elif parent.thisis=="line":
 				parent.name = pref.panes['label'].entry_text.get()
 				parent.showName = pref.panes['name'].radio_variable.get()
