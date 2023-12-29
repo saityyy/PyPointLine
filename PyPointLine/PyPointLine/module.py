@@ -53,8 +53,8 @@ class midpoint(module):
 		self.p3=point3
 		self.ratio1=1
 		self.ratio2=1
-		self.para1=0.1
-		self.para2=0.1
+		self.para1=0.02
+		self.para2=0.02
 		self.para3=0.1
 		self.pref=preference(self.app, self)
 		pass
