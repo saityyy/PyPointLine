@@ -149,7 +149,8 @@ class point2line(module):
 		self.l1=line1
 		self.thisis='module'
 		self.onlyOnSegment=True
-		self.para1=0.1
+		self.para1=0.02
+		self.para2=0.1
 		self.pref=preference(self.app, self)
 	def evaluate(self):
 		p2=self.l1.point1
@@ -162,17 +163,42 @@ class point2line(module):
 		if td==0:
 			return
 		tt=tn/td
-		dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
-		if self.p1.fixed==False:
-			self.p1.x += dx*self.para1
-			self.p1.y += dy*self.para1
-		if self.l1.point1.fixed==False:
-			self.l1.point1.x -= dx*self.para1
-			self.l1.point1.y -= dy*self.para1
-		if self.l1.point2.fixed==False:
-			self.l1.point2.x -= dx*self.para1
-			self.l1.point2.y -= dy*self.para1
-		return magnitude(dx,dy)*self.para1*3
+		if 0<=tt and tt<=1:
+			dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
+			if self.p1.fixed==False:
+				self.p1.x += dx*self.para1
+				self.p1.y += dy*self.para1
+			if self.l1.point1.fixed==False:
+				self.l1.point1.x -= dx*self.para2
+				self.l1.point1.y -= dy*self.para2
+			if self.l1.point2.fixed==False:
+				self.l1.point2.x -= dx*self.para2
+				self.l1.point2.y -= dy*self.para2
+		elif tt<0:
+			tt=(-tt)/(1-tt)
+			dx, dy=tt*(cx-ax)+(ax-bx), tt*(cy-ay)+(ay-by)
+			if self.p1.fixed==False:
+				self.p1.x -= dx*self.para2
+				self.p1.y -= dy*self.para2
+			if self.l1.point1.fixed==False:
+				self.l1.point1.x += dx*self.para1
+				self.l1.point1.y += dy*self.para1
+			if self.l1.point2.fixed==False:
+				self.l1.point2.x -= dx*self.para2
+				self.l1.point2.y -= dy*self.para2
+		else:
+			tt=1/tt
+			dx, dy=tt*(ax-bx)+(bx-cx), tt*(ay-by)+(by-cy)
+			if self.p1.fixed==False:
+				self.p1.x -= dx*self.para2
+				self.p1.y -= dy*self.para2
+			if self.l1.point1.fixed==False:
+				self.l1.point1.x -= dx*self.para2
+				self.l1.point1.y -= dy*self.para2
+			if self.l1.point2.fixed==False:
+				self.l1.point2.x += dx*self.para1
+				self.l1.point2.y += dy*self.para1
+		return magnitude(dx,dy)*(self.para1+self.para2*2)
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90

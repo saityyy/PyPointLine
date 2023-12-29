@@ -383,6 +383,7 @@ class preference:
 			thisLine="%s - %s"%(parent.p1.name, parent.l1.name)
 			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
+			self.panes['para2']=self.prefPane(self, "para", "Para2=", value=parent.para2)
 		elif parent.moduletype=='point2circle':
 			thisLine="%s - %s"%(parent.p1.name, parent.c1.name)
 			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
@@ -510,6 +511,7 @@ class preference:
 			self.panes['para1'].value=parent.para1
 		elif parent.moduletype=='point2line':
 			self.panes['para1'].value=parent.para1
+			self.panes['para2'].value=parent.para2
 		elif parent.moduletype=='point2circle':
 			self.panes['para1'].value=parent.para1
 		elif parent.moduletype=='line2circle':
