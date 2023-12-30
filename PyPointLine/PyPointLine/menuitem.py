@@ -527,6 +527,8 @@ class menuFixPointItem(menuItem):
 		if app.onModePhase==0:
 			if app.clickedPoint!=None:
 				app.clickedPoint.fixed = not app.clickedPoint.fixed
+				app.clickedPoint.fixedX=app.clickedPoint.x
+				app.clickedPoint.fixedY=app.clickedPoint.y
 			else:
 				return
 			### post-process

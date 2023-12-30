@@ -48,6 +48,9 @@ class fileIO:
 				newPoint.tag=dic['tag']
 				newPoint.name=dic['name']
 				newPoint.fixed=bool(int(dic['fixed']))
+				if newPoint.fixed:
+					newPoint.fixedX=x
+					newPoint.fixedY=y
 				newPoint.showName=bool(int(dic['showName']))
 				newPoint.active=bool(int(dic['active']))
 				app.logs.append(newPoint)
