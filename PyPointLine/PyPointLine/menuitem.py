@@ -449,9 +449,21 @@ class menuParaItem(menuItem):
 				self.line2=app.clickedLine
 			else:
 				return
-			### add a new module
-			newModule=parallel(app, self.line1, self.line2)
-			app.logs.append(newModule)	
+			##			
+			line1Point1 = self.line1.point1
+			line1Point2 = self.line1.point2
+			line2Point1 = self.line2.point1
+			line2Point2 = self.line2.point2
+			if line1Point1.id==line2Point1.id or line1Point2.id==line2Point1.id:
+				newModule = point2line(app, line2Point2, self.line1)
+				app.logs.append(newModule)	
+			elif line1Point1.id==line2Point2.id or line1Point2.id==line2Point2.id:
+				newModule = point2line(app, line2Point1, self.line1)
+				app.logs.append(newModule)	
+			else:
+				### add a new module
+				newModule=parallel(app, self.line1, self.line2)
+				app.logs.append(newModule)	
 			### post-process
 			app.calculatorEvaluate(repeat=50)
 			app.onModePhase=0

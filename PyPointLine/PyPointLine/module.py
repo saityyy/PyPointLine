@@ -473,7 +473,7 @@ class parallel(module):
 		self.line2=line2
 		self.moduletype="parallel"
 		self.thisis='module'
-		self.para1=0.1
+		self.para1=0.05
 		self.pref=preference(self.app, self)
 		pass
 	def evaluate(self):
@@ -483,6 +483,8 @@ class parallel(module):
 		p4:point=self.line2.point2
 		theta1=math.atan2(p2.y-p1.y, p2.x-p1.x)
 		theta2=math.atan2(p4.y-p3.y, p4.x-p3.x)
+		line1mag = dist(p1.x, p1.y, p2.x, p2.y)
+		line2mag = dist(p3.x, p3.y, p4.x, p4.y)
 		##print("theta = %f"%(theta2-theta1))
 		if theta1<theta2-math.pi*3/2:
 			difference=-(math.pi*2-theta2+theta1)*self.para1
@@ -501,14 +503,16 @@ class parallel(module):
 		else:#if theta1<theta1-math.pi*3/2:
 			difference=(math.pi*2-theta1+theta2)*self.para1
 		x1,y1,x2,y2 = rotation(
-			self.line1.point1.x, self.line1.point1.y, self.line1.point2.x, self.line1.point2.y, difference
+			self.line1.point1.x, self.line1.point1.y, self.line1.point2.x, self.line1.point2.y, 
+			difference*line2mag/(line1mag+line2mag)
 			)
 		if self.line1.point1.fixed==False:
 			self.line1.point1.x, self.line1.point1.y=x1,y1
 		if self.line1.point2.fixed==False:
 			self.line1.point2.x, self.line1.point2.y=x2,y2
 		x3,y3,x4,y4 = rotation(
-			self.line2.point1.x, self.line2.point1.y, self.line2.point2.x, self.line2.point2.y, -difference
+			self.line2.point1.x, self.line2.point1.y, self.line2.point2.x, self.line2.point2.y, 
+			-difference*line1mag/(line1mag+line2mag)
 			)
 		if self.line2.point1.fixed==False:
 			self.line2.point1.x, self.line2.point1.y=x3,y3
