@@ -716,7 +716,7 @@ class bisector(module):
 		#canvas.create_text(x+5,y+57,text="Hide Name",  anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "type=module,moduletype=busector,tag=%s,angle1=%s,angle2=%s,para1=%f"%(self.tag,self.angle1.tag,self.angle2.tag, self.para1)
+		return "type=module,moduletype=bisector,tag=%s,angle1=%s,angle2=%s,para1=%f"%(self.tag,self.angle1.tag,self.angle2.tag, self.para1)
 	def matter(self, obj):
 		if obj!=None and obj==self.angle1:
 			return True
@@ -724,3 +724,54 @@ class bisector(module):
 			return True
 		return False
 	
+class crossing(module):
+	def __init__(self, app, point0:point, object1:object, object2:object):
+		super().__init__(app)
+		self.thisis='module'
+		self.moduletype='crossing'
+		self.p0 = p0
+		self.object1=object1
+		self.object2=object2
+		self.para1=0.1
+		self.pref=preference(self.app, self)
+		pass
+	def evaluate(self)->float:
+		if self.object1.thisis == "line" and self.object2.thisis=="line2":
+			point11:point = self.line1.point1
+			point12:point = self.line1.point2
+			line1a:float = point11.y-point12.y
+			line1b:float = -point11.x+point12.x
+			line1c:float = point11.x*point12.y - point12.x*point11.y
+			point21 = self.line2.point1
+			point22 = self.line2.point2
+			line2a:float = point21.y-point22.y
+			line2b:float = -point21.x+point22.x
+			line2c:float = point21.x*point22.y - point22.x*point21.y
+			point3x:float = line1b*line2c - line1c*line2b
+			point3y:float = line1c*line2a - line1a*line2c
+			point3z:float = line1a*line2b - line1b*line2a
+			if point3z!=0:
+				point3x /= point3z
+				point3y /= point3z
+				if self.p0.fixed==False:
+					self.p0.x += (point3x - self.p0.x)*self.para1
+					self.p0.y += (point3y - self.p0.y)*self.para1
+					return dist(point3x, point3y, self.p0.x, self.p0.y)*self.para1
+		return 0;
+	def drawLog(self, app):
+		canvas=app.prefCanvas
+		x,y,w,h=5, app.logLineFeed+5, 280, 90
+		app.logLineFeed += 100
+		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
+		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		pass
+	def toString(self)-> str:
+		return "type=module,moduletype=crossing,tag=%s,line1=%s,line2=%s,para1=%f"%(self.tag,self.line1.tag,self.line2.tag, self.para1)
+	def matter(self, obj)->bool:
+		if obj!=None and obj==self.line1:
+			return True
+		if obj!=None and obj==self.line2:			
+			return True
+		if obj!=None and obj==self.p0:			
+			return True
+		return False

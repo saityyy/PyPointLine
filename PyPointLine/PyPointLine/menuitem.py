@@ -592,6 +592,55 @@ class menuBisectorItem(menuItem):
 			app.drawAll()
 		pass
 
+class menuCrossingItem(menuItem):
+	def __init__(self, name, x, y):
+		super().__init__(name, x, y)
+		self.p0=None
+		self.object1=None
+		self.object2=None
+		self.headerText=["Click one point.", "Click one object.", "Click another object."]
+	def phaseActions(self, app):
+		if app.mp.widget!=app.mainCanvas:
+			return
+		if app.onModePhase==0:
+			if app.clickedPoint!=None:
+				self.p0=app.clickedPoint
+				app.onModePhase=1
+				app.headerText=app.onMode.headerText[app.onModePhase]
+				app.drawAll()
+			else:
+				return
+		elif app.onModePhase==1:
+			if app.clickedLine!=None:
+				self.object1=app.clickedLine
+				app.onModePhase=2
+				app.headerText=app.onMode.headerText[app.onModePhase]
+				app.drawAll()
+			if app.clickedCircle!=None:
+				self.object1=app.clickedCircle
+				app.onModePhase=2
+				app.headerText=app.onMode.headerText[app.onModePhase]
+				app.drawAll()
+			else:
+				return
+		elif app.onModePhase==2:
+			if app.clickedLine!=None and app.clickedLine!=self.object1:
+				self.object2=app.clickedLine
+				newModule=crossing(app, self.p0, self.object1, self.object2)
+				app.logs.append(newModule)
+			if app.clickedCircle!=None and app.clickedCircle!=self.object2:
+				self.object2=app.clickedCircle
+				newModule=crossing(app, self.p0, self.object1, self.object2)
+				app.logs.append(newModule)
+			else:
+				return
+			### post-process
+			app.calculatorEvaluate(repeat=50)
+			app.onModePhase=0
+			app.headerText=app.onMode.headerText[app.onModePhase]
+			app.drawAll()
+		pass
+
 
 class menuOpenItem(menuItem):
 	def __init__(self, name, x, y):
