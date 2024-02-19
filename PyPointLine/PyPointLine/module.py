@@ -729,14 +729,16 @@ class crossing(module):
 		super().__init__(app)
 		self.thisis='module'
 		self.moduletype='crossing'
-		self.p0 = p0
+		self.point0 = point0
 		self.object1=object1
 		self.object2=object2
 		self.para1=0.1
+		self.para2=0.03
 		self.pref=preference(self.app, self)
 		pass
 	def evaluate(self)->float:
-		if self.object1.thisis == "line" and self.object2.thisis=="line2":
+		err:float=0
+		if self.object1.thisis == "line" and self.object2.thisis=="line":
 			point11:point = self.line1.point1
 			point12:point = self.line1.point2
 			line1a:float = point11.y-point12.y
@@ -753,25 +755,60 @@ class crossing(module):
 			if point3z!=0:
 				point3x /= point3z
 				point3y /= point3z
-				if self.p0.fixed==False:
-					self.p0.x += (point3x - self.p0.x)*self.para1
-					self.p0.y += (point3y - self.p0.y)*self.para1
-					return dist(point3x, point3y, self.p0.x, self.p0.y)*self.para1
-		return 0;
+				if self.point0.fixed==False:
+					self.point0.x += (point3x - self.point0.x)*self.para1
+					self.point0.y += (point3y - self.point0.y)*self.para1
+					err += dist(point3x, point3y, self.point0.x, self.point0.y)*self.para1
+			ax,ay=self.point0.x, self.point0.y
+			bx,by=point11.x, point11.y
+			cx,cy=point12.x, point12.y
+			tn=(ax-bx)*(cx-bx)+(ay-by)*(cy-by)
+			td=(cx-bx)*(cx-bx)+(cy-by)*(cy-by)
+			if td!=0:
+				tt=tn/td
+				dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
+				if self.line1.point1.fixed==False:
+					self.line1.point1.x -= dx*self.para2
+					self.line1.point1.y -= dy*self.para2
+					err += magnitude(dx,dy)*self.para2
+				if self.line1.point2.fixed==False:
+					self.line1.point2.x -= dx*self.para2
+					self.line1.point2.y -= dy*self.para2
+					err += magnitude(dx,dy)*self.para2
+			ax,ay=self.point0.x, self.point0.y
+			bx,by=point21.x, point21.y
+			cx,cy=point22.x, point22.y
+			tn=(ax-bx)*(cx-bx)+(ay-by)*(cy-by)
+			td=(cx-bx)*(cx-bx)+(cy-by)*(cy-by)
+			if td!=0:
+				tt=tn/td
+				dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
+				if self.line2.point1.fixed==False:
+					self.line2.point1.x -= dx*self.para2
+					self.line2.point1.y -= dy*self.para2
+					err += magnitude(dx,dy)*self.para2
+				if self.line2.point2.fixed==False:
+					self.line2.point2.x -= dx*self.para2
+					self.line2.point2.y -= dy*self.para2
+					err += magnitude(dx,dy)*self.para2
+			return err;
 	def drawLog(self, app):
 		canvas=app.prefCanvas
 		x,y,w,h=5, app.logLineFeed+5, 280, 90
 		app.logLineFeed += 100
 		canvas.create_rectangle(x,y,x+w,y+h,fill="turquoise",width=3)
 		canvas.create_text(x+5,y+5,text="Module : %s"%(self.moduletype), anchor=tk.NW, font=("",18), width=270 )
+		if self.object1.thisis == "line" and self.object2.thisis=="line":
+			thisLine="Line %s%s : line %s%s"%(self.object1.point1.name, self.object1.point2.name, self.object2.point1.name, self.object2.point2.name)
+			canvas.create_text(x+5,y+31,text=thisLine, anchor=tk.NW, font=("",18), width=270 )
 		pass
 	def toString(self)-> str:
-		return "type=module,moduletype=crossing,tag=%s,line1=%s,line2=%s,para1=%f"%(self.tag,self.line1.tag,self.line2.tag, self.para1)
+		return "type=module,moduletype=crossing,tag=%s,point0=%s, object1=%s,object2=%s,para1=%f,para2=%f"%(self.tag,self.point0.tag, self.object1.tag, self.object2.tag, self.para1, self.para2)
 	def matter(self, obj)->bool:
-		if obj!=None and obj==self.line1:
+		if obj!=None and obj==self.object1:
 			return True
-		if obj!=None and obj==self.line2:			
+		if obj!=None and obj==self.object2:			
 			return True
-		if obj!=None and obj==self.p0:			
+		if obj!=None and obj==self.point0:			
 			return True
 		return False
