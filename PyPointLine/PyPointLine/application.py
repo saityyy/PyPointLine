@@ -462,6 +462,8 @@ class application:
 		x+=1
 		self.menuAddAngle=addAngleItem("images\\Angle.png", x, y)
 		x+=1
+		self.menuCrossing=menuCrossingItem("images\\Crossing.png", x, y)
+		x+=1
 		#####
 		y+=1
 		x=0
@@ -515,7 +517,7 @@ class application:
 	@property
 	def allButtonIcons(self):
 		return [\
-			self.menuAddPoint, self.menuMidPoint,self.menuAddLine,self.menuAddCircle,self.menuAddAngle,
+			self.menuAddPoint, self.menuMidPoint, self.menuAddLine, self.menuAddCircle, self.menuAddAngle, self.menuCrossing,
 			self.menuP2P,self.menuP2L,self.menuP2C,self.menuTangentL2C,self.menuTangentC2C,
 			self.menuIsom,self.menuPara,self.menuPerp,self.menuHori,self.menuHori,self.menuBisector,
 			self.menuFixPoint,self.menuDeleteAll,self.menuOpen,self.menuSave,self.menuQuit

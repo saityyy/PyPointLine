@@ -252,8 +252,14 @@ class preference:
 					p1=float(pref.panes['para1'].entry_text.get())
 					if p1!=0.0 and p1!=1.0:
 						parent.para1=p1
+				elif parent.moduletype=="crossing":
+					p1=float(pref.panes['para1'].entry_text.get())
+					if p1!=0.0 and p1!=1.0:
+						parent.para1=p1
+					p2=float(pref.panes['para2'].entry_text.get())
+					if p2!=0.0 and p2!=1.0:
+						parent.para2=p2
 				pass
-
 			app.dispPreference=False
 			self.preference.destroyAllPreference()
 			app.showLogs()
@@ -418,6 +424,11 @@ class preference:
 			thisLine="∠%s%s%s = ∠%s%s%s"%(parent.angle1.point1.name, parent.angle1.point2.name, parent.angle1.point3.name, parent.angle2.point1.name, parent.angle2.point2.name, parent.angle2.point3.name)
 			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
 			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
+		elif parent.moduletype=='crossing':
+			thisLine="%s - %s"%(parent.object1.name, parent.object2.name)
+			self.panes['label1']=self.prefPane(self, "moduleLabel", thisLine)
+			self.panes['para1']=self.prefPane(self, "para", "Para1=", value=parent.para1)
+			self.panes['para2']=self.prefPane(self, "para", "Para2=", value=parent.para2)
 		self.panes["destroyButton"]=self.prefPane(self, "destroyButton", "")
 		self.panes["OKbutton"]=self.prefPane(self, "buttons", "")
 
@@ -530,6 +541,9 @@ class preference:
 			self.panes['para1'].value=parent.para1
 		elif parent.moduletype=='bisector':
 			self.panes['para1'].value=parent.para1
+		elif parent.moduletype=='crossing':
+			self.panes['para1'].value=parent.para1
+			self.panes['para2'].value=parent.para2
 		pass
 
 

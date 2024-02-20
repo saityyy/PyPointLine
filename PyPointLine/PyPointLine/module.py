@@ -739,13 +739,13 @@ class crossing(module):
 	def evaluate(self)->float:
 		err:float=0
 		if self.object1.thisis == "line" and self.object2.thisis=="line":
-			point11:point = self.line1.point1
-			point12:point = self.line1.point2
+			point11:point = self.object1.point1
+			point12:point = self.object1.point2
 			line1a:float = point11.y-point12.y
 			line1b:float = -point11.x+point12.x
 			line1c:float = point11.x*point12.y - point12.x*point11.y
-			point21 = self.line2.point1
-			point22 = self.line2.point2
+			point21 = self.object2.point1
+			point22 = self.object2.point2
 			line2a:float = point21.y-point22.y
 			line2b:float = -point21.x+point22.x
 			line2c:float = point21.x*point22.y - point22.x*point21.y
@@ -767,13 +767,13 @@ class crossing(module):
 			if td!=0:
 				tt=tn/td
 				dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
-				if self.line1.point1.fixed==False:
-					self.line1.point1.x -= dx*self.para2
-					self.line1.point1.y -= dy*self.para2
+				if self.object1.point1.fixed==False:
+					self.object1.point1.x -= dx*self.para2
+					self.object1.point1.y -= dy*self.para2
 					err += magnitude(dx,dy)*self.para2
-				if self.line1.point2.fixed==False:
-					self.line1.point2.x -= dx*self.para2
-					self.line1.point2.y -= dy*self.para2
+				if self.object1.point2.fixed==False:
+					self.object1.point2.x -= dx*self.para2
+					self.object1.point2.y -= dy*self.para2
 					err += magnitude(dx,dy)*self.para2
 			ax,ay=self.point0.x, self.point0.y
 			bx,by=point21.x, point21.y
@@ -783,13 +783,13 @@ class crossing(module):
 			if td!=0:
 				tt=tn/td
 				dx, dy=tt*(cx-bx)+(bx-ax), tt*(cy-by)+(by-ay)
-				if self.line2.point1.fixed==False:
-					self.line2.point1.x -= dx*self.para2
-					self.line2.point1.y -= dy*self.para2
+				if self.object2.point1.fixed==False:
+					self.object2.point1.x -= dx*self.para2
+					self.object2.point1.y -= dy*self.para2
 					err += magnitude(dx,dy)*self.para2
-				if self.line2.point2.fixed==False:
-					self.line2.point2.x -= dx*self.para2
-					self.line2.point2.y -= dy*self.para2
+				if self.object2.point2.fixed==False:
+					self.object2.point2.x -= dx*self.para2
+					self.object2.point2.y -= dy*self.para2
 					err += magnitude(dx,dy)*self.para2
 			return err;
 	def drawLog(self, app):
