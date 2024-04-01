@@ -29,8 +29,8 @@ class fileIO:
 		app.nextID=0
 		# clear app.logs and destroy all objects on app.
 		app.logs.clear()
-		newXXXXX=xxxxx(self)
-		self.logs.append(newXXXXX)
+		newXXXXX=xxxxx(app)
+		app.logs.append(newXXXXX)
 		for data in datalist:
 			texts=data.split(',')
 			if len(texts)==0:

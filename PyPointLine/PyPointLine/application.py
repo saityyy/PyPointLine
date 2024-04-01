@@ -148,13 +148,13 @@ class application:
 		return -(900.0-self.cy)/self.zoom
 
 	def findObjectByTag(self, tagstr):
-		answer=[obj for obj in self.logs if obj.tag==tagstr]
+		answer=[obj for obj in self.logs[1:] if obj.tag==tagstr]
 		if len(answer):
 			return answer[0]
 		return None
 
 	def getNextID(self):
-		ids=[int(obj.tag[4:]) for obj in self.logs]
+		ids=[int(obj.tag[4:]) for obj in self.logs[1:]]
 		self.nextID=max(ids)+1
 		pass
 
