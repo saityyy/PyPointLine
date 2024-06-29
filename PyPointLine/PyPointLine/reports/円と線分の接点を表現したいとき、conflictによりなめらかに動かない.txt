@@ -1,0 +1,9 @@
+type=point,x=1.424050,y=2.380338,tag=tag_12,name=A,fixed=0,showName=1,active=1
+type=point,x=5.711706,y=4.805401,tag=tag_13,name=B,fixed=0,showName=1,active=1
+type=line,point1=tag_12,point2=tag_13,tag=tag_14,name=a,showLength=0,showName=0,fixedLength=0,active=1
+type=point,x=0.846966,y=1.780373,tag=tag_15,name=C,fixed=0,showName=1,active=1
+type=circle,point1=tag_15,radius=0.238122,tag=tag_16,name=C1,fixedRadius=0,active=1
+type=module,moduletype=line2circle,tag=tag_17,ln=tag_14,cc=tag_16,para1=0.100000
+type=point,x=0.728836,y=1.987128,tag=tag_18,name=D,fixed=0,showName=1,active=1
+type=module,moduletype=point2line,tag=tag_19,p1=tag_18,l1=tag_14,onlyOnSegment=1,para1=0.020000
+type=module,moduletype=point2circle,tag=tag_20,p1=tag_18,c1=tag_16,para1=0.100000

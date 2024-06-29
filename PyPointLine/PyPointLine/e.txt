@@ -1,0 +1,15 @@
+type=point,x=5.435580,y=5.840080,tag=tag_0,name=A,fixed=0,showName=1,active=1
+type=point,x=-1.566131,y=1.031508,tag=tag_1,name=B,fixed=0,showName=1,active=1
+type=line,point1=tag_0,point2=tag_1,tag=tag_2,name=a,showLength=0,showName=1,fixedLength=0,active=1
+type=point,x=-0.563101,y=4.559671,tag=tag_3,name=C,fixed=0,showName=1,active=1
+type=circle,point1=tag_3,radius=2.340508,tag=tag_4,name=C1,fixedRadius=0,active=1
+type=module,moduletype=line2circle,tag=tag_5,ln=tag_2,cc=tag_4,para1=0.100000
+type=point,x=1.151787,y=-2.295743,tag=tag_6,name=D,fixed=0,showName=1,active=1
+type=point,x=-0.402917,y=-0.031952,tag=tag_7,name=E,fixed=0,showName=1,active=1
+type=line,point1=tag_6,point2=tag_7,tag=tag_8,name=b,showLength=0,showName=0,fixedLength=0,active=1
+type=module,moduletype=perpendicular,tag=tag_9,line1=tag_2,line2=tag_8,para1=0.100000
+type=point,x=-2.811454,y=5.209964,tag=tag_10,name=F,fixed=0,showName=1,active=1
+type=point,x=-3.847502,y=4.498426,tag=tag_11,name=G,fixed=0,showName=1,active=1
+type=line,point1=tag_10,point2=tag_11,tag=tag_12,name=c,showLength=0,showName=0,fixedLength=0,active=1
+type=module,moduletype=parallel,tag=tag_13,line1=tag_12,line2=tag_2,para1=0.050000
+type=module,moduletype=point2circle,tag=tag_15,p1=tag_10,c1=tag_4,para1=0.100000

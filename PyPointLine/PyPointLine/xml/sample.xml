@@ -1,0 +1,20 @@
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <point id="tag_3">
+        <name>O</name>
+    </point>
+    <circle id="tag_4" center-point-id="tag_3">
+        <name>o</name>
+    </circle>
+    <point-on-line point-id="tag_3" line-id="tag_2" />
+    <point-on-circle point-id="tag_0" circle-id="tag_4" />
+    <point-on-circle point-id="tag_1" circle-id="tag_4" />
+</figures>
