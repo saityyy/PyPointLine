@@ -1,0 +1,51 @@
+We will now explain the math diagram, so please output the situation as data in the xml structure described below.
+The declaration in the DTD is as follows
+<!ELEMENT figures ((point|straight-line|
+half-line|line-segment|circle|middle-point|
+point-on-line|point-on-circle|line-tangent-circle|vertical|parallel)*)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT point (name)>
+<!ATTLIST point id ID #REQUIRED>
+<!-- 線分 -->
+<!ELEMENT line-segment (name)>
+<!ATTLIST line-segment id ID #REQUIRED>
+<!ATTLIST line-segment point-id1 IDREF #REQUIRED>
+<!ATTLIST line-segment point-id2 IDREF #REQUIRED>
+<!-- 円 -->
+<!ELEMENT circle (name)>
+<!ATTLIST circle id ID #REQUIRED>
+<!ATTLIST circle center-point-id IDREF #IMPLIED>
+<!-- 中点 -->
+<!ELEMENT middle-point EMPTY>
+<!ATTLIST middle-point middle-point IDREF #REQUIRED>
+<!ATTLIST middle-point point-id1 IDREF #REQUIRED>
+<!ATTLIST middle-point point-id2 IDREF #REQUIRED>
+<!-- 線分上に点がある -->
+<!ELEMENT point-on-line EMPTY>
+<!ATTLIST point-on-line point-id IDREF #REQUIRED>
+<!ATTLIST point-on-line line-id IDREF #REQUIRED>
+<!-- 円周上に点がある -->
+<!ELEMENT point-on-circle EMPTY>
+<!ATTLIST point-on-circle point-id IDREF #REQUIRED>
+<!ATTLIST point-on-circle circle-id IDREF #REQUIRED>
+<!-- 線が円に接する -->
+<!ELEMENT line-tangent-circle EMPTY>
+<!ATTLIST line-tangent-circle line-id IDREF #REQUIRED>
+<!ATTLIST line-tangent-circle circle-id IDREF #REQUIRED>
+<!-- 円と円が接する -->
+<!ELEMENT circle-tangent-circle EMPTY>
+<!ATTLIST circle-tangent-circle circle-id1 IDREF #REQUIRED>
+<!ATTLIST circle-tangent-circle circle-id2 IDREF #REQUIRED>
+<!-- 2つの線が垂直 -->
+<!ELEMENT vertical EMPTY>
+<!ATTLIST vertical line-id1 IDREF #REQUIRED>
+<!ATTLIST vertical line-id2 IDREF #REQUIRED>
+<!-- 2つの線が平行 -->
+<!ELEMENT parallel EMPTY>
+<!ATTLIST parallel line-id1 IDREF #REQUIRED>
+<!ATTLIST parallel line-id2 IDREF #REQUIRED>
+
+Please be sure to follow the rules of xml.
+When specifying an ID, you must first specify one that exists.
+Circles inscribed means that the circles are touching each other inside the polygon.
+Intersecting means that two or more objects have one point in common through which they pass.

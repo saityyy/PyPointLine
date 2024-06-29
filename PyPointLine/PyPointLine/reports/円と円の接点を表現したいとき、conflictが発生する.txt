@@ -1,0 +1,8 @@
+type=point,x=0.851673,y=3.451955,tag=tag_0,name=X,fixed=0,showName=1,active=1
+type=point,x=-0.690039,y=5.936674,tag=tag_1,name=None,fixed=0,showName=1,active=1
+type=point,x=1.472108,y=2.445914,tag=tag_2,name=None,fixed=0,showName=1,active=1
+type=circle,point1=tag_1,radius=2.924157,tag=tag_3,name=A,fixedRadius=0,active=1
+type=circle,point1=tag_2,radius=1.181971,tag=tag_4,name=B,fixedRadius=0,active=1
+type=module,moduletype=point2circle,tag=tag_5,p1=tag_0,c1=tag_3,para1=0.100000
+type=module,moduletype=point2circle,tag=tag_6,p1=tag_0,c1=tag_4,para1=0.100000
+type=module,moduletype=circle2circle,tag=tag_7,cc1=tag_3,cc2=tag_4,para1=0.100000

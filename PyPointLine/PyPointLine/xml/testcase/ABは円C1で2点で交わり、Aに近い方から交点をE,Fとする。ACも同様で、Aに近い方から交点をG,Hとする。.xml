@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <point id="tag_2">
+        <name>C</name>
+    </point>
+    <point id="tag_3">
+        <name>D</name>
+    </point>
+    <point id="tag_4">
+        <name>E</name>
+    </point>
+    <point id="tag_6">
+        <name>F</name>
+    </point>
+    <point id="tag_5">
+        <name>G</name>
+    </point>
+    <point id="tag_7">
+        <name>H</name>
+    </point>
+    <line-segment id="tag_8" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_9" point-id1="tag_0" point-id2="tag_2">
+        <name>AC</name>
+    </line-segment>
+    <circle id="tag_10" center-point-id="tag_3">
+        <name>C1</name>
+    </circle>
+    <point-on-line point-id="tag_4" line-id="tag_8" />
+    <point-on-line point-id="tag_6" line-id="tag_8" />
+    <point-on-line point-id="tag_5" line-id="tag_9" />
+    <point-on-line point-id="tag_7" line-id="tag_9" />
+    <point-on-circle point-id="tag_4" circle-id="tag_10" />
+    <point-on-circle point-id="tag_6" circle-id="tag_10" />
+    <point-on-circle point-id="tag_5" circle-id="tag_10" />
+    <point-on-circle point-id="tag_7" circle-id="tag_10" />
+</figures>
