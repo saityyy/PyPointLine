@@ -12,7 +12,7 @@ from object import xxxxx, point, line, circle, angle, locus
 from module import *
 from preference import preference
 from fileIO import fileIO
-from request_gpt import request_gpt
+from RequestGPT import RequestGPT
 
 
 class application:
@@ -63,8 +63,34 @@ class application:
         self.fileIO = fileIO(self)
         self.quitApplication = False
 
-        self.inferenceTextbox = None
-        self.inferenceButton = None
+        self.rg = RequestGPT()
+        self.undoButton = tk.Button(self.root,
+                                    text="Undo",
+                                    background="OliveDrab1",
+                                    font=("", 18),
+                                    anchor=tk.CENTER,
+                                    width=8,
+                                    command=self.undo)
+        self.redoButton = tk.Button(self.root,
+                                    text="Redo",
+                                    background="OliveDrab1",
+                                    font=("", 18),
+                                    anchor=tk.CENTER,
+                                    width=8,
+                                    command=self.redo)
+        self.interaction_mode = tk.BooleanVar()
+        self.inferenceTextbox = ScrolledText(
+            self.root, wrap=tk.WORD, width=40, height=10)
+        self.inferenceButton = tk.Button(self.root,
+                                         text="推論",
+                                         background="OliveDrab1",
+                                         font=("", 18),
+                                         anchor=tk.CENTER,
+                                         width=8,
+                                         command=self.inference)
+        self.checkButton = tk.Checkbutton(self.root,
+                                          text="対話モード",
+                                          variable=self.interaction_mode)
 
         self.is_space_pressed = False
         self.prev_cood_x = 0
@@ -168,18 +194,36 @@ class application:
 
     def getNextID(self):
         ids = [int(obj.tag[4:]) for obj in self.logs[1:]]
-        self.nextID = max(ids)+1
-        pass
+        if len(ids) == 0:
+            return 1
+        else:
+            self.nextID = max(ids)+1
 
     def inference(self):
         if self.inferenceTextbox is None:
             return
-        t = self.inferenceTextbox.get("1.0", "end-1c")
-        print("inference : {}".format(t))
-        result, filepath = request_gpt(t)
+        it = self.inferenceTextbox.get("1.0", "end-1c")
+        im = self.interaction_mode.get()
+        print("interaction mode : {}\ninference : {}".format(
+            im, it))
+        result, filepath = self.rg.request_gpt(it, im)
         print(result)
         self.fileIO.openXmlFile(self, filepath)
         self.root.focus()
+
+    def undo(self):
+        result = self.rg.undo()
+        if result["ok"]:
+            _, filepath = result["result"]
+            self.fileIO.openXmlFile(self, filepath)
+            self.root.focus()
+
+    def redo(self):
+        result = self.rg.redo()
+        if result["ok"]:
+            _, filepath = result["result"]
+            self.fileIO.openXmlFile(self, filepath)
+            self.root.focus()
 
     def drawAll(self):
         """ """
@@ -189,27 +233,18 @@ class application:
         self.logLineFeed = self.logLineFeedStart+self.logLineFeedDraggingWidth
         self.showLogs()
         if self.onMode == self.menuGPT:
-            if self.inferenceTextbox is None:
-                self.inferenceTextbox = ScrolledText(
-                    self.root, wrap=tk.WORD, width=40, height=10)
-                self.inferenceTextbox.place(width=400, height=100, x=500, y=20)
-            if self.inferenceButton is None:
-                self.inferenceButton = tk.Button(self.root,
-                                                 text="inference",
-                                                 background="OliveDrab1",
-                                                 font=("", 18),
-                                                 anchor=tk.CENTER,
-                                                 width=8,
-                                                 command=self.inference)
-                self.inferenceButton.place(x=500, y=120)
+            self.inferenceTextbox.place(width=400, height=100, x=500, y=20)
+            self.inferenceButton.place(x=500, y=120)
+            self.checkButton.place(x=700, y=120)
+            self.redoButton.place(width=100, height=40, x=500, y=170)
+            self.undoButton.place(width=100, height=40, x=650, y=170)
+
         else:
-            if self.inferenceTextbox is not None:
-                self.inferenceTextbox.place_forget()
-                self.inferenceTextbox.destroy()
-                self.inferenceTextbox = None
-            if self.inferenceButton is not None:
-                self.inferenceButton.destroy()
-                self.inferenceButton = None
+            self.inferenceTextbox.place_forget()
+            self.inferenceButton.place_forget()
+            self.checkButton.place_forget()
+            self.redoButton.place_forget()
+            self.undoButton.place_forget()
         if self.dispMenu == False:
             self.drawMenuOnIcon()
             self.headerCanvas.create_text(
@@ -569,7 +604,7 @@ class application:
     def drawMenuOnIcon(self):
         self.menuOn.showIcon(self.headerCanvas)
 
-    @property
+    @ property
     def allButtonIcons(self):
         return [
             self.menuAddPoint, self.menuMidPoint, self.menuAddLine, self.menuAddCircle, self.menuAddAngle, self.menuCrossing,

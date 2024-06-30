@@ -4,7 +4,6 @@ from PIL import Image, ImageTk
 
 from object import point, line, circle, angle, xxxxx
 from module import *
-from request_gpt import request_gpt
 
 
 class menuItem:
