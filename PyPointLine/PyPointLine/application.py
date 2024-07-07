@@ -236,8 +236,8 @@ class application:
             self.inferenceTextbox.place(width=400, height=100, x=500, y=20)
             self.inferenceButton.place(x=500, y=120)
             self.checkButton.place(x=700, y=120)
-            self.redoButton.place(width=100, height=40, x=500, y=170)
-            self.undoButton.place(width=100, height=40, x=650, y=170)
+            self.undoButton.place(width=100, height=40, x=500, y=170)
+            self.redoButton.place(width=100, height=40, x=630, y=170)
 
         else:
             self.inferenceTextbox.place_forget()

@@ -1,6 +1,7 @@
 #
 #
 #
+from collections import defaultdict
 from enum import Enum
 import math
 import random
@@ -54,10 +55,6 @@ class XMLError(Enum):
     UNDEFINED_TAG = "undefined_tag"
 
 
-def random_scale(a=5.0, b=0.0):
-    return a*random.random()+b
-
-
 def xml2dict(root) -> list[dict] | XMLError:
     figures = []
     id2tag = {}
@@ -72,8 +69,8 @@ def xml2dict(root) -> list[dict] | XMLError:
                 "type": "point",
                 "id": attr["id"],
                 "tag": id2tag[attr["id"]],
-                "x": random_scale(),
-                "y": random_scale(),
+                "x": 0,
+                "y": 0,
                 "name": name,
                 "fixed": 0,
                 "showName": 1,
@@ -115,8 +112,8 @@ def xml2dict(root) -> list[dict] | XMLError:
                     "type": "point",
                     "id": attr["id"],
                     "tag": id2tag[center_point_id],
-                    "x": random_scale(),
-                    "y": random_scale(),
+                    "x": 0,
+                    "y": 0,
                     "name": "",
                     "fixed": 0,
                     "showName": 1,
@@ -250,3 +247,87 @@ def xml2dict(root) -> list[dict] | XMLError:
         else:
             continue
     return figures
+
+
+def random_scale(a=-2.0, b=2.0):
+    return random.uniform(a, b)
+
+
+def locate_polygon_vertex(number_of_vertex: int,
+                          center: tuple[float, float] = (0.0, 0.0),
+                          radius: float = 2.0,
+                          random_variation: float = 1.0) -> list[tuple[float, float]]:
+    vertices = []
+    for i in range(number_of_vertex):
+        angle = 2*math.pi/number_of_vertex*i
+        x = center[0] + radius*math.cos(angle)+random_variation*random.random()
+        y = center[1] + radius*math.sin(angle)+random_variation*random.random()
+        vertices.append((x, y))
+    return vertices
+
+
+def adjust_figure_location(figures):
+    graph = defaultdict(list)
+    points_ids = []
+    tag2pointname = {}
+    tag2point_index = {}
+    for i, fig in enumerate(figures):
+        if fig["type"] == "line":
+            p1, p2 = fig["point1"], fig["point2"]
+            points_ids.append(p1)
+            points_ids.append(p2)
+        if fig["type"] == "point":
+            tag2pointname[fig["tag"]] = fig["name"]
+            tag2point_index[fig["tag"]] = i
+    points_ids = list(set(points_ids))
+    for fig in figures:
+        if fig["type"] == "line":
+            p1, p2 = (points_ids.index(fig["point1"]),
+                      points_ids.index(fig["point2"]))
+            graph[p1].append(p2)
+            graph[p2].append(p1)
+
+    # Step 2: Find cycles (polygons)
+    cycles = find_all_cycles(graph, len(points_ids))
+    checked_points = set()
+    for point_id in points_ids:
+        if point_id in checked_points:
+            continue
+        max_len_cycle = []
+        for cycle in cycles:
+            # print([tag2pointname[points_ids[point]] for point in cycle])
+            if len(cycle) > len(max_len_cycle) and point_id in [points_ids[point] for point in cycle]:
+                max_len_cycle = cycle
+        # print([tag2pointname[points_ids[point]] for point in max_len_cycle])
+        polygon_vertex_coodinates = locate_polygon_vertex(
+            len(max_len_cycle), center=(random_scale(), random_scale()),
+            radius=random_scale(a=1.0, b=2.0), random_variation=0.5)
+        for pid, (x, y) in zip(max_len_cycle, polygon_vertex_coodinates):
+            point_tag = points_ids[pid]
+            figures[tag2point_index[point_tag]]["x"] = x
+            figures[tag2point_index[point_tag]]["y"] = y
+            checked_points.add(pid)
+    return figures
+
+
+def find_all_cycles(graph, N):
+    def dfs(node, start, path, visited):
+        visited[node] = True
+        path.append(node)
+        for neighbor in graph[node]:
+            if not visited[neighbor]:
+                if dfs(neighbor, start, path, visited):
+                    return True
+            elif neighbor == start and len(path) > 2:
+                cycles.append(path[:])
+        path.pop()
+        visited[node] = False
+        return False
+
+    cycles = []
+    visited = [False] * N
+    for start in range(N):
+        path = []
+        dfs(start, start, path, visited)
+
+    return cycles

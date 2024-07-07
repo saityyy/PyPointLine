@@ -3,7 +3,7 @@ from pprint import pprint
 import xml.etree.ElementTree as ET
 from object import point, line, circle, xxxxx
 from module import *
-from utils import xml2dict
+from utils import xml2dict, adjust_figure_location
 
 
 class fileIO:
@@ -64,10 +64,9 @@ class fileIO:
         figures = xml2dict(tree.getroot())
         if type(figures) is not list:
             raise Exception("xml file error {}".format(figures))
+        figures = adjust_figure_location(figures)
         for dic in figures:
-            pprint(dic)
             self.dict2pointline(app, dic)
-        print(app.logs)
         # app.nextID
         app.getNextID()
         pass
