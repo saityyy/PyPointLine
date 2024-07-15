@@ -1,2 +1,70 @@
 <?xml version='1.0' encoding='utf-8'?>
-<figures><point id="tag_0"><name>A</name></point><point id="tag_1"><name>B</name></point><point id="tag_2"><name>C</name></point><point id="tag_3"><name>D</name></point><point id="tag_4"><name>E</name></point><point id="tag_5"><name>F</name></point><point id="tag_6"><name>G</name></point><point id="tag_7"><name>H</name></point><point id="tag_8"><name>J</name></point><point id="tag_9"><name>K</name></point><line-segment id="tag_10" point-id1="tag_0" point-id2="tag_1"><name>AB</name></line-segment><line-segment id="tag_11" point-id1="tag_2" point-id2="tag_3"><name>CD</name></line-segment><line-segment id="tag_12" point-id1="tag_4" point-id2="tag_3"><name>ED</name></line-segment><line-segment id="tag_13" point-id1="tag_4" point-id2="tag_0"><name>EA</name></line-segment><line-segment id="tag_14" point-id1="tag_2" point-id2="tag_5"><name>CF</name></line-segment><line-segment id="tag_15" point-id1="tag_1" point-id2="tag_5"><name>BF</name></line-segment><line-segment id="tag_16" point-id1="tag_6" point-id2="tag_7"><name>GH</name></line-segment><line-segment id="tag_17" point-id1="tag_8" point-id2="tag_9"><name>JK</name></line-segment><line-segment id="tag_18" point-id1="tag_6" point-id2="tag_9"><name>GK</name></line-segment><line-segment id="tag_19" point-id1="tag_8" point-id2="tag_7"><name>JH</name></line-segment><line-segment id="tag_20" point-id1="tag_7" point-id2="tag_2"><name>HC</name></line-segment><parallel line-id1="tag_14" line-id2="tag_16" /><parallel line-id1="tag_17" line-id2="tag_20" /><parallel line-id1="tag_15" line-id2="tag_13" /></figures>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <point id="tag_2">
+        <name>C</name>
+    </point>
+    <point id="tag_3">
+        <name>D</name>
+    </point>
+    <point id="tag_4">
+        <name>E</name>
+    </point>
+    <point id="tag_5">
+        <name>F</name>
+    </point>
+    <point id="tag_6">
+        <name>G</name>
+    </point>
+    <point id="tag_7">
+        <name>H</name>
+    </point>
+    <point id="tag_8">
+        <name>J</name>
+    </point>
+    <point id="tag_9">
+        <name>K</name>
+    </point>
+    <line-segment id="tag_10" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_11" point-id1="tag_2" point-id2="tag_3">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_12" point-id1="tag_4" point-id2="tag_3">
+        <name>ED</name>
+    </line-segment>
+    <line-segment id="tag_13" point-id1="tag_4" point-id2="tag_0">
+        <name>EA</name>
+    </line-segment>
+    <line-segment id="tag_14" point-id1="tag_2" point-id2="tag_5">
+        <name>CF</name>
+    </line-segment>
+    <line-segment id="tag_15" point-id1="tag_1" point-id2="tag_5">
+        <name>BF</name>
+    </line-segment>
+    <line-segment id="tag_16" point-id1="tag_6" point-id2="tag_7">
+        <name>GH</name>
+    </line-segment>
+    <line-segment id="tag_17" point-id1="tag_8" point-id2="tag_9">
+        <name>JK</name>
+    </line-segment>
+    <line-segment id="tag_18" point-id1="tag_6" point-id2="tag_9">
+        <name>GK</name>
+    </line-segment>
+    <line-segment id="tag_19" point-id1="tag_8" point-id2="tag_7">
+        <name>JH</name>
+    </line-segment>
+    <line-segment id="tag_20" point-id1="tag_7" point-id2="tag_2">
+        <name>HC</name>
+    </line-segment>
+    <parallel line-id1="tag_14" line-id2="tag_16" />
+    <parallel line-id1="tag_17" line-id2="tag_20" />
+    <parallel line-id1="tag_15" line-id2="tag_13" />
+    <!-- <vertical line-id1="tag_15" line-id2="tag_13" /> -->
+</figures>

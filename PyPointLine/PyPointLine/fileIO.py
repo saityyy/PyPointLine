@@ -1,6 +1,7 @@
 # import cv2
 from pprint import pprint
 import xml.etree.ElementTree as ET
+from Solver import Solver
 from object import point, line, circle, xxxxx
 from module import *
 from utils import xml2dict, adjust_figure_location
@@ -64,7 +65,13 @@ class fileIO:
         figures = xml2dict(tree.getroot())
         if type(figures) is not list:
             raise Exception("xml file error {}".format(figures))
-        figures = adjust_figure_location(figures)
+        solver = Solver(figures)
+        geometry_solve_result = solver.solve()
+        if not geometry_solve_result["ok"]:
+            print("geometry solve failed")
+            return
+        figures = adjust_figure_location(
+            figures, geometry_solve_result["tag2pxy"])
         for dic in figures:
             self.dict2pointline(app, dic)
         # app.nextID

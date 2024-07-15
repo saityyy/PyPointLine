@@ -266,7 +266,7 @@ def locate_polygon_vertex(number_of_vertex: int,
     return vertices
 
 
-def adjust_figure_location(figures):
+def adjust_figure_location(figures, tag2pxy):
     graph = defaultdict(list)
     points_ids = []
     tag2pointname = {}

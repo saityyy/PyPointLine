@@ -2,39 +2,6 @@
 import random
 from scipy.optimize import fsolve
 
-# パラメータを設定
-r = 5  # 円の半径
-x1, y1 = 1, 2  # 点1の初期値
-x2, y2 = 4, 3  # 点2の初期値
-x3, y3 = 1, 2  # 点1の初期値
-x4, y4 = 4, 3  # 点2の初期値
-
-# 連立方程式を定義
-
-
-def equations(vars):
-    x1, y1, x2, y2 = vars
-    a = (y2 - y1) / (x2 - x1)
-    b = y1 - a * x1
-    return [y1 - a * x1 - b,
-            y2 - a * x2 - b,
-            a * b - (a**2 + 1) * (b**2 - r**2),
-            x1]
-
-
-def equations2(vars):
-    x1, y1, x2, y2 = vars
-    a = (y2 - y1) / (x2 - x1)
-    b = y1 - a * x1
-    return [b, a-1, x1-1, y1-1]
-
-
-# 初期推定値
-initial_guess = [x1, y1, x2, y2]
-
-# 方程式を解く
-solution = fsolve(equations2, initial_guess)
-
 
 class Solver:
     def __init__(self, figures_list):
@@ -60,6 +27,12 @@ class Solver:
                 if not circle.is_valid():
                     print("Invalid circle")
             elif figure["type"] == "module":
+                if figure["moduletype"] == "midpoint":
+                    midpoint = self.MidPoint(
+                        self.tag2point[figure["p1"]], self.tag2point[figure["p2"]], self.tag2point[figure["p3"]])
+                    self.modules.append(midpoint)
+                    if not midpoint.is_valid():
+                        print("Invalid module midpoint")
                 if figure["moduletype"] == "point2line":
                     p2l = self.P2L(self.tag2point[figure["p1"]],
                                    self.tag2line[figure["l1"]])
@@ -80,6 +53,25 @@ class Solver:
                     self.modules.append(l2c)
                     if not l2c.is_valid():
                         print("Invalid module l2c")
+                elif figure["moduletype"] == "circle2circle":
+                    c2c = self.C2C(
+                        self.tag2circle[figure["cc1"]], self.tag2circle[figure["cc2"]])
+                    self.modules.append(c2c)
+                    if not c2c.is_valid():
+                        print("Invalid module c2c")
+                elif figure["moduletype"] == "paralell":
+                    paralell = self.Paralell(
+                        self.tag2line[figure["line1"]], self.tag2line[figure["line2"]])
+                    self.modules.append(paralell)
+                    if not paralell.is_valid():
+                        print("Invalid module paralell")
+                elif figure["moduletype"] == "perpendicular":
+                    vertical = self.Vertical(
+                        self.tag2line[figure["line1"]], self.tag2line[figure["line2"]])
+                    self.modules.append(vertical)
+                    if not vertical.is_valid():
+                        print("Invalid module vertical")
+        print(self.modules)
 
     def solve(self):
         initial_guess = [random.uniform(-10.0, 10.0)
@@ -99,6 +91,15 @@ class Solver:
         solution = fsolve(equations, initial_guess)
         print(solution)
         print(equations(solution))
+        # resultの要素がすべて1e-9以下ならばokをTrueにしてtag2pxyを返す
+        for r in equations(solution):
+            if r > 1e-9:
+                return {"ok": False}
+        solution = list(solution)
+        tag2pxy = {}
+        for tag in self.tag2point.keys():
+            tag2pxy[tag] = (solution.pop(0), solution.pop(0))
+        return {"ok": True, "tag2pxy": tag2pxy}
 
     class Object:
         def __init__(self, tag):
@@ -110,9 +111,6 @@ class Solver:
     class Point(Object):
         def __init__(self, tag):
             super().__init__(tag)
-
-        def __eq__(self, other):
-            return self.tag == other.tag
 
         def is_valid(self):
             return True
@@ -126,9 +124,6 @@ class Solver:
         def is_valid(self):
             return self.p1 != self.p2
 
-        def test(self):
-            print(id(self.p1))
-
     class Circle(Object):
         def __init__(self, tag, p, r):
             super().__init__(tag)
@@ -137,6 +132,21 @@ class Solver:
 
         def is_valid(self):
             return self.r > 0
+
+    class MidPoint:
+        def __init__(self, p1, p2, p3):
+            self.p1 = p1
+            self.p2 = p2
+            self.p3 = p3
+
+        def is_valid(self):
+            return self.p1 != self.p2 and self.p1 != self.p3 and self.p2 != self.p3
+
+        def equation(self, tag2pxy):
+            x1, y1 = tag2pxy[self.p1.tag]
+            x2, y2 = tag2pxy[self.p2.tag]
+            x3, y3 = tag2pxy[self.p3.tag]
+            return ((x1+x2)/2-x3)**2+((y1+y2)/2-y3)**2
 
     class P2L:
         def __init__(self, p, l):
@@ -188,15 +198,78 @@ class Solver:
                 return b**2-4*a*c
             return f
 
+    class C2C:
+        def __init__(self, c1, c2):
+            self.c1 = c1
+            self.c2 = c2
+
+        def is_valid(self):
+            return True
+
+        def equation(self, tag2pxy):
+            def f():
+                c1x, c1y = tag2pxy[self.c1.p.tag]
+                c2x, c2y = tag2pxy[self.c2.p.tag]
+                r1 = self.c1.r
+                r2 = self.c2.r
+                return ((c1x-c2x)**2+(c1y-c2y)**2)-(r1+r2)**2
+            return f
+
+    class Paralell:
+        def __init__(self, l1, l2):
+            self.l1 = l1
+            self.l2 = l2
+
+        def is_valid(self):
+            return self.l1.tag != self.l2.tag
+
+        def equation(self, tag2pxy):
+            def f():
+                l1x1, l1y1 = tag2pxy[self.l1.p1.tag]
+                l1x2, l1y2 = tag2pxy[self.l1.p2.tag]
+                l2x1, l2y1 = tag2pxy[self.l2.p1.tag]
+                l2x2, l2y2 = tag2pxy[self.l2.p2.tag]
+                a1 = (l1y2-l1y1)/(l1x2-l1x1)
+                a2 = (l2y2-l2y1)/(l2x2-l2x1)
+                return a1-a2
+            return f
+
+    class Vertical:
+        def __init__(self, l1, l2):
+            self.l1 = l1
+            self.l2 = l2
+
+        def is_valid(self):
+            return self.l1.tag != self.l2.tag
+
+        def equation(self, tag2pxy):
+            def f():
+                l1x1, l1y1 = tag2pxy[self.l1.p1.tag]
+                l1x2, l1y2 = tag2pxy[self.l1.p2.tag]
+                l2x1, l2y1 = tag2pxy[self.l2.p1.tag]
+                l2x2, l2y2 = tag2pxy[self.l2.p2.tag]
+                a1 = (l1y2-l1y1)/(l1x2-l1x1)
+                a2 = (l2y2-l2y1)/(l2x2-l2x1)
+                return a1*a2+1
+            return f
+
 
 if __name__ == '__main__':
     figures_list = [
         {"type": "point", "tag": "p1", "x": 1, "y": 2},
         {"type": "point", "tag": "p2", "x": 4, "y": 3},
-        {"type": "line", "tag": "l1", "point1": "p1", "point2": "p1"},
+        {"type": "point", "tag": "p3", "x": 4, "y": 3},
+        {"type": "line", "tag": "l1", "point1": "p1", "point2": "p2"},
         {"type": "circle", "tag": "c1", "point": "p2", "r": 5},
-        {"type": "module", "moduletype": "point2line", "p1": "p1", "l1": "l1"},
+        {"type": "module", "moduletype": "point2line", "p1": "p3", "l1": "l1"},
         {"type": "module", "moduletype": "point2circle", "p1": "p1", "c1": "c1"}
     ]
-    solver = Solver(figures_list)
+    figures_list2 = [
+        {"type": "point", "tag": "p1"},
+        {"type": "point", "tag": "p2"},
+        {"type": "point", "tag": "p3"},
+        {"type": "module", "moduletype": "midpoint",
+            "p1": "p1", "p2": "p2", "p3": "p3"},
+    ]
+    solver = Solver(figures_list2)
     solver.solve()
