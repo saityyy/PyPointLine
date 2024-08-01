@@ -114,7 +114,7 @@ class midpoint(module):
         elem = ET.SubElement(parent_element, "middle-point")
         elem.set("point-id1", self.p1.tag)
         elem.set("point-id2", self.p2.tag)
-        elem.set("middle-point", self.p3.tag)
+        elem.set("middle-point-id", self.p3.tag)
 
     def matter(self, obj):
         if obj != None and obj == self.p1:
@@ -554,7 +554,7 @@ class isometry(module):
         return "type=module,moduletype=isometry,tag=%s,ln1=%s,ln2=%s,ratio1=%d,ratio2=%d,fixedRatio=%d,para1=%f" % (self.tag, self.ln1.tag, self.ln2.tag, self.ratio1, self.ratio2, int(self.fixedRatio), self.para1)
 
     def toXMLElement(self, parent_element):
-        elem = ET.SubElement(parent_element, "vertical")
+        elem = ET.SubElement(parent_element, "isometry")
         elem.set("line-id1", self.ln1.tag)
         elem.set("line-id2", self.ln2.tag)
 
@@ -861,6 +861,11 @@ class bisector(module):
 
     def toString(self) -> str:
         return "type=module,moduletype=bisector,tag=%s,angle1=%s,angle2=%s,para1=%f" % (self.tag, self.angle1.tag, self.angle2.tag, self.para1)
+
+    def toXMLElement(self, parent_element):
+        elem = ET.SubElement(parent_element, "bisector")
+        elem.set("angle-id1", self.angle1.tag)
+        elem.set("angle-id2", self.angle2.tag)
 
     def matter(self, obj):
         if obj != None and obj == self.angle1:

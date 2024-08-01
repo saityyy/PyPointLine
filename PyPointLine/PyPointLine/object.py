@@ -562,6 +562,15 @@ class angle(object):
         ##
         return ""
 
+    def toXMLElement(self, parent_element):
+        elem = ET.SubElement(parent_element, "angle")
+        elem.set("id", self.tag)
+        elem.set("point-id1", self.point1.tag)
+        elem.set("point-id2", self.point2.tag)
+        elem.set("point-id3", self.point3.tag)
+        name_elem = ET.SubElement(elem, "name")
+        name_elem.text = self.name
+
     def matter(self, obj):
         if obj != None and obj == self.point1:
             return True

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_9">
+        <name>A</name>
+    </point>
+    <point id="tag_10">
+        <name>B</name>
+    </point>
+    <line-segment id="tag_11" point-id1="tag_9" point-id2="tag_10">
+        <name>AB</name>
+    </line-segment>
+    <point id="tag_12">
+        <name>C</name>
+    </point>
+    <line-segment id="tag_13" point-id1="tag_12" point-id2="tag_10">
+        <name>CB</name>
+    </line-segment>
+    <point id="tag_14">
+        <name>D</name>
+    </point>
+    <line-segment id="tag_15" point-id1="tag_9" point-id2="tag_14">
+        <name>AD</name>
+    </line-segment>
+    <line-segment id="tag_16" point-id1="tag_14" point-id2="tag_12">
+        <name>DC</name>
+    </line-segment>
+    <point id="tag_17">
+        <name>E</name>
+    </point>
+    <circle id="tag_18" center-point-id="tag_17">
+        <name>C1</name>
+    </circle>
+    <line-tangent-circle line-id="tag_11" circle-id="tag_18" />
+    <line-tangent-circle line-id="tag_13" circle-id="tag_18" />
+    <line-tangent-circle line-id="tag_16" circle-id="tag_18" />
+    <line-tangent-circle line-id="tag_15" circle-id="tag_18" />
+</figures>

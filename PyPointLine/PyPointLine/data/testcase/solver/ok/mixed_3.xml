@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_11">
+        <name>A</name>
+    </point>
+    <circle id="tag_12" center-point-id="tag_11">
+        <name>C1</name>
+    </circle>
+    <point id="tag_13">
+        <name>B</name>
+    </point>
+    <circle id="tag_14" center-point-id="tag_13">
+        <name>C2</name>
+    </circle>
+    <point id="tag_15">
+        <name>C</name>
+    </point>
+    <circle id="tag_16" center-point-id="tag_15">
+        <name>C3</name>
+    </circle>
+    <point id="tag_17">
+        <name>D</name>
+    </point>
+    <point id="tag_18">
+        <name>E</name>
+    </point>
+    <point-on-circle point-id="tag_17" circle-id="tag_12" />
+    <point-on-circle point-id="tag_17" circle-id="tag_16" />
+    <point-on-circle point-id="tag_18" circle-id="tag_16" />
+    <point-on-circle point-id="tag_18" circle-id="tag_12" />
+    <point id="tag_23">
+        <name>F</name>
+    </point>
+    <point id="tag_25">
+        <name>H</name>
+    </point>
+    <point id="tag_26">
+        <name>J</name>
+    </point>
+    <point-on-circle point-id="tag_25" circle-id="tag_14" />
+    <point-on-circle point-id="tag_25" circle-id="tag_12" />
+    <point-on-circle point-id="tag_26" circle-id="tag_14" />
+    <point-on-circle point-id="tag_26" circle-id="tag_12" />
+    <point id="tag_31">
+        <name>K</name>
+    </point>
+    <point id="tag_32">
+        <name>L</name>
+    </point>
+    <point-on-circle point-id="tag_32" circle-id="tag_14" />
+    <point-on-circle point-id="tag_32" circle-id="tag_14" />
+    <point-on-circle point-id="tag_32" circle-id="tag_16" />
+    <point-on-circle point-id="tag_31" circle-id="tag_16" />
+    <point-on-circle point-id="tag_31" circle-id="tag_14" />
+    <point-on-circle point-id="tag_23" circle-id="tag_14" />
+    <point-on-circle point-id="tag_23" circle-id="tag_16" />
+</figures>

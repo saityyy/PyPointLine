@@ -125,23 +125,41 @@ def xml2dict(root) -> list[dict] | XMLError:
                     "type": "circle",
                     "id": attr["id"],
                     "point1": id2tag[center_point_id],
-                    "radius": random_scale(a=0.5, b=1),
+                    "radius": 0.5,
                     "tag": id2tag[attr["id"]],
                     "name": name,
                     "fixedRadius": 0,
                     "active": 1
                 })
+        elif data.tag == "angle":
+            point_id1, point_id2, point_id3 = (
+                attr["point-id1"], attr["point-id2"], attr["point-id3"])
+            id2tag[attr["id"]] = "tag_{}".format(len(figures))
+            figures.append({
+                "type": "angle",
+                "id": attr["id"],
+                "tag": id2tag[attr["id"]],
+                "name": name,
+                "point1": id2tag[point_id1],
+                "point2": id2tag[point_id2],
+                "point3": id2tag[point_id3],
+                "showArc": 1,
+                "showValue": 1,
+                "fixValue": 0,
+                "active": 1
+            })
         else:
             pass
 
     line_ids = [fig["id"] for fig in figures if fig["type"] == "line"]
     circle_ids = [fig["id"] for fig in figures if fig["type"] == "circle"]
+    angle_ids = [fig["id"] for fig in figures if fig["type"] == "angle"]
     # module
     for data in root:
         attr = data.attrib
         if data.tag == "middle-point":
             middle_point_id, point_id1, point_id2 = (
-                attr["middle-point"], attr["point-id1"], attr["point-id2"])
+                attr["middle-point-id"], attr["point-id1"], attr["point-id2"])
             if not all((middle_point_id in point_ids, point_id1 in point_ids, point_id2 in point_ids)):
                 return XMLError.INCORRECT_REFID
             figures.append(
@@ -244,6 +262,37 @@ def xml2dict(root) -> list[dict] | XMLError:
                     "para1": 0.1
                 }
             )
+        elif data.tag == "isometry":
+            line_id1, line_id2 = (attr["line-id1"], attr["line-id2"])
+            if line_id1 not in line_ids or line_id2 not in line_ids:
+                return XMLError.INCORRECT_REFID
+            figures.append(
+                {
+                    "type": "module",
+                    "moduletype": "isometry",
+                    "tag": "tag_{}".format(len(figures)),
+                    "line1": id2tag[line_id1],
+                    "line2": id2tag[line_id2],
+                    "ratio1": 1,
+                    "ratio2": 1,
+                    "fixedRatio": 1,
+                    "para1": 0.25
+                }
+            )
+        elif data.tag == "bisector":
+            angle_id1, angle_id2 = (attr["angle-id1"], attr["angle-id2"])
+            if angle_id1 not in angle_ids or angle_id2 not in angle_ids:
+                return XMLError.INCORRECT_REFID
+            figures.append(
+                {
+                    "type": "module",
+                    "moduletype": "bisector",
+                    "tag": "tag_{}".format(len(figures)),
+                    "angle1": id2tag[angle_id1],
+                    "angle2": id2tag[angle_id2],
+                    "para1": 0.1
+                }
+            )
         else:
             continue
     return figures
@@ -267,6 +316,19 @@ def locate_polygon_vertex(number_of_vertex: int,
 
 
 def adjust_figure_location(figures, tag2pxy):
+    max_norm = 0
+    for (x, y) in tag2pxy.values():
+        max_norm = max(max_norm, (x**2+y**2)**0.5)
+    max_norm /= 3
+    for tag, (x, y) in tag2pxy.items():
+        for i, fig in enumerate(figures):
+            if fig["tag"] == tag:
+                figures[i]["x"], figures[i]["y"] = x/max_norm, y/max_norm
+                print(tag, x, y)
+    for fig in figures:
+        if fig["type"] == "circle":
+            fig["radius"] /= max_norm
+    return figures
     graph = defaultdict(list)
     points_ids = []
     tag2pointname = {}

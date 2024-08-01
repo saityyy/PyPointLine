@@ -70,6 +70,8 @@ class fileIO:
         if not geometry_solve_result["ok"]:
             print("geometry solve failed")
             return
+        validation_result = solver.validate(geometry_solve_result['tag2pxy'])
+        print(validation_result)
         figures = adjust_figure_location(
             figures, geometry_solve_result["tag2pxy"])
         for dic in figures:
@@ -118,6 +120,21 @@ class fileIO:
             newCircle.fixedRadius = bool(int(dic['fixedRadius']))
             newCircle.active = bool(int(dic['active']))
             app.logs.append(newCircle)
+        elif dic['type'] == 'angle':
+            point1 = app.findObjectByTag(dic['point1'])
+            point2 = app.findObjectByTag(dic['point2'])
+            point3 = app.findObjectByTag(dic['point3'])
+            if point1 == None or point2 == None or point3 == None:
+                return
+            newAngle = angle(app, point1, point2, point3)
+            newAngle.tag = dic['tag']
+            newAngle.name = dic['name']
+            newAngle.showArc = bool(int(dic['showArc']))
+            newAngle.showValue = bool(int(dic['showValue']))
+            newAngle.fixValue = bool(int(dic['fixValue']))
+            newAngle.active = bool(int(dic['active']))
+            app.logs.append(newAngle)
+
         elif dic['type'] == 'module':
             if dic['moduletype'] == 'midpoint':
                 point1 = app.findObjectByTag(dic['p1'])
@@ -167,12 +184,18 @@ class fileIO:
                 newModule.para1 = float(dic['para1'])
                 app.logs.append(newModule)
             elif dic['moduletype'] == 'isometry':
-                line1 = app.findObjectByTag(dic['ln1'])
-                line2 = app.findObjectByTag(dic['ln2'])
+                line1 = app.findObjectByTag(dic['line1'])
+                line2 = app.findObjectByTag(dic['line2'])
                 newModule = isometry(app, line1, line2)
                 newModule.ratio1 = int(dic['ratio1'])
                 newModule.ratio2 = int(dic['ratio2'])
                 newModule.fixedRatio = bool(int(dic['fixedRatio']))
+                newModule.para1 = float(dic['para1'])
+                app.logs.append(newModule)
+            elif dic['moduletype'] == 'bisector':
+                angle1 = app.findObjectByTag(dic['angle1'])
+                angle2 = app.findObjectByTag(dic['angle2'])
+                newModule = bisector(app, angle1, angle2)
                 newModule.para1 = float(dic['para1'])
                 app.logs.append(newModule)
             elif dic['moduletype'] == 'parallel':

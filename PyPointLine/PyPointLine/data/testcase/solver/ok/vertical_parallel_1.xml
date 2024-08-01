@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <point id="tag_2">
+        <name>C</name>
+    </point>
+    <point id="tag_3">
+        <name>D</name>
+    </point>
+    <point id="tag_4">
+        <name>E</name>
+    </point>
+    <line-segment id="tag_10" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_11" point-id1="tag_2" point-id2="tag_3">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_12" point-id1="tag_4" point-id2="tag_3">
+        <name>ED</name>
+    </line-segment>
+    <line-segment id="tag_13" point-id1="tag_4" point-id2="tag_0">
+        <name>EA</name>
+    </line-segment>
+    <parallel line-id1="tag_10" line-id2="tag_11" />
+    <parallel line-id1="tag_12" line-id2="tag_13" />
+    <vertical line-id1="tag_10" line-id2="tag_12" />
+</figures>

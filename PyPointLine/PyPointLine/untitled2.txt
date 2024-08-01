@@ -1,6 +1,0 @@
-type=point,x=-2.108191,y=2.606212,tag=tag_12,name=A,fixed=0,showName=1,active=1
-type=point,x=0.350148,y=2.078162,tag=tag_13,name=B,fixed=0,showName=1,active=1
-type=point,x=1.218808,y=-2.147899,tag=tag_14,name=C,fixed=0,showName=1,active=1
-type=point,x=-1.391794,y=0.459511,tag=tag_15,name=D,fixed=0,showName=1,active=1
-type=line,point1=tag_15,point2=tag_12,tag=tag_4,name=a,showLength=0,showName=0,fixedLength=0,active=1
-type=line,point1=tag_14,point2=tag_13,tag=tag_5,name=b,showLength=0,showName=0,fixedLength=0,active=1

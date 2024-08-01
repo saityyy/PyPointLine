@@ -628,6 +628,7 @@ class application:
     def openFile(self):
         fTyp = [("", "*"), ("", "txt, TXT"), ("", "png,PNG")]
         iDir = os.path.abspath(os.path.dirname(__file__))
+        iDir = os.path.join(iDir, "data")
         filePath = tk.filedialog.askopenfilename(
             filetypes=fTyp, initialdir=iDir)
         print(filePath)
