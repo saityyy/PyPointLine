@@ -4,6 +4,7 @@ from pprint import pprint
 import xml.etree.ElementTree as ET
 import os
 import random
+import numpy as np
 from scipy.optimize import fsolve
 
 from utils import xml2dict
@@ -16,6 +17,7 @@ class Solver:
         self.tag2point = {}
         self.tag2line = {}
         self.tag2circle = {}
+        self.tag2angle = {}
         self.modules = []
         for figure in figures_list:
             if figure["type"] == "point":
@@ -34,6 +36,12 @@ class Solver:
                 self.tag2circle[figure["tag"]] = circle
                 if not circle.is_valid():
                     print("Invalid circle")
+            elif figure["type"] == "angle":
+                angle = self.Angle(figure["tag"], self.tag2point[figure["point1"]],
+                                   self.tag2point[figure["point2"]], self.tag2point[figure["point3"]])
+                self.tag2angle[figure["tag"]] = angle
+                if not angle.is_valid():
+                    print("Invalid angle")
             elif figure["type"] == "module":
                 if figure["moduletype"] == "midpoint":
                     midpoint = self.MidPoint(
@@ -77,6 +85,18 @@ class Solver:
                     self.modules.append(vertical)
                     if not vertical.is_valid():
                         print("Invalid module vertical")
+                elif figure["moduletype"] == "isometry":
+                    isometry = self.Isometry(
+                        self.tag2line[figure["line1"]], self.tag2line[figure["line2"]])
+                    self.modules.append(isometry)
+                    if not isometry.is_valid():
+                        print("Invalid module isometry")
+                elif figure["moduletype"] == "bisector":
+                    bisector = self.Bisector(
+                        self.tag2angle[figure["angle1"]], self.tag2angle[figure["angle2"]])
+                    self.modules.append(bisector)
+                    if not bisector.is_valid():
+                        print("Invalid module bisector")
 
     def equations(self, vars):
         vars = list(vars)
@@ -103,6 +123,13 @@ class Solver:
         for tag in self.tag2circle.keys():
             ptag = self.tag2circle[tag].p.tag
             self.tag2circle[tag].p = self.tag2point[ptag]
+        for tag in self.tag2angle.keys():
+            p1tag = self.tag2angle[tag].p1.tag
+            p2tag = self.tag2angle[tag].p2.tag
+            p3tag = self.tag2angle[tag].p3.tag
+            self.tag2angle[tag].p1 = self.tag2point[p1tag]
+            self.tag2angle[tag].p2 = self.tag2point[p2tag]
+            self.tag2angle[tag].p3 = self.tag2point[p3tag]
         for i, m in enumerate(self.modules):
             if m.__class__.__name__ == "MidPoint":
                 self.modules[i].p1 = self.tag2point[m.p1.tag]
@@ -126,6 +153,12 @@ class Solver:
             elif m.__class__.__name__ == "Vertical":
                 self.modules[i].l1 = self.tag2line[m.l1.tag]
                 self.modules[i].l2 = self.tag2line[m.l2.tag]
+            elif m.__class__.__name__ == "Isometry":
+                self.modules[i].l1 = self.tag2line[m.l1.tag]
+                self.modules[i].l2 = self.tag2line[m.l2.tag]
+            elif m.__class__.__name__ == "Bisector":
+                self.modules[i].a1 = self.tag2angle[m.a1.tag]
+                self.modules[i].a2 = self.tag2angle[m.a2.tag]
         for l in self.tag2line.values():
             if not l.is_valid():
                 print('invalid line')
@@ -203,6 +236,16 @@ class Solver:
 
         def is_valid(self):
             return self.r > 0
+
+    class Angle(Object):
+        def __init__(self, tag, p1, p2, p3):
+            super().__init__(tag)
+            self.p1 = p1
+            self.p2 = p2
+            self.p3 = p3
+
+        def is_valid(self):
+            return self.p1 != self.p2 and self.p1 != self.p3 and self.p2 != self.p3
 
     class MidPoint:
         def __init__(self, p1, p2, p3):
@@ -341,6 +384,57 @@ class Solver:
                 a2 = (l2y2-l2y1)/(l2x2-l2x1)
             return a1*a2+1
 
+    class Isometry:
+        def __init__(self, l1, l2):
+            self.l1 = l1
+            self.l2 = l2
+
+        def is_valid(self):
+            return self.l1.tag != self.l2.tag
+
+        def equation(self, tag2pxy):
+            l1x1, l1y1 = tag2pxy[self.l1.p1.tag]
+            l1x2, l1y2 = tag2pxy[self.l1.p2.tag]
+            l2x1, l2y1 = tag2pxy[self.l2.p1.tag]
+            l2x2, l2y2 = tag2pxy[self.l2.p2.tag]
+
+            return (l1x2-l1x1)**2+(l1y2-l1y1)**2-(l2x2-l2x1)**2-(l2y2-l2y1)**2
+
+    class Bisector:
+        def __init__(self, a1, a2):
+            self.a1 = a1
+            self.a2 = a2
+
+        def is_valid(self):
+            return self.a1.tag != self.a2.tag
+
+        def equation(self, tag2pxy):
+            a1x1, a1y1 = tag2pxy[self.a1.p1.tag]
+            a1x2, a1y2 = tag2pxy[self.a1.p2.tag]
+            a1x3, a1y3 = tag2pxy[self.a1.p3.tag]
+            a2x1, a2y1 = tag2pxy[self.a2.p1.tag]
+            a2x2, a2y2 = tag2pxy[self.a2.p2.tag]
+            a2x3, a2y3 = tag2pxy[self.a2.p3.tag]
+            if a1x2-a1x1 == 0:
+                l1 = (a1y2-a1y1)/EPSILON
+            else:
+                l1 = (a1y2-a1y1)/(a1x2-a1x1)
+            if a1x3-a1x2 == 0:
+                l2 = (a1y3-a1y2)/EPSILON
+            else:
+                l2 = (a1y3-a1y2)/(a1x3-a1x2)
+            angle1 = abs(np.arctan(l1)-np.arctan(l2))
+            if a2x2-a2x1 == 0:
+                l1 = (a2y2-a2y1)/EPSILON
+            else:
+                l1 = (a2y2-a2y1)/(a2x2-a2x1)
+            if a2x3-a2x2 == 0:
+                l2 = (a2y3-a2y2)/EPSILON
+            else:
+                l2 = (a2y3-a2y2)/(a2x3-a2x2)
+            angle2 = abs(np.arctan(l1)-np.arctan(l2))
+            return angle1-angle2
+
 
 warnings.filterwarnings('ignore', 'The iteration is not making good progress')
 warnings.filterwarnings(
@@ -348,11 +442,11 @@ warnings.filterwarnings(
 
 if __name__ == '__main__':
     ITER = 1
-    fname = "vertical_parallel_1.xml"
+    fname = "isometry_bisector.xml"
     print("--- OK ---")
-    for f in os.scandir("./xml/testcase/solver/ok"):
-        # if fname != f.name:
-        #     continue
+    for f in os.scandir("./data/testcase/solver/ok"):
+        if fname != f.name:
+            continue
         tree = ET.parse(f.path)
         figures = xml2dict(tree.getroot())
         solver = Solver(figures)
@@ -367,7 +461,7 @@ if __name__ == '__main__':
             print("{}:out({}/{})".format(f.name, count, ITER))
 
     print("--- NG ---")
-    for f in os.scandir("./xml/testcase/solver/ng"):
+    for f in os.scandir("./data/testcase/solver/ng"):
         tree = ET.parse(f.path)
         figures = xml2dict(tree.getroot())
         solver = Solver(figures)

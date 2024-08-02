@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <point id="tag_3">
+        <name>C</name>
+    </point>
+    <line-segment id="tag_4" point-id1="tag_3" point-id2="tag_1">
+        <name>CB</name>
+    </line-segment>
+    <line-segment id="tag_5" point-id1="tag_0" point-id2="tag_3">
+        <name>AC</name>
+    </line-segment>
+    <point id="tag_6">
+        <name>D</name>
+    </point>
+    <circle id="tag_7" center-point-id="tag_6">
+        <name>C1</name>
+    </circle>
+    <point-on-circle point-id="tag_0" circle-id="tag_7" />
+    <point-on-circle point-id="tag_1" circle-id="tag_7" />
+    <point-on-circle point-id="tag_3" circle-id="tag_7" />
+    <point-on-line point-id="tag_6" line-id="tag_5" />
+    <isometry line-id1="tag_2" line-id2="tag_4" />
+    <isometry line-id1="tag_2" line-id2="tag_5" />
+</figures>
