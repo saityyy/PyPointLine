@@ -411,28 +411,58 @@ class menuC2CItem(menuItem):
 class menuIsomItem(menuItem):
     def __init__(self, name, x, y):
         super().__init__(name, x, y)
-        self.headerText = ["Click one line.", "Click another line."]
-        self.line1 = None
-        self.line2 = None
+        self.headerText = ["Click one point.",
+                           "Click second point.",
+                           "Click third point.",
+                           "Click fourth point."]
+        self.p1: point | None = None
+        self.p2: point | None = None
+        self.p3: point | None = None
+        self.p4: point | None = None
 
     def phaseActions(self, app):
         if app.mp.widget != app.mainCanvas:
             return
-        if app.onModePhase == 0:
-            if app.clickedLine != None:
-                self.line1 = app.clickedLine
+        if app.onModePhase < 3:
+            if app.clickedPoint != None and app.onModePhase == 0:
+                self.p1 = app.clickedPoint
+            elif app.clickedPoint != None and self.p1 != app.clickedPoint and app.onModePhase == 1:
+                self.p2 = app.clickedPoint
+            elif app.clickedPoint != None and app.onModePhase == 2:
+                self.p3 = app.clickedPoint
             else:
                 return
-            app.onModePhase = 1
+            app.onModePhase += 1
             app.headerText = app.onMode.headerText[app.onModePhase]
             app.drawAll()
-        elif app.onModePhase == 1:
-            if app.clickedLine != None and self.line1 != app.clickedLine:
-                self.line2 = app.clickedLine
+        elif app.onModePhase == 3:
+            if app.clickedPoint != None and self.p3 != app.clickedPoint:
+                self.p4 = app.clickedPoint
             else:
                 return
+            if self.p1 == None or self.p2 == None or self.p3 == None or self.p4 == None:
+                return
+            # same line-segment
+            if (self.p1.tag == self.p3.tag and self.p2.tag == self.p4.tag):
+                return
+            if (self.p1.tag == self.p4.tag and self.p2.tag == self.p3.tag):
+                return
+            line1 = line(app, self.p1, self.p2)
+            line2 = line(app, self.p3, self.p4)
+            for i, l in enumerate(app.lines):
+                if l.point1 == self.p1 and l.point2 == self.p2:
+                    line1 = l
+                if l.point1 == self.p2 and l.point2 == self.p1:
+                    line1 = l
+                if l.point1 == self.p3 and l.point2 == self.p4:
+                    line2 = l
+                if l.point1 == self.p4 and l.point2 == self.p3:
+                    line2 = l
+            app.logs.append(line1)
+            app.logs.append(line2)
+
             # add a new module
-            newModule = isometry(app, self.line1, self.line2)
+            newModule = isometry(app, line1, line2)
             app.logs.append(newModule)
             # post-process
             app.calculatorEvaluate(repeat=50)

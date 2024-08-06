@@ -400,7 +400,7 @@ class angle(object):
         self.point2 = point2
         self.point3 = point3
         self.thisis = 'angle'
-        self.name = self.youngestName(app)
+        self.name = self.getAngleName(app)
         self.showArc = True
         self.showValue = True
         self.fixValue = False
@@ -553,6 +553,14 @@ class angle(object):
             else:
                 return name
         return "A0"
+
+    def getAngleName(self, app):
+        angle_name = "∠{}{}{}".format(
+            self.point1.name, self.point2.name, self.point3.name)
+        for obj in app.angles:
+            if obj.name == angle_name:
+                print("angle object already exists")
+        return angle_name
 
     def toString(self) -> str:
         return "type=angle,point1=%s,point2=%s,point3=%s,tag=%s,name=%s,showArc=%d,showValue=%d,value=%d,fixValue=%d,active=%d" % (

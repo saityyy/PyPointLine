@@ -1,8 +1,9 @@
 We will now explain the math diagram, so please output the situation as data in the xml structure described below.
 The declaration in the DTD is as follows
-<!ELEMENT figures ((point|straight-line|
-half-line|line-segment|circle|middle-point|
-point-on-line|point-on-circle|line-tangent-circle|vertical|parallel)*)>
+
+<!ELEMENT figures ((point|line-segment|circle|angle|middle-point|
+point-on-line|point-on-circle|line-tangent-circle|circle-tangent-circle|
+vertical|parallel|isometry|bisector)*)>
 <!ELEMENT name (#PCDATA)>
 <!ELEMENT point (name)>
 <!ATTLIST point id ID #REQUIRED>
@@ -15,6 +16,12 @@ point-on-line|point-on-circle|line-tangent-circle|vertical|parallel)*)>
 <!ELEMENT circle (name)>
 <!ATTLIST circle id ID #REQUIRED>
 <!ATTLIST circle center-point-id IDREF #IMPLIED>
+<!-- 角度 -->
+<!ELEMENT angle (name)>
+<!ATTLIST angle id ID #REQUIRED>
+<!ATTLIST angle point-id1 IDREF #REQUIRED>
+<!ATTLIST angle point-id2 IDREF #REQUIRED>
+<!ATTLIST angle point-id3 IDREF #REQUIRED>
 <!-- 中点 -->
 <!ELEMENT middle-point EMPTY>
 <!ATTLIST middle-point middle-point IDREF #REQUIRED>
@@ -44,6 +51,14 @@ point-on-line|point-on-circle|line-tangent-circle|vertical|parallel)*)>
 <!ELEMENT parallel EMPTY>
 <!ATTLIST parallel line-id1 IDREF #REQUIRED>
 <!ATTLIST parallel line-id2 IDREF #REQUIRED>
+<!-- ２つの線分が同じ長さ-->
+<!ELEMENT isometry EMPTY>
+<!ATTLIST isometry line-id1 IDREF #REQUIRED>
+<!ATTLIST isometry line-id2 IDREF #REQUIRED>
+<!-- ２つの角度が同じ大きさ-->
+<!ELEMENT bisector EMPTY>
+<!ATTLIST bisector angle-id1 IDREF #REQUIRED>
+<!ATTLIST bisector angle-id2 IDREF #REQUIRED>
 
 Please be sure to follow the rules of xml.
 When specifying an ID, you must first specify one that exists.

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_11">
+        <name>A</name>
+    </point>
+    <point id="tag_12">
+        <name>B</name>
+    </point>
+    <line-segment id="tag_13" point-id1="tag_11" point-id2="tag_12">
+        <name>AB</name>
+    </line-segment>
+    <point id="tag_14">
+        <name>C</name>
+    </point>
+    <point id="tag_15">
+        <name>D</name>
+    </point>
+    <line-segment id="tag_16" point-id1="tag_14" point-id2="tag_15">
+        <name>CD</name>
+    </line-segment>
+    <point id="tag_17">
+        <name>E</name>
+    </point>
+    <line-segment id="tag_18" point-id1="tag_17" point-id2="tag_15">
+        <name>ED</name>
+    </line-segment>
+    <line-segment id="tag_19" point-id1="tag_14" point-id2="tag_12">
+        <name>CB</name>
+    </line-segment>
+    <line-segment id="tag_20" point-id1="tag_11" point-id2="tag_17">
+        <name>AE</name>
+    </line-segment>
+    <angle id="tag_021" point-id1="tag_11" point-id2="tag_12" point-id3="tag_14">
+        <name>∠ABC</name>
+    </angle>
+    <angle id="tag_022" point-id1="tag_14" point-id2="tag_15" point-id3="tag_17">
+        <name>∠CDE</name>
+    </angle>
+    <angle id="tag_023" point-id1="tag_17" point-id2="tag_11" point-id3="tag_12">
+        <name>∠EAB</name>
+    </angle>
+    <angle id="tag_024" point-id1="tag_15" point-id2="tag_17" point-id3="tag_11">
+        <name>∠DEA</name>
+    </angle>
+    <angle id="tag_025" point-id1="tag_12" point-id2="tag_14" point-id3="tag_15">
+        <name>∠BCD</name>
+    </angle>
+    <bisector angle-id1="tag_023" angle-id2="tag_021" />
+    <bisector angle-id1="tag_021" angle-id2="tag_025" />
+    <bisector angle-id1="tag_025" angle-id2="tag_022" />
+    <bisector angle-id1="tag_022" angle-id2="tag_024" />
+    <isometry line-id1="tag_20" line-id2="tag_13" />
+    <isometry line-id1="tag_13" line-id2="tag_19" />
+    <isometry line-id1="tag_19" line-id2="tag_16" />
+    <isometry line-id1="tag_16" line-id2="tag_18" />
+</figures>
