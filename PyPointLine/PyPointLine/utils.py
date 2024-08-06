@@ -293,6 +293,25 @@ def xml2dict(root) -> list[dict] | XMLError:
                     "para1": 0.1
                 }
             )
+        elif data.tag == "crossing":
+            point_id, object_id1, object_id2 = (
+                attr["point-id"], attr["object-id1"], attr["object-id2"])
+            if point_id not in point_ids:
+                return XMLError.INCORRECT_REFID
+            # 直線と直線のみ
+            if object_id1 not in line_ids or object_id2 not in line_ids:
+                return XMLError.INCORRECT_REFID
+            figures.append(
+                {
+                    "type": "module",
+                    "moduletype": "crossing",
+                    "tag": "tag_{}".format(len(figures)),
+                    "point": id2tag[point_id],
+                    "object1": id2tag[object_id1],
+                    "object2": id2tag[object_id2],
+                    "para1": 0.1
+                }
+            )
         else:
             continue
     return figures

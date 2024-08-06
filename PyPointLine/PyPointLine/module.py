@@ -963,6 +963,12 @@ class crossing(module):
     def toString(self) -> str:
         return "type=module,moduletype=crossing,tag=%s,point0=%s, object1=%s,object2=%s,para1=%f,para2=%f" % (self.tag, self.point0.tag, self.object1.tag, self.object2.tag, self.para1, self.para2)
 
+    def toXMLElement(self, parent_element):
+        elem = ET.SubElement(parent_element, "crossing")
+        elem.set("point-id", self.point0.tag)
+        elem.set("object-id1", self.object1.tag)
+        elem.set("object-id2", self.object2.tag)
+
     def matter(self, obj) -> bool:
         if obj != None and obj == self.object1:
             return True

@@ -1,4 +1,5 @@
 # flake8:noqa E741
+import math
 import warnings
 from pprint import pprint
 import xml.etree.ElementTree as ET
@@ -97,6 +98,20 @@ class Solver:
                     self.modules.append(bisector)
                     if not bisector.is_valid():
                         print("Invalid module bisector")
+                elif figure["moduletype"] == "crossing":
+                    if figure["object1"] in self.tag2line.keys():
+                        o1 = self.tag2line[figure["object1"]]
+                    else:
+                        pass
+                    if figure["object2"] in self.tag2line.keys():
+                        o2 = self.tag2line[figure["object2"]]
+                    else:
+                        pass
+                    crossing = self.Crossing(
+                        self.tag2point[figure["point"]], o1, o2)
+                    self.modules.append(crossing)
+                    if not crossing.is_valid():
+                        print("Invalid module crossing")
 
     def equations(self, vars):
         vars = list(vars)
@@ -159,6 +174,18 @@ class Solver:
             elif m.__class__.__name__ == "Bisector":
                 self.modules[i].a1 = self.tag2angle[m.a1.tag]
                 self.modules[i].a2 = self.tag2angle[m.a2.tag]
+            elif m.__class__.__name__ == "Crossing":
+                self.modules[i].p = self.tag2point[m.p.tag]
+                if m.o1.__class__.__name__ == "Line":
+                    self.modules[i].o1 = self.tag2line[m.o1.tag]
+                else:
+                    # line and circle or circle and circle is not supported
+                    pass
+                if m.o2.__class__.__name__ == "Line":
+                    self.modules[i].o2 = self.tag2line[m.o2.tag]
+                else:
+                    # line and circle or circle and circle is not supported
+                    pass
         for l in self.tag2line.values():
             if not l.is_valid():
                 print('invalid line')
@@ -435,6 +462,42 @@ class Solver:
             angle2 = abs(np.arctan(l1)-np.arctan(l2))
             return angle1-angle2
 
+    class Crossing:
+        def __init__(self, p, o1, o2):
+            self.p = p
+            self.o1 = o1
+            self.o2 = o2
+
+        def is_valid(self):
+            return self.o1.tag != self.o2.tag
+
+        # 2直線上に点がある＆2直線が平行でない
+        def equation(self, tag2pxy):
+            px, py = tag2pxy[self.p.tag]
+            o1_class = self.o1.__class__.__name__
+            o2_class = self.o2.__class__.__name__
+            if o1_class == "Line" and o2_class == "Line":
+                o1p1x, o1p1y = tag2pxy[self.o1.p1.tag]
+                o1p2x, o1p2y = tag2pxy[self.o1.p2.tag]
+                o2p1x, o2p1y = tag2pxy[self.o2.p1.tag]
+                o2p2x, o2p2y = tag2pxy[self.o2.p2.tag]
+            else:
+                # line and circle or circle and circle is not supported
+                return
+            if o1p1x-o1p2x == 0:
+                a1 = (o1p1y-o1p2y)/EPSILON
+            else:
+                a1 = (o1p1y-o1p2y)/(o1p1x-o1p2x)
+            if o2p1x-o2p2x == 0:
+                a2 = (o2p1y-o2p2y)/EPSILON
+            else:
+                a2 = (o2p1y-o2p2y)/(o2p1x-o2p2x)
+            b1 = o1p1y-a1*o1p1x
+            b2 = o2p1y-a2*o2p1x
+            if abs(a1-a2) < 0.0001:
+                return 1
+            return a1*px+b1-a2*px-b2
+
 
 warnings.filterwarnings('ignore', 'The iteration is not making good progress')
 warnings.filterwarnings(
@@ -442,7 +505,7 @@ warnings.filterwarnings(
 
 if __name__ == '__main__':
     ITER = 1
-    fname = "isometry_bisector.xml"
+    fname = "crossing.xml"
     print("--- OK ---")
     for f in os.scandir("./data/testcase/solver/ok"):
         if fname != f.name:

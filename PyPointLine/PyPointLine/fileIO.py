@@ -215,6 +215,12 @@ class fileIO:
                 newModule = horizontal(app, line1)
                 newModule.para1 = float(dic['para1'])
                 app.logs.append(newModule)
+            elif dic['moduletype'] == "crossing":
+                point0 = app.findObjectByTag(dic['point'])
+                object1 = app.findObjectByTag(dic['object1'])
+                object2 = app.findObjectByTag(dic['object2'])
+                newModule = crossing(app, point0, object1, object2)
+                app.logs.append(newModule)
 
     def saveTxtFile(self, app, filePath):
         f = open(filePath, 'w')
