@@ -12,7 +12,7 @@
     <point id="tag_23">
         <name>C</name>
     </point>
-    <middle-point point-id1="tag_20" point-id2="tag_21" middle-point="tag_23" />
+    <middle-point point-id1="tag_20" point-id2="tag_21" middle-point-id="tag_23" />
     <point id="tag_25">
         <name>D</name>
     </point>
@@ -25,5 +25,5 @@
     <point id="tag_28">
         <name>F</name>
     </point>
-    <middle-point point-id1="tag_25" point-id2="tag_21" middle-point="tag_28" />
+    <middle-point point-id1="tag_25" point-id2="tag_21" middle-point-id="tag_28" />
 </figures>

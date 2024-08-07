@@ -21,7 +21,7 @@ vertical|parallel|isometry|bisector)*)>
 <!ATTLIST angle point-id3 IDREF #REQUIRED>
 <!-- 中点 -->
 <!ELEMENT middle-point EMPTY>
-<!ATTLIST middle-point middle-point IDREF #REQUIRED>
+<!ATTLIST middle-point middle-point-id IDREF #REQUIRED>
 <!ATTLIST middle-point point-id1 IDREF #REQUIRED>
 <!ATTLIST middle-point point-id2 IDREF #REQUIRED>
 <!-- 線分上に点がある -->

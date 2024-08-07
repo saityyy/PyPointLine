@@ -27,16 +27,16 @@
     <point id="tag_32">
         <name>E</name>
     </point>
-    <middle-point point-id1="tag_28" point-id2="tag_25" middle-point="tag_32" />
+    <middle-point point-id1="tag_28" point-id2="tag_25" middle-point-id="tag_32" />
     <line-segment id="tag_34" point-id1="tag_22" point-id2="tag_32">
         <name>AE</name>
     </line-segment>
     <point id="tag_35">
         <name>F</name>
     </point>
-    <middle-point point-id1="tag_22" point-id2="tag_32" middle-point="tag_35" />
+    <middle-point point-id1="tag_22" point-id2="tag_32" middle-point-id="tag_35" />
     <line-segment id="tag_37" point-id1="tag_35" point-id2="tag_23">
         <name>FB</name>
     </line-segment>
-    <middle-point point-id1="tag_23" point-id2="tag_35" middle-point="tag_28" />
+    <middle-point point-id1="tag_23" point-id2="tag_35" middle-point-id="tag_28" />
 </figures>

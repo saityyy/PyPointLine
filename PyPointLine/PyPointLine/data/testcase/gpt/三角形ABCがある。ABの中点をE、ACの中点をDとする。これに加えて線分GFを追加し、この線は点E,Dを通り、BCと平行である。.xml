@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_23">
+        <name>A</name>
+    </point>
+    <point id="tag_24">
+        <name>B</name>
+    </point>
+    <line-segment id="tag_25" point-id1="tag_23" point-id2="tag_24">
+        <name>AB</name>
+    </line-segment>
+    <point id="tag_26">
+        <name>C</name>
+    </point>
+    <point id="tag_27">
+        <name>D</name>
+    </point>
+    <middle-point point-id1="tag_26" point-id2="tag_23" middle-point-id="tag_27" />
+    <line-segment id="tag_29" point-id1="tag_23" point-id2="tag_26">
+        <name>AC</name>
+    </line-segment>
+    <point id="tag_30">
+        <name>E</name>
+    </point>
+    <middle-point point-id1="tag_23" point-id2="tag_24" middle-point-id="tag_30" />
+    <point id="tag_32">
+        <name>F</name>
+    </point>
+    <point id="tag_33">
+        <name>G</name>
+    </point>
+    <line-segment id="tag_34" point-id1="tag_32" point-id2="tag_33">
+        <name>FG</name>
+    </line-segment>
+    <crossing point-id="tag_30" object-id1="tag_34" object-id2="tag_25" />
+    <crossing point-id="tag_30" object-id1="tag_34" object-id2="tag_25" />
+    <crossing point-id="tag_27" object-id1="tag_34" object-id2="tag_29" />
+    <crossing point-id="tag_27" object-id1="tag_34" object-id2="tag_29" />
+    <line-segment id="tag_41" point-id1="tag_26" point-id2="tag_24">
+        <name>CB</name>
+    </line-segment>
+    <parallel line-id1="tag_34" line-id2="tag_41" />
+</figures>

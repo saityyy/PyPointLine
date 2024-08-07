@@ -51,6 +51,6 @@
     <line-segment id="tag_17" point-id1="tag_7" point-id2="tag_0">
         <name>HA</name>
     </line-segment>
-    <middle-point point-id1="tag_1" point-id2="tag_5" middle-point="tag_8" />
-    <middle-point point-id1="tag_7" point-id2="tag_2" middle-point="tag_8" />
+    <middle-point point-id1="tag_1" point-id2="tag_5" middle-point-id="tag_8" />
+    <middle-point point-id1="tag_7" point-id2="tag_2" middle-point-id="tag_8" />
 </figures>
