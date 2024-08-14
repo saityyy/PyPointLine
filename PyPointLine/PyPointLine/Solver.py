@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 import os
 import random
 import numpy as np
-from scipy.optimize import fsolve
+from scipy import optimize
 
 from utils import xml2dict
 
@@ -123,9 +123,10 @@ class Solver:
             module_constraints.append(m.equation(tag2pxy))
         for _ in range(2*len(self.tag2point)-len(self.modules)):
             module_constraints.append(0.0)
+
         return module_constraints
 
-    def validate(self, tag2pxy):
+    def validate(self, tag2pxy) -> bool:
         for tag in self.tag2point.keys():
             x, y = tag2pxy[tag]
             self.tag2point[tag].x = x
@@ -200,22 +201,65 @@ class Solver:
                 return False
         return True
 
-    def solve(self, iteration=1000, threshold=1e-9):
-        cnt = 0
+    def points_location_score(self, tag2pxy):
+        if len(tag2pxy.keys()) == 0:
+            return 0
+        # 各点間の距離の合計
+        # sum_distance = 0
+        # max_distance = sum([x**2+y**2 for x, y in tag2pxy.values()])
+        # for i, (x1, y1) in enumerate(tag2pxy.values()):
+        #     x1, y1 = x1/max_distance, y1/max_distance
+        #     for j, (x2, y2) in enumerate(tag2pxy.values()):
+        #         x2, y2 = x2/max_distance, y2/max_distance
+        #         if i != j:
+        #             sum_distance += (x1-x2)**2+(y1-y2)**2
+        # return sum_distance
+        # 各点間の距離のうち最大のものと最小のものの比
+        max_dist, min_dist = 0, 1e9
+        for i, (x1, y1) in enumerate(tag2pxy.values()):
+            for j, (x2, y2) in enumerate(tag2pxy.values()):
+                if i != j:
+                    distance = ((x1-x2)**2+(y1-y2)**2)**0.5
+                    if max_dist < distance:
+                        max_dist = distance
+                    if min_dist > distance:
+                        min_dist = distance
+        ratio = max_dist/min_dist
+        return 1/(abs(ratio-1)+1e-9)
+
+    def solve(self, iteration=1000, threshold=1e-3):
+        solved_cnt, validated_cnt = 0, 0
         var_num = len(self.tag2point)*2
-        best_solution = [0 for _ in range(var_num)]
+        tag2pxy = {}
+        print("var_num:{}".format(var_num))
+        print("module_num:{}".format(len(self.modules)))
+        max_point_location_score = 0
         for _ in range(iteration):
             initial_guess = [random.uniform(-1.0, 1.0)
                              for _ in range(var_num)]
-            solution = fsolve(self.equations, initial_guess)
+            solution = optimize.root(
+                self.equations, initial_guess, method="lm").x
+            # solution = optimize.fsolve(self.equations, initial_guess)
             if sum([abs(r) for r in self.equations(solution)]) < threshold:
-                cnt += 1
-                best_solution = list(solution)
-        if cnt > 0:
-            print("solved_cnt:{}/{}".format(cnt, iteration))
-            tag2pxy = {}
-            for tag in self.tag2point.keys():
-                tag2pxy[tag] = (best_solution.pop(0), best_solution.pop(0))
+                solution = list(solution)
+                tmp_tag2pxy = {}
+                for tag in self.tag2point.keys():
+                    tmp_tag2pxy[tag] = (
+                        solution.pop(0), solution.pop(0))
+                solved_cnt += 1
+                if self.validate(tmp_tag2pxy):
+                    validated_cnt += 1
+                    point_location_score = self.points_location_score(
+                        tmp_tag2pxy)
+                    max_point_location_score = self.points_location_score(
+                        tag2pxy)
+                    if point_location_score > max_point_location_score:
+                        tag2pxy = tmp_tag2pxy
+                        max_point_location_score = point_location_score
+        if solved_cnt > 0:
+            print(max_point_location_score)
+            print("solved_cnt:{}/{}".format(solved_cnt, iteration))
+            print("validated_cnt:{}/{}".format(validated_cnt, iteration))
             return {"ok": True, "tag2pxy": tag2pxy}
         else:
             return {"ok": False}
@@ -334,9 +378,14 @@ class Solver:
             p1x, p1y = self.l.p1.x, self.l.p1.y
             p2x, p2y = self.l.p2.x, self.l.p2.y
             cx, cy = self.c.p.x, self.c.p.y
-            l_a = (p2y-p1y)/(p2x-p1x)
+            if p2x-p1x == 0:
+                l_a = (p2y-p1y)/EPSILON
+            else:
+                l_a = (p2y-p1y)/(p2x-p1x)
             l_b = p1y-l_a*p1x
-            X = (l_a*(l_b-cy)-cx)/(l_a**2+1)
+            a = (1+l_a**2)
+            b_dash = (2*l_a*(l_b-cy)-2*cx)/2
+            X = -b_dash/a
             if not (p1x <= X <= p2x or p2x <= X <= p1x):
                 return False
             if self.l.p1 == self.c.p or self.l.p2 == self.c.p:
@@ -345,10 +394,16 @@ class Solver:
                 return True
 
         def equation(self, tag2pxy):
-            l1x, l1y = tag2pxy[self.l.p1.tag]
-            l2x, l2y = tag2pxy[self.l.p2.tag]
+            lp1x, lp1y = tag2pxy[self.l.p1.tag]
+            lp2x, lp2y = tag2pxy[self.l.p2.tag]
             cx, cy = tag2pxy[self.c.p.tag]
-            return ((l1y-l2y)*(cx-l1x)+(l1x-l2x)*(cy-l1y))**2-(self.c.r**2)*((l1y-l2y)**2+(l1x-l2x)**2)
+            if lp2x-lp1x == 0:
+                l_a = (lp2y-lp1y)/EPSILON
+            else:
+                l_a = (lp2y-lp1y)/(lp2x-lp1x)
+            l_b = lp1y-l_a*lp1x
+            D2 = (l_a*cx+l_b-cy)**2/(l_a**2+1)
+            return D2-self.c.r**2
 
     class C2C:
         def __init__(self, c1, c2):
@@ -371,7 +426,20 @@ class Solver:
             self.l2 = l2
 
         def is_valid(self):
-            return self.l1.tag != self.l2.tag
+            if self.l1.tag == self.l2.tag:
+                return False
+            if self.l1.p2.x-self.l1.p1.x == 0:
+                a1 = (self.l1.p2.y-self.l1.p1.y)/EPSILON
+            else:
+                a1 = (self.l1.p2.y-self.l1.p1.y)/(self.l1.p2.x-self.l1.p1.x)
+            if self.l2.p2.x-self.l2.p1.x == 0:
+                a2 = (self.l2.p2.y-self.l2.p1.y)/EPSILON
+            else:
+                a2 = (self.l2.p2.y-self.l2.p1.y)/(self.l2.p2.x-self.l2.p1.x)
+            # 切片が等しい場合
+            if self.l1.p1.y-a1*self.l1.p1.x == self.l2.p1.y-a2*self.l2.p1.x:
+                return False
+            return True
 
         def equation(self, tag2pxy):
             l1x1, l1y1 = tag2pxy[self.l1.p1.tag]
@@ -450,7 +518,17 @@ class Solver:
                 l2 = (a1y3-a1y2)/EPSILON
             else:
                 l2 = (a1y3-a1y2)/(a1x3-a1x2)
-            angle1 = abs(np.arctan(l1)-np.arctan(l2))
+            if a1x2 <= a1x1:
+                l1arctan = np.arctan(l1)
+            else:
+                l1arctan = np.arctan(l1)+np.pi
+            if a1x2 <= a1x3:
+                l2arctan = np.arctan(l2)
+            else:
+                l2arctan = np.arctan(l2)+np.pi
+            angle1 = abs(l1arctan-l2arctan)
+            if angle1 > np.pi:
+                angle1 = 2*np.pi-angle1
             if a2x2-a2x1 == 0:
                 l1 = (a2y2-a2y1)/EPSILON
             else:
@@ -459,7 +537,19 @@ class Solver:
                 l2 = (a2y3-a2y2)/EPSILON
             else:
                 l2 = (a2y3-a2y2)/(a2x3-a2x2)
-            angle2 = abs(np.arctan(l1)-np.arctan(l2))
+            if a2x2 <= a2x1:
+                l1arctan = np.arctan(l1)
+            else:
+                l1arctan = np.arctan(l1)+np.pi
+            if a2x2 <= a2x3:
+                l2arctan = np.arctan(l2)
+            else:
+                l2arctan = np.arctan(l2)+np.pi
+            angle2 = abs(l1arctan-l2arctan)
+            if angle2 > np.pi:
+                angle2 = 2*np.pi-angle2
+            # print("{}_angle1:{}, {}_angle2:{}".format(
+            #     self.a1.tag, angle1*(180/np.pi), self.a2.tag, angle2*(180/np.pi)))
             return angle1-angle2
 
     class Crossing:
@@ -469,7 +559,16 @@ class Solver:
             self.o2 = o2
 
         def is_valid(self):
-            return self.o1.tag != self.o2.tag
+            o1_class = self.o1.__class__.__name__
+            o2_class = self.o2.__class__.__name__
+            if self.o1.tag == self.o2.tag:
+                return False
+            if o1_class == "Line" and o2_class == "Line":
+                if not (self.o1.p1.x <= self.p.x <= self.o1.p2.x):
+                    return False
+                if not (self.o2.p1.x <= self.p.x <= self.o2.p2.x):
+                    return False
+            return True
 
         # 2直線上に点がある＆2直線が平行でない
         def equation(self, tag2pxy):
@@ -477,26 +576,12 @@ class Solver:
             o1_class = self.o1.__class__.__name__
             o2_class = self.o2.__class__.__name__
             if o1_class == "Line" and o2_class == "Line":
-                o1p1x, o1p1y = tag2pxy[self.o1.p1.tag]
-                o1p2x, o1p2y = tag2pxy[self.o1.p2.tag]
-                o2p1x, o2p1y = tag2pxy[self.o2.p1.tag]
-                o2p2x, o2p2y = tag2pxy[self.o2.p2.tag]
+                equation1 = Solver.P2L(self.p, self.o1).equation(tag2pxy)
+                equation2 = Solver.P2L(self.p, self.o2).equation(tag2pxy)
+                return (equation1**2+equation2**2)**(1/2)
             else:
                 # line and circle or circle and circle is not supported
-                return
-            if o1p1x-o1p2x == 0:
-                a1 = (o1p1y-o1p2y)/EPSILON
-            else:
-                a1 = (o1p1y-o1p2y)/(o1p1x-o1p2x)
-            if o2p1x-o2p2x == 0:
-                a2 = (o2p1y-o2p2y)/EPSILON
-            else:
-                a2 = (o2p1y-o2p2y)/(o2p1x-o2p2x)
-            b1 = o1p1y-a1*o1p1x
-            b2 = o2p1y-a2*o2p1x
-            if abs(a1-a2) < 0.0001:
-                return 1
-            return a1*px+b1-a2*px-b2
+                pass
 
 
 warnings.filterwarnings('ignore', 'The iteration is not making good progress')

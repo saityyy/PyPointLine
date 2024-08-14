@@ -70,7 +70,7 @@ class fileIO:
         if not geometry_solve_result["ok"]:
             print("geometry solve failed")
             return
-        validation_result = solver.validate(geometry_solve_result['tag2pxy'])
+        validation_result = solver.validate(geometry_solve_result["tag2pxy"])
         print(validation_result)
         figures = adjust_figure_location(
             figures, geometry_solve_result["tag2pxy"])

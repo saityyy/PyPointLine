@@ -1,20 +1,29 @@
 <figures>
-    <point id="tag_0">
+    <point id="tag_40">
         <name>A</name>
     </point>
-    <point id="tag_1">
+    <point id="tag_41">
         <name>B</name>
     </point>
-    <line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
+    <line-segment id="tag_42" point-id1="tag_40" point-id2="tag_41">
         <name>AB</name>
     </line-segment>
-    <point id="tag_3">
+    <point id="tag_43">
+        <name>C</name>
+    </point>
+    <line-segment id="tag_44" point-id1="tag_43" point-id2="tag_41">
+        <name>CB</name>
+    </line-segment>
+    <line-segment id="tag_45" point-id1="tag_40" point-id2="tag_43">
+        <name>AC</name>
+    </line-segment>
+    <point id="tag_46">
         <name>O</name>
     </point>
-    <circle id="tag_4" center-point-id="tag_3">
-        <name>o</name>
+    <circle id="tag_47" center-point-id="tag_46">
+        <name>O</name>
     </circle>
-    <point-on-line point-id="tag_3" line-id="tag_2" />
-    <point-on-circle point-id="tag_0" circle-id="tag_4" />
-    <point-on-circle point-id="tag_1" circle-id="tag_4" />
+    <line-tangent-circle line-id="tag_45" circle-id="tag_47" />
+    <line-tangent-circle line-id="tag_42" circle-id="tag_47" />
+    <line-tangent-circle line-id="tag_44" circle-id="tag_47" />
 </figures>

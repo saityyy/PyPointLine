@@ -1,69 +1,96 @@
-We will now explain the math diagram, so please output the situation as data in the xml structure described below.
-The declaration in the DTD is as follows
+We will now explain the math diagram, so please output the situation as data in the xml structure
+described below.
 
-<!ELEMENT figures ((point|line-segment|circle|angle|middle-point|
-point-on-line|point-on-circle|line-tangent-circle|circle-tangent-circle|
-vertical|parallel|isometry|bisector|crossing)*)>
-<!ELEMENT name (#PCDATA)>
-<!ELEMENT point (name)>
-<!ATTLIST point id ID #REQUIRED>
-<!-- 線分 -->
-<!ELEMENT line-segment (name)>
-<!ATTLIST line-segment id ID #REQUIRED>
-<!ATTLIST line-segment point-id1 IDREF #REQUIRED>
-<!ATTLIST line-segment point-id2 IDREF #REQUIRED>
-<!-- 円 -->
-<!ELEMENT circle (name)>
-<!ATTLIST circle id ID #REQUIRED>
-<!ATTLIST circle center-point-id IDREF #IMPLIED>
-<!-- 角度 -->
-<!ELEMENT angle (name)>
-<!ATTLIST angle id ID #REQUIRED>
-<!ATTLIST angle point-id1 IDREF #REQUIRED>
-<!ATTLIST angle point-id2 IDREF #REQUIRED>
-<!ATTLIST angle point-id3 IDREF #REQUIRED>
-<!-- 中点 -->
-<!ELEMENT middle-point EMPTY>
-<!ATTLIST middle-point middle-point-id IDREF #REQUIRED>
-<!ATTLIST middle-point point-id1 IDREF #REQUIRED>
-<!ATTLIST middle-point point-id2 IDREF #REQUIRED>
-<!-- 線分上に点がある -->
-<!ELEMENT point-on-line EMPTY>
-<!ATTLIST point-on-line point-id IDREF #REQUIRED>
-<!ATTLIST point-on-line line-id IDREF #REQUIRED>
-<!-- 円周上に点がある -->
-<!ELEMENT point-on-circle EMPTY>
-<!ATTLIST point-on-circle point-id IDREF #REQUIRED>
-<!ATTLIST point-on-circle circle-id IDREF #REQUIRED>
-<!-- 線が円に接する -->
-<!ELEMENT line-tangent-circle EMPTY>
-<!ATTLIST line-tangent-circle line-id IDREF #REQUIRED>
-<!ATTLIST line-tangent-circle circle-id IDREF #REQUIRED>
-<!-- 円と円が接する -->
-<!ELEMENT circle-tangent-circle EMPTY>
-<!ATTLIST circle-tangent-circle circle-id1 IDREF #REQUIRED>
-<!ATTLIST circle-tangent-circle circle-id2 IDREF #REQUIRED>
-<!-- 2つの線が垂直 -->
-<!ELEMENT vertical EMPTY>
-<!ATTLIST vertical line-id1 IDREF #REQUIRED>
-<!ATTLIST vertical line-id2 IDREF #REQUIRED>
-<!-- 2つの線が平行 -->
-<!ELEMENT parallel EMPTY>
-<!ATTLIST parallel line-id1 IDREF #REQUIRED>
-<!ATTLIST parallel line-id2 IDREF #REQUIRED>
-<!-- ２つの線分が同じ長さ-->
-<!ELEMENT isometry EMPTY>
-<!ATTLIST isometry line-id1 IDREF #REQUIRED>
-<!ATTLIST isometry line-id2 IDREF #REQUIRED>
-<!-- ２つの角度が同じ大きさ-->
-<!ELEMENT bisector EMPTY>
-<!ATTLIST bisector angle-id1 IDREF #REQUIRED>
-<!ATTLIST bisector angle-id2 IDREF #REQUIRED>
-<!-- ２つの直線がある点で交わる-->
-<!ELEMENT crossing EMPTY>
-<!ATTLIST crossing point-id IDREF #REQUIRED>
-<!ATTLIST crossing object-id1 IDREF #REQUIRED>
-<!ATTLIST crossing object-id2 IDREF #REQUIRED>
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+<!-- 点を表す。-->
+<point id="tag_0">
+<name>A</name>
+</point>
+<point id="tag_1">
+<name>B</name>
+</point>
+<!-- 線分を表す。端点２つのidを指定する-->
+<line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
+<name>AB</name>
+</line-segment>
+<point id="tag_3">
+<name>C</name>
+</point>
+<!-- 円を表す。中心の点のidを指定する-->
+<circle id="tag_4" center-point-id="tag_3">
+<name>C1</name>
+</circle>
+<point id="tag_5">
+<name>D</name>
+</point>
+<line-segment id="tag_6" point-id1="tag_0" point-id2="tag_5">
+<name>AD</name>
+</line-segment>
+<!-- 角度を表す。３つの点を指定する-->
+<angle id="tag_007" point-id1="tag_5" point-id2="tag_0" point-id3="tag_1">
+<name>∠DAB</name>
+</angle>
+<point id="tag_8">
+<name>E</name>
+</point>
+<!-- 中点を表す。２つの点とその間に入る中点のidを指定する-->
+<middle-point point-id1="tag_0" point-id2="tag_1" middle-point-id="tag_8" />
+<point id="tag_10">
+<name>F</name>
+</point>
+<!-- 線分上に点がある。-->
+<point-on-line point-id="tag_10" line-id="tag_6" />
+<point id="tag_12">
+<name>G</name>
+</point>
+<!-- 円周上に点がある-->
+<point-on-circle point-id="tag_12" circle-id="tag_4" />
+<!-- 線分が円に接する-->
+<line-tangent-circle line-id="tag_2" circle-id="tag_4" />
+<point id="tag_15">
+<name>H</name>
+</point>
+<circle id="tag_16" center-point-id="tag_15">
+<name>C2</name>
+</circle>
+<!-- ２つの円が接する-->
+<circle-tangent-circle circle-id1="tag_4" circle-id2="tag_16" />
+<!-- ２つの線分が垂直に交わる-->
+<vertical line-id1="tag_2" line-id2="tag_6" />
+<point id="tag_19">
+<name>J</name>
+</point>
+<point id="tag_20">
+<name>K</name>
+</point>
+<line-segment id="tag_21" point-id1="tag_19" point-id2="tag_20">
+<name>JK</name>
+</line-segment>
+<!-- ２つの線分は平行-->
+<parallel line-id1="tag_2" line-id2="tag_21" />
+<line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
+<name>AB</name>
+</line-segment>
+<line-segment id="tag_21" point-id1="tag_19" point-id2="tag_20">
+<name>JK</name>
+</line-segment>
+<!-- ２つの線分の長さが等しい-->
+<isometry line-id1="tag_2" line-id2="tag_21" />
+<angle id="tag_027" point-id1="tag_0" point-id2="tag_19" point-id3="tag_20">
+<name>∠AJK</name>
+</angle>
+<!-- ２つの角度の大きさが等しい-->
+<bisector angle-id1="tag_007" angle-id2="tag_027" />
+<point id="tag_29">
+<name>L</name>
+</point>
+<line-segment id="tag_30" point-id1="tag_3" point-id2="tag_29">
+<name>CL</name>
+</line-segment>
+<!-- ２つのオブジェクト（線分）がある点を交点として交わる。-->
+<crossing point-id="tag_8" object-id1="tag_30" object-id2="tag_2" />
+</figures>
 
 
 Please be sure to follow the rules of xml.

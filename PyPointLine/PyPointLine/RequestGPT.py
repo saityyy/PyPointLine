@@ -12,7 +12,7 @@ openai.api_key = secret_key
 
 
 MODEL1 = "gpt-3.5-turbo"
-MODEL2 = "ft:gpt-3.5-turbo-1106:personal::9Lu3oxB1"
+MODEL2 = "ft:gpt-3.5-turbo-1106:personal::9tyNfZFv"
 
 
 class RequestGPT:
