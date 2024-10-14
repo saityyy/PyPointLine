@@ -5,47 +5,78 @@
     <point id="tag_1">
         <name>B</name>
     </point>
-    <line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-    </line-segment>
-    <point id="tag_3">
+    <point id="tag_2">
         <name>C</name>
     </point>
-    <line-segment id="tag_4" point-id1="tag_3" point-id2="tag_1">
-        <name>CB</name>
-    </line-segment>
-    <point id="tag_5">
+    <point id="tag_3">
         <name>D</name>
     </point>
-    <line-segment id="tag_6" point-id1="tag_5" point-id2="tag_3">
-        <name>DC</name>
-    </line-segment>
-    <point id="tag_7">
+    <point id="tag_4">
         <name>E</name>
     </point>
-    <line-segment id="tag_8" point-id1="tag_7" point-id2="tag_5">
-        <name>ED</name>
+    <point id="tag_5">
+        <name>F</name>
+    </point>
+    <point id="tag_6">
+        <name>G</name>
+    </point>
+    <point id="tag_7">
+        <name>H</name>
+    </point>
+    <line-segment id="tag_8" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
     </line-segment>
-    <line-segment id="tag_9" point-id1="tag_7" point-id2="tag_0">
-        <name>EA</name>
+    <line-segment id="tag_9" point-id1="tag_1" point-id2="tag_2">
+        <name>BC</name>
     </line-segment>
-    <angle id="tag_010" point-id1="tag_0" point-id2="tag_1" point-id3="tag_3">
+    <line-segment id="tag_10" point-id1="tag_2" point-id2="tag_3">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_11" point-id1="tag_3" point-id2="tag_4">
+        <name>DE</name>
+    </line-segment>
+    <line-segment id="tag_12" point-id1="tag_4" point-id2="tag_5">
+        <name>EF</name>
+    </line-segment>
+    <line-segment id="tag_13" point-id1="tag_5" point-id2="tag_6">
+        <name>FG</name>
+    </line-segment>
+    <line-segment id="tag_14" point-id1="tag_6" point-id2="tag_7">
+        <name>GH</name>
+    </line-segment>
+    <line-segment id="tag_15" point-id1="tag_7" point-id2="tag_0">
+        <name>HA</name>
+    </line-segment>
+    <angle id="tag_16" point-id1="tag_7" point-id2="tag_0" point-id3="tag_1">
+        <name>∠HAB</name>
+    </angle>
+    <angle id="tag_17" point-id1="tag_0" point-id2="tag_1" point-id3="tag_2">
         <name>∠ABC</name>
     </angle>
-    <angle id="tag_011" point-id1="tag_3" point-id2="tag_5" point-id3="tag_7">
-        <name>∠CDE</name>
-    </angle>
-    <angle id="tag_012" point-id1="tag_7" point-id2="tag_0" point-id3="tag_1">
-        <name>∠EAB</name>
-    </angle>
-    <angle id="tag_013" point-id1="tag_1" point-id2="tag_3" point-id3="tag_5">
+    <angle id="tag_18" point-id1="tag_1" point-id2="tag_2" point-id3="tag_3">
         <name>∠BCD</name>
     </angle>
-    <angle id="tag_014" point-id1="tag_5" point-id2="tag_7" point-id3="tag_0">
-        <name>∠DEA</name>
+    <angle id="tag_19" point-id1="tag_2" point-id2="tag_3" point-id3="tag_4">
+        <name>∠CDE</name>
     </angle>
-    <bisector angle-id1="tag_012" angle-id2="tag_010" />
-    <bisector angle-id1="tag_010" angle-id2="tag_011" />
-    <bisector angle-id1="tag_011" angle-id2="tag_013" />
-    <bisector angle-id1="tag_013" angle-id2="tag_014" />
+    <angle id="tag_20" point-id1="tag_3" point-id2="tag_4" point-id3="tag_5">
+        <name>∠DEF</name>
+    </angle>
+    <angle id="tag_21" point-id1="tag_4" point-id2="tag_5" point-id3="tag_6">
+        <name>∠EFG</name>
+    </angle>
+    <angle id="tag_22" point-id1="tag_5" point-id2="tag_6" point-id3="tag_7">
+        <name>∠FGH</name>
+    </angle>
+    <angle id="tag_23" point-id1="tag_6" point-id2="tag_7" point-id3="tag_0">
+        <name>∠GHA</name>
+    </angle>
+    <bisector angle-id1="tag_16" angle-id2="tag_17" />
+    <bisector angle-id1="tag_17" angle-id2="tag_18" />
+    <bisector angle-id1="tag_18" angle-id2="tag_19" />
+    <bisector angle-id1="tag_19" angle-id2="tag_20" />
+    <bisector angle-id1="tag_20" angle-id2="tag_21" />
+    <bisector angle-id1="tag_21" angle-id2="tag_22" />
+    <bisector angle-id1="tag_22" angle-id2="tag_23" />
+    <horizontal line-id="tag_12" />
 </figures>

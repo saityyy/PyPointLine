@@ -1,2 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<figures><point id="tag_0"><name>X</name></point><point id="tag_1"><name /></point><point id="tag_2"><name /></point><circle id="tag_3" center-point-id="tag_1"><name>A</name></circle><circle id="tag_4" center-point-id="tag_2"><name>B</name></circle><point-on-circle point-id="tag_0" circle-id="tag_3" /><point-on-circle point-id="tag_0" circle-id="tag_4" /><circle-tangent-circle circle-id1="tag_3" circle-id2="tag_4" /></figures>

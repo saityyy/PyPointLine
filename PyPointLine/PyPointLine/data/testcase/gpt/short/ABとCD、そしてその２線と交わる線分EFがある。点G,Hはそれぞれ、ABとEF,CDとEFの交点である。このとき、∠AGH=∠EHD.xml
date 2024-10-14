@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <point id="tag_2">
+        <name>C</name>
+    </point>
+    <point id="tag_3">
+        <name>D</name>
+    </point>
+    <point id="tag_4">
+        <name>E</name>
+    </point>
+    <point id="tag_5">
+        <name>F</name>
+    </point>
+    <point id="tag_6">
+        <name>G</name>
+    </point>
+    <point id="tag_7">
+        <name>H</name>
+    </point>
+    <line-segment id="tag_8" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_9" point-id1="tag_2" point-id2="tag_3">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_10" point-id1="tag_4" point-id2="tag_5">
+        <name>EF</name>
+    </line-segment>
+    <crossing point-id="tag_6" object-id1="tag_10" object-id2="tag_8" />
+    <crossing point-id="tag_7" object-id1="tag_10" object-id2="tag_9" />
+    <horizontal line-id="tag_9" />
+    <angle id="tag_17" point-id1="tag_0" point-id2="tag_6" point-id3="tag_7">
+        <name>∠AGH</name>
+    </angle>
+    <angle id="tag_18" point-id1="tag_4" point-id2="tag_7" point-id3="tag_3">
+        <name>∠EHD</name>
+    </angle>
+</figures>

@@ -1,0 +1,112 @@
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <point id="tag_3">
+        <name>C</name>
+    </point>
+    <line-segment id="tag_4" point-id1="tag_1" point-id2="tag_3">
+        <name>BC</name>
+    </line-segment>
+    <point id="tag_5">
+        <name>D</name>
+    </point>
+    <line-segment id="tag_6" point-id1="tag_3" point-id2="tag_5">
+        <name>CD</name>
+    </line-segment>
+    <point id="tag_7">
+        <name>E</name>
+    </point>
+    <line-segment id="tag_8" point-id1="tag_5" point-id2="tag_7">
+        <name>DE</name>
+    </line-segment>
+    <point id="tag_9">
+        <name>F</name>
+    </point>
+    <line-segment id="tag_10" point-id1="tag_7" point-id2="tag_9">
+        <name>EF</name>
+    </line-segment>
+    <point id="tag_11">
+        <name>G</name>
+    </point>
+    <line-segment id="tag_12" point-id1="tag_9" point-id2="tag_11">
+        <name>FG</name>
+    </line-segment>
+    <point id="tag_13">
+        <name>H</name>
+    </point>
+    <line-segment id="tag_14" point-id1="tag_11" point-id2="tag_13">
+        <name>GH</name>
+    </line-segment>
+    <line-segment id="tag_15" point-id1="tag_13" point-id2="tag_0">
+        <name>HA</name>
+    </line-segment>
+    <line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_4" point-id1="tag_1" point-id2="tag_3">
+        <name>BC</name>
+    </line-segment>
+    <line-segment id="tag_6" point-id1="tag_3" point-id2="tag_5">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_8" point-id1="tag_5" point-id2="tag_7">
+        <name>DE</name>
+    </line-segment>
+    <line-segment id="tag_10" point-id1="tag_7" point-id2="tag_9">
+        <name>EF</name>
+    </line-segment>
+    <line-segment id="tag_12" point-id1="tag_9" point-id2="tag_11">
+        <name>FG</name>
+    </line-segment>
+    <line-segment id="tag_14" point-id1="tag_11" point-id2="tag_13">
+        <name>GH</name>
+    </line-segment>
+    <line-segment id="tag_15" point-id1="tag_13" point-id2="tag_0">
+        <name>HA</name>
+    </line-segment>
+    <isometry line-id1="tag_2" line-id2="tag_4" />
+    <isometry line-id1="tag_2" line-id2="tag_6" />
+    <isometry line-id1="tag_2" line-id2="tag_8" />
+    <isometry line-id1="tag_2" line-id2="tag_10" />
+    <isometry line-id1="tag_2" line-id2="tag_12" />
+    <isometry line-id1="tag_2" line-id2="tag_14" />
+    <isometry line-id1="tag_2" line-id2="tag_15" />
+    <angle id="tag_032" point-id1="tag_0" point-id2="tag_1" point-id3="tag_3">
+        <name>∠ABC</name>
+    </angle>
+    <angle id="tag_033" point-id1="tag_1" point-id2="tag_3" point-id3="tag_5">
+        <name>∠BCD</name>
+    </angle>
+    <angle id="tag_034" point-id1="tag_3" point-id2="tag_5" point-id3="tag_7">
+        <name>∠CDE</name>
+    </angle>
+    <angle id="tag_035" point-id1="tag_5" point-id2="tag_7" point-id3="tag_9">
+        <name>∠DEF</name>
+    </angle>
+    <angle id="tag_036" point-id1="tag_7" point-id2="tag_9" point-id3="tag_11">
+        <name>∠EFG</name>
+    </angle>
+    <angle id="tag_037" point-id1="tag_9" point-id2="tag_11" point-id3="tag_13">
+        <name>∠FGH</name>
+    </angle>
+    <angle id="tag_038" point-id1="tag_11" point-id2="tag_13" point-id3="tag_0">
+        <name>∠GHA</name>
+    </angle>
+    <angle id="tag_039" point-id1="tag_13" point-id2="tag_0" point-id3="tag_1">
+        <name>∠HAB</name>
+    </angle>
+    <bisector angle-id1="tag_032" angle-id2="tag_033" />
+    <bisector angle-id1="tag_032" angle-id2="tag_034" />
+    <bisector angle-id1="tag_032" angle-id2="tag_035" />
+    <bisector angle-id1="tag_032" angle-id2="tag_036" />
+    <bisector angle-id1="tag_032" angle-id2="tag_037" />
+    <bisector angle-id1="tag_032" angle-id2="tag_038" />
+    <bisector angle-id1="tag_032" angle-id2="tag_039" />
+</figures>

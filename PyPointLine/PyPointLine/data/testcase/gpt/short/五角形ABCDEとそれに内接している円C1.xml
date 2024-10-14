@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_18">
+        <name>A</name>
+    </point>
+    <point id="tag_19">
+        <name>B</name>
+    </point>
+    <line-segment id="tag_20" point-id1="tag_18" point-id2="tag_19">
+        <name>AB</name>
+    </line-segment>
+    <point id="tag_21">
+        <name>C</name>
+    </point>
+    <line-segment id="tag_22" point-id1="tag_19" point-id2="tag_21">
+        <name>BC</name>
+    </line-segment>
+    <point id="tag_23">
+        <name>D</name>
+    </point>
+    <line-segment id="tag_24" point-id1="tag_21" point-id2="tag_23">
+        <name>CD</name>
+    </line-segment>
+    <point id="tag_25">
+        <name>E</name>
+    </point>
+    <line-segment id="tag_26" point-id1="tag_23" point-id2="tag_25">
+        <name>DE</name>
+    </line-segment>
+    <line-segment id="tag_27" point-id1="tag_25" point-id2="tag_18">
+        <name>EA</name>
+    </line-segment>
+    <point id="tag_28">
+        <name>F</name>
+    </point>
+    <circle id="tag_29" center-point-id="tag_28">
+        <name>C1</name>
+    </circle>
+    <line-tangent-circle line-id="tag_20" circle-id="tag_29" />
+    <line-tangent-circle line-id="tag_22" circle-id="tag_29" />
+    <line-tangent-circle line-id="tag_24" circle-id="tag_29" />
+    <line-tangent-circle line-id="tag_26" circle-id="tag_29" />
+    <line-tangent-circle line-id="tag_27" circle-id="tag_29" />
+</figures>

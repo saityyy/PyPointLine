@@ -12,12 +12,13 @@ openai.api_key = secret_key
 
 
 MODEL1 = "gpt-3.5-turbo"
-MODEL2 = "ft:gpt-3.5-turbo-1106:personal::9tyNfZFv"
+MODEL2 = "ft:gpt-4o-2024-08-06:personal::AGKj4xW5"
+PROMPT_TXTFILE_PATH = "./data/testcase/gpt/prompt/assistant_xml.txt"
 
 
 class RequestGPT:
     def __init__(self, model=MODEL2, filepath="./temp.xml"):
-        self.assistant_message = open("./assistant_xml.txt",
+        self.assistant_message = open(PROMPT_TXTFILE_PATH,
                                       "r", encoding="utf-8").read()
         self.model = model
         self.filepath = "./temp.xml"

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_38">
+        <name>A</name>
+    </point>
+    <point id="tag_39">
+        <name>B</name>
+    </point>
+    <line-segment id="tag_40" point-id1="tag_38" point-id2="tag_39">
+        <name>AB</name>
+    </line-segment>
+    <point id="tag_41">
+        <name>C</name>
+    </point>
+    <point id="tag_42">
+        <name>D</name>
+    </point>
+    <line-segment id="tag_43" point-id1="tag_41" point-id2="tag_42">
+        <name>CD</name>
+    </line-segment>
+    <point id="tag_44">
+        <name>E</name>
+    </point>
+    <point id="tag_45">
+        <name>F</name>
+    </point>
+    <line-segment id="tag_46" point-id1="tag_44" point-id2="tag_45">
+        <name>EF</name>
+    </line-segment>
+    <point id="tag_47">
+        <name>G</name>
+    </point>
+    <point id="tag_48">
+        <name>H</name>
+    </point>
+    <crossing point-id="tag_47" object-id1="tag_46" object-id2="tag_40" />
+    <crossing point-id="tag_48" object-id1="tag_46" object-id2="tag_43" />
+    <horizontal line-id="tag_43" />
+    <angle id="tag_53" point-id1="tag_44" point-id2="tag_47" point-id3="tag_39">
+        <name>∠EGB</name>
+    </angle>
+    <angle id="tag_54" point-id1="tag_47" point-id2="tag_48" point-id3="tag_42">
+        <name>∠GHD</name>
+    </angle>
+    <bisector angle-id1="tag_53" angle-id2="tag_54" />
+</figures>

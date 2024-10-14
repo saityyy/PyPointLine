@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_9">
+        <name>A</name>
+    </point>
+    <point id="tag_10">
+        <name>B</name>
+    </point>
+    <line-segment id="tag_11" point-id1="tag_9" point-id2="tag_10">
+        <name>AB</name>
+    </line-segment>
+    <point id="tag_12">
+        <name>C</name>
+    </point>
+    <line-segment id="tag_13" point-id1="tag_12" point-id2="tag_10">
+        <name>CB</name>
+    </line-segment>
+    <point id="tag_14">
+        <name>D</name>
+    </point>
+    <line-segment id="tag_15" point-id1="tag_12" point-id2="tag_14">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_16" point-id1="tag_14" point-id2="tag_9">
+        <name>DA</name>
+    </line-segment>
+    <parallel line-id1="tag_16" line-id2="tag_13" />
+    <point id="tag_18">
+        <name>E</name>
+    </point>
+    <middle-point point-id1="tag_12" point-id2="tag_14" middle-point-id="tag_18" />
+    <point id="tag_20">
+        <name>F</name>
+    </point>
+    <line-segment id="tag_21" point-id1="tag_9" point-id2="tag_18">
+        <name>AE</name>
+    </line-segment>
+    <point-on-line point-id="tag_20" line-id="tag_21" />
+    <line-segment id="tag_23" point-id1="tag_9" point-id2="tag_20">
+        <name>AF</name>
+    </line-segment>
+    <line-segment id="tag_24" point-id1="tag_20" point-id2="tag_18">
+        <name>FE</name>
+    </line-segment>
+    <isometry line-id1="tag_23" line-id2="tag_24" ratio="4:3" />
+    <horizontal line-id="tag_13" />
+</figures>

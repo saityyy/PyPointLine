@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_22">
+        <name>A</name>
+    </point>
+    <point id="tag_23">
+        <name>B</name>
+    </point>
+    <line-segment id="tag_24" point-id1="tag_22" point-id2="tag_23">
+        <name>AB</name>
+    </line-segment>
+    <point id="tag_25">
+        <name>C</name>
+    </point>
+    <line-segment id="tag_26" point-id1="tag_23" point-id2="tag_25">
+        <name>BC</name>
+    </line-segment>
+    <point id="tag_27">
+        <name>D</name>
+    </point>
+    <line-segment id="tag_28" point-id1="tag_25" point-id2="tag_27">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_29" point-id1="tag_27" point-id2="tag_22">
+        <name>DA</name>
+    </line-segment>
+    <parallel line-id1="tag_24" line-id2="tag_28" />
+    <parallel line-id1="tag_29" line-id2="tag_26" />
+    <horizontal line-id="tag_26" />
+    <point id="tag_33">
+        <name>E</name>
+    </point>
+    <point-on-line point-id="tag_33" line-id="tag_26" />
+    <angle id="tag_35" point-id1="tag_22" point-id2="tag_23" point-id3="tag_33">
+        <name>∠ABE</name>
+    </angle>
+    <line-segment id="tag_36" point-id1="tag_22" point-id2="tag_33">
+        <name>AE</name>
+    </line-segment>
+    <point id="tag_37">
+        <name>F</name>
+    </point>
+    <point-on-line point-id="tag_37" line-id="tag_36" />
+    <line-segment id="tag_39" point-id1="tag_27" point-id2="tag_37">
+        <name>DF</name>
+    </line-segment>
+    <isometry line-id1="tag_24" line-id2="tag_36" ratio="1:1" />
+</figures>

@@ -1,4 +1,5 @@
 
+from PIL import ImageGrab
 import tkinter as tk
 import os
 import math
@@ -13,6 +14,9 @@ from module import *
 from preference import preference
 from fileIO import fileIO
 from RequestGPT import RequestGPT
+
+
+BASE_DIR = "data/testcase/gpt"
 
 
 class application:
@@ -224,6 +228,15 @@ class application:
             _, filepath = result["result"]
             self.fileIO.openXmlFile(self, filepath)
             self.root.focus()
+
+    def captureImage(self):
+        x = self.root.winfo_rootx()
+        y = self.root.winfo_rooty()
+        w = self.root.winfo_width()
+        h = self.root.winfo_height()
+        img = ImageGrab.grab(bbox=(x, y, x+w, y+h))
+        print("captured image")
+        img.save("screenshot.png")
 
     def drawAll(self):
         """ """
@@ -529,6 +542,8 @@ class application:
             self.cx -= 10
             self.drawAll()
             pass
+        elif event.keysym == "q":
+            self.captureImage()
         pass
 
     def keyReleased(self, event):
@@ -628,7 +643,7 @@ class application:
     def openFile(self):
         fTyp = [("", "*"), ("", "txt, TXT"), ("", "png,PNG")]
         iDir = os.path.abspath(os.path.dirname(__file__))
-        iDir = os.path.join(iDir, "data")
+        iDir = os.path.join(iDir, BASE_DIR)
         filePath = tk.filedialog.askopenfilename(
             filetypes=fTyp, initialdir=iDir)
         print(filePath)
@@ -639,6 +654,7 @@ class application:
         fTyp = [("xml file", ".xml"), ("text file", ".txt"),
                 ("image file", ".ps"), ("TeX file", ".tex")]
         iDir = os.path.abspath(os.path.dirname(__file__))
+        iDir = os.path.join(iDir, BASE_DIR)
         filePath = filedialog.asksaveasfilename(
             filetypes=fTyp, initialdir=iDir, defaultextension="txt", initialfile="untitled.txt")
         print(filePath)

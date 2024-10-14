@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <point id="tag_3">
+        <name>C</name>
+    </point>
+    <line-segment id="tag_4" point-id1="tag_3" point-id2="tag_1">
+        <name>CB</name>
+    </line-segment>
+    <line-segment id="tag_5" point-id1="tag_3" point-id2="tag_0">
+        <name>CA</name>
+    </line-segment>
+    <vertical line-id1="tag_2" line-id2="tag_5" />
+    <point id="tag_7">
+        <name>D</name>
+    </point>
+    <point-on-line point-id="tag_7" line-id="tag_4" />
+    <line-segment id="tag_9" point-id1="tag_0" point-id2="tag_7">
+        <name>AD</name>
+    </line-segment>
+    <vertical line-id1="tag_9" line-id2="tag_4" />
+    <point id="tag_11">
+        <name>l1</name>
+    </point>
+    <line-segment id="tag_12" point-id1="tag_1" point-id2="tag_11">
+        <name>Bl1</name>
+    </line-segment>
+    <point id="tag_14">
+        <name>E</name>
+    </point>
+    <point id="tag_15">
+        <name>F</name>
+    </point>
+    <crossing point-id="tag_14" object-id1="tag_9" object-id2="tag_12" />
+    <crossing point-id="tag_15" object-id1="tag_5" object-id2="tag_12" />
+    <angle id="tag_18" point-id1="tag_3" point-id2="tag_1" point-id3="tag_11">
+        <name>∠CBl1</name>
+    </angle>
+    <angle id="tag_19" point-id1="tag_11" point-id2="tag_1" point-id3="tag_0">
+        <name>∠l1BA</name>
+    </angle>
+    <bisector angle-id1="tag_19" angle-id2="tag_18" />
+    <horizontal line-id="tag_4" />
+</figures>

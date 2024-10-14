@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <point id="tag_2">
+        <name>C</name>
+    </point>
+    <line-segment id="tag_3" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_4" point-id1="tag_1" point-id2="tag_2">
+        <name>BC</name>
+    </line-segment>
+    <line-segment id="tag_5" point-id1="tag_2" point-id2="tag_0">
+        <name>CA</name>
+    </line-segment>
+    <horizontal line-id="tag_4" />
+    <point id="tag_7">
+        <name>D</name>
+    </point>
+    <point id="tag_8">
+        <name>E</name>
+    </point>
+    <point-on-line point-id="tag_7" line-id="tag_3" />
+    <point-on-line point-id="tag_8" line-id="tag_4" />
+    <line-segment id="tag_11" point-id1="tag_0" point-id2="tag_7">
+        <value>8.0</value>
+        <name>AD</name>
+    </line-segment>
+    <line-segment id="tag_12" point-id1="tag_7" point-id2="tag_1">
+        <value>6.0</value>
+        <name>DB</name>
+    </line-segment>
+    <line-segment id="tag_13" point-id1="tag_1" point-id2="tag_8">
+        <value>8.0</value>
+        <name>BE</name>
+    </line-segment>
+    <line-segment id="tag_14" point-id1="tag_8" point-id2="tag_2">
+        <value>4.0</value>
+        <name>EC</name>
+    </line-segment>
+</figures>

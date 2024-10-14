@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_28">
+        <name>A</name>
+    </point>
+    <circle id="tag_29" center-point-id="tag_28">
+        <name>C1</name>
+    </circle>
+    <point id="tag_30">
+        <name>B</name>
+    </point>
+    <circle id="tag_31" center-point-id="tag_30">
+        <name>C2</name>
+    </circle>
+    <point id="tag_33">
+        <name>C</name>
+    </point>
+    <circle id="tag_34" center-point-id="tag_33">
+        <name>C3</name>
+    </circle>
+    <circle-tangent-circle circle-id1="tag_29" circle-id2="tag_31" />
+    <circle-tangent-circle circle-id1="tag_31" circle-id2="tag_34" />
+    <circle-tangent-circle circle-id1="tag_34" circle-id2="tag_29" />
+</figures>

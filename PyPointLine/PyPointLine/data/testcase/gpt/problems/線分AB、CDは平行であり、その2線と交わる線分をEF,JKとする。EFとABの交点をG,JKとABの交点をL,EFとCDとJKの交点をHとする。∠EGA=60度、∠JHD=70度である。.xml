@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <point id="tag_3">
+        <name>C</name>
+    </point>
+    <point id="tag_4">
+        <name>D</name>
+    </point>
+    <line-segment id="tag_5" point-id1="tag_3" point-id2="tag_4">
+        <name>CD</name>
+    </line-segment>
+    <parallel line-id1="tag_2" line-id2="tag_5" />
+    <point id="tag_7">
+        <name>E</name>
+    </point>
+    <point id="tag_8">
+        <name>F</name>
+    </point>
+    <line-segment id="tag_9" point-id1="tag_7" point-id2="tag_8">
+        <name>EF</name>
+    </line-segment>
+    <point id="tag_10">
+        <name>G</name>
+    </point>
+    <point id="tag_11">
+        <name>H</name>
+    </point>
+    <crossing point-id="tag_10" object-id1="tag_2" object-id2="tag_9" />
+    <crossing point-id="tag_11" object-id1="tag_9" object-id2="tag_5" />
+    <angle id="tag_14" point-id1="tag_7" point-id2="tag_10" point-id3="tag_0">
+        <name>∠EGA</name>
+        <value>60</value>
+    </angle>
+    <point id="tag_15">
+        <name>J</name>
+    </point>
+    <point id="tag_16">
+        <name>K</name>
+    </point>
+    <line-segment id="tag_17" point-id1="tag_15" point-id2="tag_16">
+        <name>JK</name>
+    </line-segment>
+    <crossing point-id="tag_11" object-id1="tag_17" object-id2="tag_5" />
+    <point id="tag_19">
+        <name>L</name>
+    </point>
+    <crossing point-id="tag_19" object-id1="tag_17" object-id2="tag_2" />
+    <horizontal line-id="tag_5" />
+    <angle id="tag_22" point-id1="tag_15" point-id2="tag_11" point-id3="tag_4">
+        <name>∠JHD</name>
+        <value>70</value>
+    </angle>
+</figures>

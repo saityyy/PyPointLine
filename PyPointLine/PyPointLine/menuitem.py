@@ -449,18 +449,18 @@ class menuIsomItem(menuItem):
                 return
             line1 = line(app, self.p1, self.p2)
             line2 = line(app, self.p3, self.p4)
-            for i, l in enumerate(app.lines):
-                if l.point1 == self.p1 and l.point2 == self.p2:
+            exists_line1, exists_line2 = False, False
+            for l in app.lines:
+                if (l.point1 == self.p1 and l.point2 == self.p2) or (l.point1 == self.p2 and l.point2 == self.p1):
                     line1 = l
-                if l.point1 == self.p2 and l.point2 == self.p1:
-                    line1 = l
-                if l.point1 == self.p3 and l.point2 == self.p4:
+                    exists_line1 = True
+                if (l.point1 == self.p3 and l.point2 == self.p4) or (l.point1 == self.p4 and l.point2 == self.p3):
                     line2 = l
-                if l.point1 == self.p4 and l.point2 == self.p3:
-                    line2 = l
-            app.logs.append(line1)
-            app.logs.append(line2)
-
+                    exists_line2 = True
+            if not exists_line1:
+                app.logs.append(line1)
+            if not exists_line2:
+                app.logs.append(line2)
             # add a new module
             newModule = isometry(app, line1, line2)
             app.logs.append(newModule)

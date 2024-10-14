@@ -58,6 +58,7 @@ class XMLError(Enum):
 def xml2dict(root) -> list[dict] | XMLError:
     figures = []
     id2tag = {}
+    prev_located_point = {"x": 0, "y": 0}
     for data in root:
         attr = data.attrib
         name = None
@@ -65,12 +66,15 @@ def xml2dict(root) -> list[dict] | XMLError:
             name = data.find("name").text
         if data.tag == "point":
             id2tag[attr["id"]] = "tag_{}".format(len(figures))
+            point_x = prev_located_point["x"]+random.uniform(-2.0, 2.0)
+            point_y = prev_located_point["y"]+random.uniform(-2.0, 2.0)
+            prev_located_point = {"x": point_x, "y": point_y}
             figures.append({
                 "type": "point",
                 "id": attr["id"],
                 "tag": id2tag[attr["id"]],
-                "x": 0,
-                "y": 0,
+                "x": point_x,
+                "y": point_y,
                 "name": name,
                 "fixed": 0,
                 "showName": 1,
@@ -79,9 +83,11 @@ def xml2dict(root) -> list[dict] | XMLError:
     point_ids = [point["id"] for point in figures]
     for data in root:
         attr = data.attrib
-        name = None
+        name, value = None, None
         if data.find("name") is not None:
             name = data.find("name").text
+        if data.find("value") is not None:
+            value = data.find("value").text
         # object
         if data.tag == "line-segment":
             point_id1, point_id2 = (
@@ -94,9 +100,10 @@ def xml2dict(root) -> list[dict] | XMLError:
                 "name": name,
                 "point1": id2tag[point_id1],
                 "point2": id2tag[point_id2],
-                "showLength": 0,
                 "showName": 1,
-                "fixedLength": 0,
+                "showLength": 1 if value is not None else 0,
+                "fixedLength": 1 if value is not None else 0,
+                "length": value,
                 "active": 1
             })
         elif data.tag == "circle":
@@ -145,7 +152,8 @@ def xml2dict(root) -> list[dict] | XMLError:
                 "point3": id2tag[point_id3],
                 "showArc": 1,
                 "showValue": 1,
-                "fixValue": 0,
+                "fixValue": 1 if value is not None else 0,
+                "value": value,
                 "active": 1
             })
         else:
@@ -262,10 +270,24 @@ def xml2dict(root) -> list[dict] | XMLError:
                     "para1": 0.1
                 }
             )
+        elif data.tag == "horizontal":
+            line_id = attr["line-id"]
+            if line_id not in line_ids:
+                return XMLError.INCORRECT_REFID
+            figures.append(
+                {
+                    "type": "module",
+                    "moduletype": "horizontal",
+                    "tag": "tag_{}".format(len(figures)),
+                    "line1": id2tag[line_id],
+                    "para1": 0.1
+                }
+            )
         elif data.tag == "isometry":
             line_id1, line_id2 = (attr["line-id1"], attr["line-id2"])
             if line_id1 not in line_ids or line_id2 not in line_ids:
                 return XMLError.INCORRECT_REFID
+            ratio1, ratio2 = attr["ratio"].split(":")
             figures.append(
                 {
                     "type": "module",
@@ -273,8 +295,8 @@ def xml2dict(root) -> list[dict] | XMLError:
                     "tag": "tag_{}".format(len(figures)),
                     "line1": id2tag[line_id1],
                     "line2": id2tag[line_id2],
-                    "ratio1": 1,
-                    "ratio2": 1,
+                    "ratio1": ratio1,
+                    "ratio2": ratio2,
                     "fixedRatio": 1,
                     "para1": 0.25
                 }
@@ -335,18 +357,11 @@ def locate_polygon_vertex(number_of_vertex: int,
 
 
 def adjust_figure_location(figures, tag2pxy):
-    max_norm = 0
-    for (x, y) in tag2pxy.values():
-        max_norm = max(max_norm, (x**2+y**2)**0.5)
-    max_norm /= 3
     for tag, (x, y) in tag2pxy.items():
         for i, fig in enumerate(figures):
             if fig["tag"] == tag:
-                figures[i]["x"], figures[i]["y"] = x/max_norm, y/max_norm
-                print(tag, x, y)
-    for fig in figures:
-        if fig["type"] == "circle":
-            fig["radius"] /= max_norm
+                figures[i]["x"], figures[i]["y"] = x, y
+                print(tag, figures[i]['x'], figures[i]['y'])
     return figures
     graph = defaultdict(list)
     points_ids = []

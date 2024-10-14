@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <point id="tag_2">
+        <name>C</name>
+    </point>
+    <point id="tag_3">
+        <name>D</name>
+    </point>
+    <line-segment id="tag_4" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_5" point-id1="tag_1" point-id2="tag_2">
+        <name>BC</name>
+    </line-segment>
+    <line-segment id="tag_6" point-id1="tag_2" point-id2="tag_3">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_7" point-id1="tag_3" point-id2="tag_0">
+        <name>DA</name>
+    </line-segment>
+    <horizontal line-id="tag_6" />
+    <parallel line-id1="tag_4" line-id2="tag_6" />
+    <parallel line-id1="tag_5" line-id2="tag_7" />
+    <vertical line-id1="tag_5" line-id2="tag_6" />
+    <point id="tag_12">
+        <name>E</name>
+    </point>
+    <point id="tag_13">
+        <name>F</name>
+    </point>
+    <line-segment id="tag_14" point-id1="tag_12" point-id2="tag_2">
+        <name>EC</name>
+    </line-segment>
+    <line-segment id="tag_15" point-id1="tag_12" point-id2="tag_3">
+        <name>ED</name>
+    </line-segment>
+    <line-segment id="tag_16" point-id1="tag_13" point-id2="tag_1">
+        <name>FB</name>
+    </line-segment>
+    <line-segment id="tag_17" point-id1="tag_13" point-id2="tag_0">
+        <name>FA</name>
+    </line-segment>
+    <isometry line-id1="tag_16" line-id2="tag_14" ratio="1:1" />
+    <isometry line-id1="tag_4" line-id2="tag_6" ratio="1:1" />
+    <isometry line-id1="tag_17" line-id2="tag_15" ratio="1:1" />
+    <isometry line-id1="tag_14" line-id2="tag_15" ratio="1:1" />
+    <point id="tag_30">
+        <name>G</name>
+    </point>
+    <line-segment id="tag_31" point-id1="tag_13" point-id2="tag_30">
+        <name>FG</name>
+    </line-segment>
+    <point id="tag_32">
+        <name>H</name>
+    </point>
+    <line-segment id="tag_33" point-id1="tag_12" point-id2="tag_32">
+        <name>EH</name>
+    </line-segment>
+    <line-segment id="tag_34" point-id1="tag_13" point-id2="tag_32">
+        <name>FH</name>
+    </line-segment>
+    <line-segment id="tag_35" point-id1="tag_12" point-id2="tag_30">
+        <name>EG</name>
+    </line-segment>
+    <point-on-line point-id="tag_0" line-id="tag_31" />
+    <point-on-line point-id="tag_3" line-id="tag_35" />
+    <point-on-line point-id="tag_2" line-id="tag_5" />
+    <point-on-line point-id="tag_2" line-id="tag_33" />
+    <point-on-line point-id="tag_1" line-id="tag_34" />
+</figures>

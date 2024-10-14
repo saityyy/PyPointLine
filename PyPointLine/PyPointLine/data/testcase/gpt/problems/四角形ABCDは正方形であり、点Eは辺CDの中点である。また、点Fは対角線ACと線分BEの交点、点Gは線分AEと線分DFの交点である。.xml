@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <point id="tag_2">
+        <name>C</name>
+    </point>
+    <point id="tag_3">
+        <name>D</name>
+    </point>
+    <line-segment id="tag_4" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_5" point-id1="tag_1" point-id2="tag_2">
+        <name>BC</name>
+    </line-segment>
+    <line-segment id="tag_6" point-id1="tag_2" point-id2="tag_3">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_7" point-id1="tag_3" point-id2="tag_0">
+        <name>DA</name>
+    </line-segment>
+    <horizontal line-id="tag_6" />
+    <vertical line-id1="tag_5" line-id2="tag_6" />
+    <vertical line-id1="tag_4" line-id2="tag_7" />
+    <vertical line-id1="tag_7" line-id2="tag_6" />
+    <isometry line-id1="tag_4" line-id2="tag_5" ratio="1:1" />
+    <isometry line-id1="tag_6" line-id2="tag_7" ratio="1:1" />
+    <isometry line-id1="tag_5" line-id2="tag_6" ratio="1:1" />
+    <point id="tag_15">
+        <name>E</name>
+    </point>
+    <middle-point point-id1="tag_2" point-id2="tag_3" middle-point-id="tag_15" />
+    <line-segment id="tag_17" point-id1="tag_0" point-id2="tag_2">
+        <name>AC</name>
+    </line-segment>
+    <line-segment id="tag_18" point-id1="tag_1" point-id2="tag_15">
+        <name>BE</name>
+    </line-segment>
+    <point id="tag_19">
+        <name>F</name>
+    </point>
+    <crossing point-id="tag_19" object-id1="tag_18" object-id2="tag_17" />
+    <point id="tag_21">
+        <name>G</name>
+    </point>
+    <line-segment id="tag_22" point-id1="tag_0" point-id2="tag_15">
+        <name>AE</name>
+    </line-segment>
+    <line-segment id="tag_23" point-id1="tag_3" point-id2="tag_19">
+        <name>DF</name>
+    </line-segment>
+    <crossing point-id="tag_21" object-id1="tag_23" object-id2="tag_22" />
+</figures>

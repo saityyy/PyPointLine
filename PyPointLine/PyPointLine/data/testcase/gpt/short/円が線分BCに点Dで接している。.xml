@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_13">
+        <name>A</name>
+    </point>
+    <circle id="tag_14" center-point-id="tag_13">
+        <name>C1</name>
+    </circle>
+    <point id="tag_15">
+        <name>B</name>
+    </point>
+    <point id="tag_16">
+        <name>C</name>
+    </point>
+    <line-segment id="tag_17" point-id1="tag_15" point-id2="tag_16">
+        <name>BC</name>
+    </line-segment>
+    <point id="tag_18">
+        <name>D</name>
+    </point>
+    <point-on-line point-id="tag_18" line-id="tag_17" />
+    <point-on-circle point-id="tag_18" circle-id="tag_14" />
+    <line-tangent-circle line-id="tag_17" circle-id="tag_14" />
+</figures>

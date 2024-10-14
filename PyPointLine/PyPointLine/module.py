@@ -557,6 +557,7 @@ class isometry(module):
         elem = ET.SubElement(parent_element, "isometry")
         elem.set("line-id1", self.ln1.tag)
         elem.set("line-id2", self.ln2.tag)
+        elem.set("ratio", "{}:{}".format(self.ratio1, self.ratio2))
 
     def matter(self, obj):
         if obj != None and obj == self.ln1:
@@ -768,6 +769,10 @@ class horizontal(module):
 
     def toString(self) -> str:
         return "type=module,moduletype=horizontal,tag=%s,line1=%s,para1=%f" % (self.tag, self.line1.tag, self.para1)
+
+    def toXMLElement(self, parent_element):
+        elem = ET.SubElement(parent_element, "horizontal")
+        elem.set("line-id", self.line1.tag)
 
     def matter(self, obj):
         if obj != None and obj == self.line1:

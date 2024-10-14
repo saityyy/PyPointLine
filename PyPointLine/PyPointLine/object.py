@@ -304,6 +304,9 @@ class line(object):
         elem.set("id", self.tag)
         elem.set("point-id1", self.point1.tag)
         elem.set("point-id2", self.point2.tag)
+        if self.fixedLength:
+            length_elem = ET.SubElement(elem, "value")
+            length_elem.text = str(self.length)
         name_elem = ET.SubElement(elem, "name")
         name_elem.text = "{}{}".format(self.point1.name, self.point2.name)
 
@@ -405,7 +408,7 @@ class angle(object):
         self.showValue = True
         self.fixValue = False
         self.value = 0
-        self.tag = "tag_%03d" % (app.nextID)
+        self.tag = "tag_%00d" % (app.nextID)
         app.nextID += 1
         self.pref = preference(self.app, self)
         self.start = 0
@@ -577,6 +580,9 @@ class angle(object):
         elem.set("point-id2", self.point2.tag)
         elem.set("point-id3", self.point3.tag)
         name_elem = ET.SubElement(elem, "name")
+        if self.fixValue:
+            value_elem = ET.SubElement(elem, "value")
+            value_elem.text = str(self.value)
         name_elem.text = self.name
 
     def matter(self, obj):

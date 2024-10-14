@@ -65,19 +65,19 @@ class fileIO:
         figures = xml2dict(tree.getroot())
         if type(figures) is not list:
             raise Exception("xml file error {}".format(figures))
-        solver = Solver(figures)
-        geometry_solve_result = solver.solve()
-        if not geometry_solve_result["ok"]:
-            print("geometry solve failed")
-            return
-        validation_result = solver.validate(geometry_solve_result["tag2pxy"])
-        print(validation_result)
-        figures = adjust_figure_location(
-            figures, geometry_solve_result["tag2pxy"])
+        # solver = Solver(figures)
+        # geometry_solve_result = solver.solve()
+        # if not geometry_solve_result["ok"]:
+        #     print("geometry solve failed")
+        #     return
+        # solver.validate(geometry_solve_result["tag2pxy"])
+        # figures = adjust_figure_location(
+        #     figures, geometry_solve_result["tag2pxy"])
         for dic in figures:
             self.dict2pointline(app, dic)
         # app.nextID
         app.getNextID()
+        app.calculatorEvaluate()
         pass
 
     def dict2pointline(self, app, dic):
@@ -108,6 +108,8 @@ class fileIO:
             newLine.showName = bool(int(dic['showName']))
             newLine.fixedLength = bool(int(dic['fixedLength']))
             newLine.active = bool(int(dic['active']))
+            if newLine.fixedLength:
+                newLine.length = float(dic['length'])
             app.logs.append(newLine)
         elif dic['type'] == 'circle':
             point1 = app.findObjectByTag(dic['point1'])
@@ -133,6 +135,8 @@ class fileIO:
             newAngle.showValue = bool(int(dic['showValue']))
             newAngle.fixValue = bool(int(dic['fixValue']))
             newAngle.active = bool(int(dic['active']))
+            if bool(int(dic['fixValue'])):
+                newAngle.value = float(dic['value'])
             app.logs.append(newAngle)
 
         elif dic['type'] == 'module':

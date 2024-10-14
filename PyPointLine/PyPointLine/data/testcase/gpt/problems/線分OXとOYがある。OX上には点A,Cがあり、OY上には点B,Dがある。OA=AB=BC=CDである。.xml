@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_14">
+        <name>O</name>
+    </point>
+    <point id="tag_15">
+        <name>X</name>
+    </point>
+    <line-segment id="tag_16" point-id1="tag_14" point-id2="tag_15">
+        <name>OX</name>
+    </line-segment>
+    <point id="tag_17">
+        <name>Y</name>
+    </point>
+    <line-segment id="tag_18" point-id1="tag_14" point-id2="tag_17">
+        <name>OY</name>
+    </line-segment>
+    <point id="tag_19">
+        <name>A</name>
+    </point>
+    <point id="tag_20">
+        <name>B</name>
+    </point>
+    <point id="tag_21">
+        <name>C</name>
+    </point>
+    <point id="tag_22">
+        <name>D</name>
+    </point>
+    <point-on-line point-id="tag_19" line-id="tag_16" />
+    <point-on-line point-id="tag_20" line-id="tag_18" />
+    <point-on-line point-id="tag_22" line-id="tag_18" />
+    <point-on-line point-id="tag_21" line-id="tag_16" />
+    <line-segment id="tag_27" point-id1="tag_14" point-id2="tag_19">
+        <name>OA</name>
+    </line-segment>
+    <line-segment id="tag_28" point-id1="tag_19" point-id2="tag_20">
+        <name>AB</name>
+    </line-segment>
+    <isometry line-id1="tag_27" line-id2="tag_28" ratio="1:1" />
+    <line-segment id="tag_31" point-id1="tag_20" point-id2="tag_21">
+        <name>BC</name>
+    </line-segment>
+    <isometry line-id1="tag_28" line-id2="tag_31" ratio="1:1" />
+    <line-segment id="tag_37" point-id1="tag_21" point-id2="tag_22">
+        <name>CD</name>
+    </line-segment>
+    <isometry line-id1="tag_31" line-id2="tag_37" ratio="1:1" />
+    <horizontal line-id="tag_18" />
+</figures>

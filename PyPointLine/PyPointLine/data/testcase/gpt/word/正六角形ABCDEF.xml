@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <point id="tag_2">
+        <name>C</name>
+    </point>
+    <point id="tag_3">
+        <name>D</name>
+    </point>
+    <point id="tag_4">
+        <name>E</name>
+    </point>
+    <point id="tag_5">
+        <name>F</name>
+    </point>
+    <line-segment id="tag_6" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_7" point-id1="tag_1" point-id2="tag_2">
+        <name>BC</name>
+    </line-segment>
+    <line-segment id="tag_8" point-id1="tag_2" point-id2="tag_3">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_9" point-id1="tag_3" point-id2="tag_4">
+        <name>DE</name>
+    </line-segment>
+    <line-segment id="tag_10" point-id1="tag_4" point-id2="tag_5">
+        <name>EF</name>
+    </line-segment>
+    <line-segment id="tag_11" point-id1="tag_5" point-id2="tag_0">
+        <name>FA</name>
+    </line-segment>
+    <isometry line-id1="tag_6" line-id2="tag_7" ratio="1:1" />
+    <isometry line-id1="tag_7" line-id2="tag_8" ratio="1:1" />
+    <isometry line-id1="tag_8" line-id2="tag_9" ratio="1:1" />
+    <isometry line-id1="tag_9" line-id2="tag_10" ratio="1:1" />
+    <isometry line-id1="tag_10" line-id2="tag_11" ratio="1:1" />
+    <angle id="tag_27" point-id1="tag_0" point-id2="tag_1" point-id3="tag_2">
+        <name>∠ABC</name>
+    </angle>
+    <angle id="tag_28" point-id1="tag_1" point-id2="tag_2" point-id3="tag_3">
+        <name>∠BCD</name>
+    </angle>
+    <angle id="tag_29" point-id1="tag_2" point-id2="tag_3" point-id3="tag_4">
+        <name>∠CDE</name>
+    </angle>
+    <angle id="tag_30" point-id1="tag_3" point-id2="tag_4" point-id3="tag_5">
+        <name>∠DEF</name>
+    </angle>
+    <angle id="tag_31" point-id1="tag_4" point-id2="tag_5" point-id3="tag_0">
+        <name>∠EFA</name>
+    </angle>
+    <angle id="tag_32" point-id1="tag_1" point-id2="tag_0" point-id3="tag_5">
+        <name>∠BAF</name>
+    </angle>
+    <bisector angle-id1="tag_32" angle-id2="tag_27" />
+    <bisector angle-id1="tag_27" angle-id2="tag_28" />
+    <bisector angle-id1="tag_28" angle-id2="tag_29" />
+    <bisector angle-id1="tag_29" angle-id2="tag_30" />
+</figures>

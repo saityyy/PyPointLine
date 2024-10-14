@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_49">
+        <name>A</name>
+    </point>
+    <point id="tag_50">
+        <name>B</name>
+    </point>
+    <point id="tag_51">
+        <name>C</name>
+    </point>
+    <point id="tag_52">
+        <name>D</name>
+    </point>
+    <point id="tag_53">
+        <name>E</name>
+    </point>
+    <point id="tag_54">
+        <name>F</name>
+    </point>
+    <line-segment id="tag_55" point-id1="tag_49" point-id2="tag_50">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_56" point-id1="tag_50" point-id2="tag_51">
+        <name>BC</name>
+    </line-segment>
+    <line-segment id="tag_57" point-id1="tag_51" point-id2="tag_52">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_60" point-id1="tag_52" point-id2="tag_53">
+        <name>DE</name>
+    </line-segment>
+    <line-segment id="tag_61" point-id1="tag_53" point-id2="tag_54">
+        <name>EF</name>
+    </line-segment>
+    <line-segment id="tag_62" point-id1="tag_54" point-id2="tag_49">
+        <name>FA</name>
+    </line-segment>
+</figures>

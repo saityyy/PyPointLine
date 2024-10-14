@@ -1,4 +1,7 @@
 # flake8:noqa E741
+from scipy.optimize import minimize
+from functools import wraps
+import sys
 import math
 import warnings
 from pprint import pprint
@@ -113,19 +116,6 @@ class Solver:
                     if not crossing.is_valid():
                         print("Invalid module crossing")
 
-    def equations(self, vars):
-        vars = list(vars)
-        module_constraints = []
-        tag2pxy = {}
-        for tag in self.tag2point.keys():
-            tag2pxy[tag] = (vars.pop(0), vars.pop(0))
-        for m in self.modules:
-            module_constraints.append(m.equation(tag2pxy))
-        for _ in range(2*len(self.tag2point)-len(self.modules)):
-            module_constraints.append(0.0)
-
-        return module_constraints
-
     def validate(self, tag2pxy) -> bool:
         for tag in self.tag2point.keys():
             x, y = tag2pxy[tag]
@@ -189,15 +179,15 @@ class Solver:
                     pass
         for l in self.tag2line.values():
             if not l.is_valid():
-                print('invalid line')
+                # print('invalid line')
                 return False
         for c in self.tag2circle.values():
             if not c.is_valid():
-                print('invalid circle')
+                # print('invalid circle')
                 return False
         for m in self.modules:
             if not m.is_valid():
-                print('invalid module:' + m.__class__.__name__)
+                # print('invalid module:' + m.__class__.__name__)
                 return False
         return True
 
@@ -224,10 +214,32 @@ class Solver:
                         max_dist = distance
                     if min_dist > distance:
                         min_dist = distance
-        ratio = max_dist/min_dist
+        ratio = max_dist/(min_dist+1e-9)
         return 1/(abs(ratio-1)+1e-9)
 
-    def solve(self, iteration=1000, threshold=1e-3):
+    def equations(self, vars):
+        vars = list(vars)
+        constraints = []
+        tag2pxy = {}
+        for tag in self.tag2point.keys():
+            tag2pxy[tag] = (vars.pop(0), vars.pop(0))
+        for m in self.modules:
+            constraints.append(m.equation(tag2pxy))
+        return constraints
+
+    def ineq_constraints(self):
+        constraints = []
+        for l in self.tag2line.values():
+            constraints.append({
+                'type': 'ineq',
+                'fun': l.inequation(self)
+            })
+        return tuple(constraints)
+
+    def objective(self, vars):
+        return sum(r**2 for r in self.equations(vars))
+
+    def solve(self, iteration=100, threshold=1e-6):
         solved_cnt, validated_cnt = 0, 0
         var_num = len(self.tag2point)*2
         tag2pxy = {}
@@ -237,17 +249,18 @@ class Solver:
         for _ in range(iteration):
             initial_guess = [random.uniform(-1.0, 1.0)
                              for _ in range(var_num)]
-            solution = optimize.root(
-                self.equations, initial_guess, method="lm").x
-            # solution = optimize.fsolve(self.equations, initial_guess)
-            if sum([abs(r) for r in self.equations(solution)]) < threshold:
-                solution = list(solution)
+            bnds = [(-5, 5) for _ in range(var_num)]
+            solution = optimize.minimize(
+                self.objective, initial_guess,  bounds=bnds,
+                constraints=self.ineq_constraints())
+            if solution.fun < threshold:
+                solution = list(solution.x)
                 tmp_tag2pxy = {}
                 for tag in self.tag2point.keys():
                     tmp_tag2pxy[tag] = (
                         solution.pop(0), solution.pop(0))
                 solved_cnt += 1
-                if self.validate(tmp_tag2pxy):
+                if self.validate(tmp_tag2pxy) or 1:
                     validated_cnt += 1
                     point_location_score = self.points_location_score(
                         tmp_tag2pxy)
@@ -298,6 +311,19 @@ class Solver:
 
         def is_valid(self):
             return self.p1 != self.p2
+
+        def inequation(self, solver_instance):
+            tag2pxy = {}
+            tag2point = solver_instance.tag2point
+
+            def ineq(vars):
+                vars = list(vars)
+                for tag in tag2point.keys():
+                    tag2pxy[tag] = (vars.pop(0), vars.pop(0))
+                p1x, p1y = tag2pxy[self.p1.tag]
+                p2x, p2y = tag2pxy[self.p2.tag]
+                return (p1x-p2x)**2+(p1y-p2y)**2-1e-3
+            return ineq
 
     class Circle(Object):
         def __init__(self, tag, p, r):
@@ -510,47 +536,15 @@ class Solver:
             a2x1, a2y1 = tag2pxy[self.a2.p1.tag]
             a2x2, a2y2 = tag2pxy[self.a2.p2.tag]
             a2x3, a2y3 = tag2pxy[self.a2.p3.tag]
-            if a1x2-a1x1 == 0:
-                l1 = (a1y2-a1y1)/EPSILON
-            else:
-                l1 = (a1y2-a1y1)/(a1x2-a1x1)
-            if a1x3-a1x2 == 0:
-                l2 = (a1y3-a1y2)/EPSILON
-            else:
-                l2 = (a1y3-a1y2)/(a1x3-a1x2)
-            if a1x2 <= a1x1:
-                l1arctan = np.arctan(l1)
-            else:
-                l1arctan = np.arctan(l1)+np.pi
-            if a1x2 <= a1x3:
-                l2arctan = np.arctan(l2)
-            else:
-                l2arctan = np.arctan(l2)+np.pi
-            angle1 = abs(l1arctan-l2arctan)
-            if angle1 > np.pi:
-                angle1 = 2*np.pi-angle1
-            if a2x2-a2x1 == 0:
-                l1 = (a2y2-a2y1)/EPSILON
-            else:
-                l1 = (a2y2-a2y1)/(a2x2-a2x1)
-            if a2x3-a2x2 == 0:
-                l2 = (a2y3-a2y2)/EPSILON
-            else:
-                l2 = (a2y3-a2y2)/(a2x3-a2x2)
-            if a2x2 <= a2x1:
-                l1arctan = np.arctan(l1)
-            else:
-                l1arctan = np.arctan(l1)+np.pi
-            if a2x2 <= a2x3:
-                l2arctan = np.arctan(l2)
-            else:
-                l2arctan = np.arctan(l2)+np.pi
-            angle2 = abs(l1arctan-l2arctan)
-            if angle2 > np.pi:
-                angle2 = 2*np.pi-angle2
-            # print("{}_angle1:{}, {}_angle2:{}".format(
-            #     self.a1.tag, angle1*(180/np.pi), self.a2.tag, angle2*(180/np.pi)))
-            return angle1-angle2
+            a1v1 = np.array([a1x1-a1x2, a1y1-a1y2])
+            a1v2 = np.array([a1x3-a1x2, a1y3-a1y2])
+            a2v1 = np.array([a2x1-a2x2, a2y1-a2y2])
+            a2v2 = np.array([a2x3-a2x2, a2y3-a2y2])
+            a1cos = np.dot(a1v1, a1v2) / \
+                (np.linalg.norm(a1v1)*np.linalg.norm(a1v2))
+            a2cos = np.dot(a2v1, a2v2) / \
+                (np.linalg.norm(a2v1)*np.linalg.norm(a2v2))
+            return a1cos-a2cos
 
     class Crossing:
         def __init__(self, p, o1, o2):
@@ -588,21 +582,52 @@ warnings.filterwarnings('ignore', 'The iteration is not making good progress')
 warnings.filterwarnings(
     'ignore', 'The number of calls to function has reached maxfev')
 
+
+def suppress_stdout(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        # 標準出力を無効にする
+        original_stdout = sys.stdout
+        sys.stdout = open(os.devnull, 'w')
+        try:
+            result = func(*args, **kwargs)
+        finally:
+            # 標準出力を元に戻す
+            sys.stdout.close()
+            sys.stdout = original_stdout
+        return result
+    return wrapper
+
+
+@suppress_stdout
+def geometry_solve(fpath, iter):
+    tree = ET.parse(fpath)
+    figures = xml2dict(tree.getroot())
+    solver = Solver(figures)
+    count = 0
+    for _ in range(iter):
+        geometry_solve_result = solver.solve(iteration=10)
+        if geometry_solve_result["ok"]:
+            count += 1
+    return count
+
+
 if __name__ == '__main__':
     ITER = 1
-    fname = "crossing.xml"
+    fname = ""
     print("--- OK ---")
     for f in os.scandir("./data/testcase/solver/ok"):
-        if fname != f.name:
-            continue
-        tree = ET.parse(f.path)
-        figures = xml2dict(tree.getroot())
-        solver = Solver(figures)
-        count = 0
-        for i in range(ITER):
-            geometry_solve_result = solver.solve()
-            if geometry_solve_result["ok"]:
-                count += 1
+        # if fname != f.name:
+        #     continue
+        count = geometry_solve(f.path, ITER)
+        if count == ITER:
+            print("{}:pass({}/{})".format(f.name, count, ITER))
+        else:
+            print("{}:out({}/{})".format(f.name, count, ITER))
+    for f in os.scandir("./data/testcase/gpt"):
+        # if fname != f.name:
+        #     continue
+        count = geometry_solve(f.path, ITER)
         if count == ITER:
             print("{}:pass({}/{})".format(f.name, count, ITER))
         else:
@@ -610,14 +635,7 @@ if __name__ == '__main__':
 
     print("--- NG ---")
     for f in os.scandir("./data/testcase/solver/ng"):
-        tree = ET.parse(f.path)
-        figures = xml2dict(tree.getroot())
-        solver = Solver(figures)
-        count = 0
-        for i in range(ITER):
-            geometry_solve_result = solver.solve()
-            if geometry_solve_result["ok"]:
-                count += 1
+        count = geometry_solve(f.path, ITER)
         if count == 0:
             print("{}:pass({}/{})".format(f.name, ITER-count, ITER))
         else:

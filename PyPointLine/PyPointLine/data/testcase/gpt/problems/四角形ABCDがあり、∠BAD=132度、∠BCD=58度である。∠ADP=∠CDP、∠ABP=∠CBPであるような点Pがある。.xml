@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <point id="tag_2">
+        <name>C</name>
+    </point>
+    <point id="tag_3">
+        <name>D</name>
+    </point>
+    <line-segment id="tag_4" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_5" point-id1="tag_1" point-id2="tag_2">
+        <name>BC</name>
+    </line-segment>
+    <line-segment id="tag_6" point-id1="tag_2" point-id2="tag_3">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_7" point-id1="tag_3" point-id2="tag_0">
+        <name>DA</name>
+    </line-segment>
+    <angle id="tag_9" point-id1="tag_1" point-id2="tag_0" point-id3="tag_3">
+        <name>∠BAD</name>
+        <value>132</value>
+    </angle>
+    <angle id="tag_10" point-id1="tag_1" point-id2="tag_2" point-id3="tag_3">
+        <name>∠BCD</name>
+        <value>58</value>
+    </angle>
+    <point id="tag_11">
+        <name>P</name>
+    </point>
+    <line-segment id="tag_12" point-id1="tag_3" point-id2="tag_11">
+        <name>DP</name>
+    </line-segment>
+    <line-segment id="tag_13" point-id1="tag_11" point-id2="tag_1">
+        <name>PB</name>
+    </line-segment>
+    <angle id="tag_14" point-id1="tag_0" point-id2="tag_3" point-id3="tag_11">
+        <name>∠ADP</name>
+    </angle>
+    <angle id="tag_15" point-id1="tag_2" point-id2="tag_3" point-id3="tag_11">
+        <name>∠CDP</name>
+    </angle>
+    <angle id="tag_16" point-id1="tag_0" point-id2="tag_1" point-id3="tag_11">
+        <name>∠ABP</name>
+    </angle>
+    <angle id="tag_17" point-id1="tag_2" point-id2="tag_1" point-id3="tag_11">
+        <name>∠CBP</name>
+    </angle>
+    <bisector angle-id1="tag_15" angle-id2="tag_14" />
+    <bisector angle-id1="tag_17" angle-id2="tag_16" />
+    <horizontal line-id="tag_5" />
+</figures>

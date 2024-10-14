@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <point id="tag_2">
+        <name>C</name>
+    </point>
+    <line-segment id="tag_3" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_4" point-id1="tag_1" point-id2="tag_2">
+        <name>BC</name>
+    </line-segment>
+    <line-segment id="tag_5" point-id1="tag_2" point-id2="tag_0">
+        <name>CA</name>
+    </line-segment>
+    <horizontal line-id="tag_4" />
+    <point id="tag_7">
+        <name>P</name>
+    </point>
+    <point id="tag_8">
+        <name>Q</name>
+    </point>
+    <line-segment id="tag_9" point-id1="tag_1" point-id2="tag_7">
+        <name>BP</name>
+    </line-segment>
+    <line-segment id="tag_10" point-id1="tag_7" point-id2="tag_0">
+        <name>PA</name>
+    </line-segment>
+    <line-segment id="tag_11" point-id1="tag_0" point-id2="tag_8">
+        <name>AQ</name>
+    </line-segment>
+    <line-segment id="tag_12" point-id1="tag_8" point-id2="tag_2">
+        <name>QC</name>
+    </line-segment>
+    <isometry line-id1="tag_3" line-id2="tag_9" ratio="1:1" />
+    <isometry line-id1="tag_9" line-id2="tag_10" ratio="1:1" />
+    <isometry line-id1="tag_11" line-id2="tag_12" ratio="1:1" />
+    <isometry line-id1="tag_12" line-id2="tag_5" ratio="1:1" />
+    <line-segment id="tag_25" point-id1="tag_7" point-id2="tag_2">
+        <name>PC</name>
+    </line-segment>
+    <line-segment id="tag_26" point-id1="tag_1" point-id2="tag_8">
+        <name>BQ</name>
+    </line-segment>
+    <point id="tag_27">
+        <name>R</name>
+    </point>
+    <crossing point-id="tag_27" object-id1="tag_26" object-id2="tag_25" />
+</figures>

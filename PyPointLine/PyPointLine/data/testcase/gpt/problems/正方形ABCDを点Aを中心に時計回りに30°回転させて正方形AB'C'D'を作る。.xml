@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="tag_0">
+        <name>A</name>
+    </point>
+    <point id="tag_1">
+        <name>B</name>
+    </point>
+    <point id="tag_2">
+        <name>C</name>
+    </point>
+    <point id="tag_3">
+        <name>D</name>
+    </point>
+    <line-segment id="tag_4" point-id1="tag_0" point-id2="tag_1">
+        <name>AB</name>
+    </line-segment>
+    <line-segment id="tag_5" point-id1="tag_1" point-id2="tag_2">
+        <name>BC</name>
+    </line-segment>
+    <line-segment id="tag_6" point-id1="tag_2" point-id2="tag_3">
+        <name>CD</name>
+    </line-segment>
+    <line-segment id="tag_7" point-id1="tag_3" point-id2="tag_0">
+        <name>DA</name>
+    </line-segment>
+    <horizontal line-id="tag_6" />
+    <vertical line-id1="tag_5" line-id2="tag_6" />
+    <vertical line-id1="tag_4" line-id2="tag_7" />
+    <vertical line-id1="tag_7" line-id2="tag_6" />
+    <isometry line-id1="tag_4" line-id2="tag_5" ratio="1:1" />
+    <isometry line-id1="tag_6" line-id2="tag_7" ratio="1:1" />
+    <isometry line-id1="tag_5" line-id2="tag_6" ratio="1:1" />
+    <point id="tag_15">
+        <name>B'</name>
+    </point>
+    <point id="tag_16">
+        <name>C'</name>
+    </point>
+    <point id="tag_17">
+        <name>D'</name>
+    </point>
+    <line-segment id="tag_18" point-id1="tag_0" point-id2="tag_15">
+        <name>AB'</name>
+    </line-segment>
+    <line-segment id="tag_19" point-id1="tag_15" point-id2="tag_16">
+        <name>B'C'</name>
+    </line-segment>
+    <line-segment id="tag_20" point-id1="tag_16" point-id2="tag_17">
+        <name>C'D'</name>
+    </line-segment>
+    <line-segment id="tag_21" point-id1="tag_17" point-id2="tag_0">
+        <name>D'A</name>
+    </line-segment>
+    <isometry line-id1="tag_18" line-id2="tag_19" ratio="1:1" />
+    <isometry line-id1="tag_19" line-id2="tag_20" ratio="1:1" />
+    <isometry line-id1="tag_20" line-id2="tag_21" ratio="1:1" />
+    <vertical line-id1="tag_18" line-id2="tag_19" />
+    <isometry line-id1="tag_4" line-id2="tag_18" ratio="1:1" />
+    <angle id="tag_35" point-id1="tag_1" point-id2="tag_0" point-id3="tag_15">
+        <name>∠BAB'</name>
+        <value>30</value>
+    </angle>
+</figures>
