@@ -39,6 +39,19 @@ def dist(x0, y0, x1, y1):
     return magnitude(x0-x1, y0-y1)
 
 
+def draw_grid_lines(app, point, line):
+    # グリッド線
+    return
+    for i in [-10, 0, 10]:
+        _l = line(app, point(app, i, -10), point(app, i, 10))
+        _l.name = "axis"
+        app.logs.append(_l)
+    for i in [-10, 0, 10]:
+        _l = line(app, point(app, -10, i), point(app, 10, i))
+        _l.name = "axis"
+        app.logs.append(_l)
+
+
 def rotation(x0: float, y0: float, x1: float, y1: float, theta: float):  # theta : clockwise radian
     mx = (x0+x1)*0.5
     my = (y0+y1)*0.5
@@ -50,134 +63,117 @@ def rotation(x0: float, y0: float, x1: float, y1: float, theta: float):  # theta
     pass
 
 
-class XMLError(Enum):
-    INCORRECT_REFID = "incorrect_refid"
-    UNDEFINED_TAG = "undefined_tag"
-
-
-def xml2dict(root) -> list[dict] | XMLError:
+def xml2dict(root):
     figures = []
     id2tag = {}
-    prev_located_point = {"x": 0, "y": 0}
-    for data in root:
+    xmltag_order = ["point", "straight-line", "line-segment", "circle", "angle", "middle-point", "point-on-line", "point-on-circle",
+                    "line-tangent-circle", "circle-tangent-circle", "vertical", "parallel",
+                    "horizontal", "isometry", "bisector", "crossing"]
+    sorted_xml_elements = sorted(root, key=lambda x: xmltag_order.index(x.tag))
+    exist_object_ids = {"point": [],
+                        "line": [], "circle": [], "angle": []}
+    for data in sorted_xml_elements:
         attr = data.attrib
-        name = None
-        if data.find("name") is not None:
-            name = data.find("name").text
+        serial_num = len(figures)+1
         if data.tag == "point":
-            id2tag[attr["id"]] = "tag_{}".format(len(figures))
-            point_x = prev_located_point["x"]+random.uniform(-2.0, 2.0)
-            point_y = prev_located_point["y"]+random.uniform(-2.0, 2.0)
-            prev_located_point = {"x": point_x, "y": point_y}
+            id2tag[attr["id"]] = "tag_{}".format(serial_num)
+            x, y = map(float, attr["position"].split(","))
             figures.append({
                 "type": "point",
                 "id": attr["id"],
                 "tag": id2tag[attr["id"]],
-                "x": point_x,
-                "y": point_y,
-                "name": name,
+                "x": x,
+                "y": y,
+                "name": attr["name"],
                 "fixed": 0,
                 "showName": 1,
                 "active": 1
             })
-    point_ids = [point["id"] for point in figures]
-    for data in root:
-        attr = data.attrib
-        name, value = None, None
-        if data.find("name") is not None:
-            name = data.find("name").text
-        if data.find("value") is not None:
-            value = data.find("value").text
-        # object
-        if data.tag == "line-segment":
-            point_id1, point_id2 = (
-                attr["point-id1"], attr["point-id2"])
-            id2tag[attr["id"]] = "tag_{}".format(len(figures))
+            exist_object_ids["point"].append(attr["id"])
+        elif data.tag == "line-segment" or data.tag == "straight-line":
+            if attr.get("point-id1") not in exist_object_ids["point"]:
+                raise Exception(
+                    f"xmlerror: incorrect_refid in {data.tag} tag.(not exist {attr.get('point-id1')})")
+            if attr.get("point-id2") not in exist_object_ids["point"]:
+                raise Exception(
+                    f"xmlerror: incorrect_refid in {data.tag} tag.(not exist {attr.get('point-id2')})")
+            id2tag[attr["id"]] = "tag_{}".format(serial_num)
+            pt1_tag = id2tag[attr["point-id1"]]
+            pt2_tag = id2tag[attr["point-id2"]]
             figures.append({
                 "type": "line",
                 "id": attr["id"],
                 "tag": id2tag[attr["id"]],
-                "name": name,
-                "point1": id2tag[point_id1],
-                "point2": id2tag[point_id2],
+                "name": attr["name"],
+                "point1": pt1_tag,
+                "point2": pt2_tag,
                 "showName": 1,
-                "showLength": 1 if value is not None else 0,
-                "fixedLength": 1 if value is not None else 0,
-                "length": value,
+                "showLength": 1 if attr.get("length") is not None else 0,
+                "fixedLength": 1 if attr.get("length") is not None else 0,
+                "length": attr.get("length"),
                 "active": 1
             })
+            if data.tag == "straight-line":
+                for i in range(len(figures)):
+                    ftag = figures[i]["tag"]
+                    if ftag == pt1_tag or ftag == pt2_tag:
+                        figures[i]["showName"] = 0
+
+            exist_object_ids["line"].append(attr["id"])
         elif data.tag == "circle":
-            center_point_id = None
-            if "center-point-id" in attr:
-                center_point_id = attr["center-point-id"]
-                if center_point_id not in point_ids:
-                    return XMLError.INCORRECT_REFID
-            else:
-                center_point_id = "cp_{}".format(len(figures))
-                id2tag[center_point_id] = "tag_{}".format(len(figures))
-                figures.append({
-                    "type": "point",
-                    "id": attr["id"],
-                    "tag": id2tag[center_point_id],
-                    "x": 0,
-                    "y": 0,
-                    "name": "",
-                    "fixed": 0,
-                    "showName": 1,
-                    "active": 1
-                })
-            id2tag[attr["id"]] = "tag_{}".format(len(figures))
+            if attr.get("center-point-id") not in exist_object_ids["point"]:
+                raise Exception("xmlerror: incorrect_refid")
+            id2tag[attr["id"]] = "tag_{}".format(serial_num)
             figures.append(
                 {
                     "type": "circle",
                     "id": attr["id"],
-                    "point1": id2tag[center_point_id],
-                    "radius": 0.5,
+                    "point1": id2tag[attr["center-point-id"]],
+                    "radius": attr["radius"],
                     "tag": id2tag[attr["id"]],
-                    "name": name,
+                    "name": attr["name"],
                     "fixedRadius": 0,
                     "active": 1
                 })
+            exist_object_ids["circle"].append(attr["id"])
         elif data.tag == "angle":
-            point_id1, point_id2, point_id3 = (
-                attr["point-id1"], attr["point-id2"], attr["point-id3"])
-            id2tag[attr["id"]] = "tag_{}".format(len(figures))
+            if attr.get("point-id1") not in exist_object_ids["point"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("point-id2") not in exist_object_ids["point"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("point-id3") not in exist_object_ids["point"]:
+                raise Exception("xmlerror: incorrect_refid")
+            id2tag[attr["id"]] = "tag_{}".format(serial_num)
             figures.append({
                 "type": "angle",
                 "id": attr["id"],
                 "tag": id2tag[attr["id"]],
-                "name": name,
-                "point1": id2tag[point_id1],
-                "point2": id2tag[point_id2],
-                "point3": id2tag[point_id3],
+                "name": attr["name"],
+                "point1": id2tag[attr["point-id1"]],
+                "point2": id2tag[attr["point-id2"]],
+                "point3": id2tag[attr["point-id3"]],
                 "showArc": 1,
                 "showValue": 1,
-                "fixValue": 1 if value is not None else 0,
-                "value": value,
+                "fixValue": 1 if attr.get("value") is not None else 0,
+                "value": attr.get("value"),
                 "active": 1
             })
-        else:
-            pass
-
-    line_ids = [fig["id"] for fig in figures if fig["type"] == "line"]
-    circle_ids = [fig["id"] for fig in figures if fig["type"] == "circle"]
-    angle_ids = [fig["id"] for fig in figures if fig["type"] == "angle"]
-    # module
-    for data in root:
-        attr = data.attrib
-        if data.tag == "middle-point":
-            middle_point_id, point_id1, point_id2 = (
-                attr["middle-point-id"], attr["point-id1"], attr["point-id2"])
-            if not all((middle_point_id in point_ids, point_id1 in point_ids, point_id2 in point_ids)):
-                return XMLError.INCORRECT_REFID
+            exist_object_ids["angle"].append(attr["id"])
+        elif data.tag == "middle-point":
+            if attr.get("middle-point-id") not in exist_object_ids["point"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("point-id1") not in exist_object_ids["point"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("point-id2") not in exist_object_ids["point"]:
+                raise Exception("xmlerror: incorrect_refid")
             figures.append(
                 {
                     "type": "module",
                     "moduletype": "midpoint",
-                    "tag": "tag_{}".format(len(figures)),
-                    "p1": id2tag[point_id1],
-                    "p2": id2tag[point_id2],
-                    "p3": id2tag[middle_point_id],
+                    "tag": "tag_{}".format(serial_num),
+                    "p1": id2tag[attr["point-id1"]],
+                    "p2": id2tag[attr["point-id2"]],
+                    "p3": id2tag[attr["middle-point-id"]],
                     "ratio1": 1,
                     "ratio2": 1,
                     "para1": 0.02,
@@ -186,115 +182,121 @@ def xml2dict(root) -> list[dict] | XMLError:
                 }
             )
         elif data.tag == "point-on-line":
-            point_id, line_id = (attr["point-id"], attr["line-id"])
-            if point_id not in point_ids or line_id not in line_ids:
-                return XMLError.INCORRECT_REFID
+            if attr.get("point-id") not in exist_object_ids["point"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("line-id") not in exist_object_ids["line"]:
+                raise Exception("xmlerror: incorrect_refid")
             figures.append(
                 {
                     "type": "module",
                     "moduletype": "point2line",
-                    "tag": "tag_{}".format(len(figures)),
-                    "p1": id2tag[point_id],
-                    "l1": id2tag[line_id],
+                    "tag": "tag_{}".format(serial_num),
+                    "p1": id2tag[attr["point-id"]],
+                    "l1": id2tag[attr["line-id"]],
                     "onlyOnSegment": 1,
                     "para1": 0.02
                 }
             )
         elif data.tag == "point-on-circle":
-            point_id, circle_id = (attr["point-id"], attr["circle-id"])
-            if point_id not in point_ids or circle_id not in circle_ids:
-                return XMLError.INCORRECT_REFID
+            if attr.get("point-id") not in exist_object_ids["point"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("circle-id") not in exist_object_ids["circle"]:
+                raise Exception("xmlerror: incorrect_refid")
             figures.append(
                 {
                     "type": "module",
                     "moduletype": "point2circle",
-                    "tag": "tag_{}".format(len(figures)),
-                    "p1": id2tag[point_id],
-                    "c1": id2tag[circle_id],
+                    "tag": "tag_{}".format(serial_num),
+                    "p1": id2tag[attr["point-id"]],
+                    "c1": id2tag[attr["circle-id"]],
                     "para1": 0.1
                 }
             )
         elif data.tag == "line-tangent-circle":
-            line_id, circle_id = (attr["line-id"], attr["circle-id"])
-            if line_id not in line_ids or circle_id not in circle_ids:
-                return XMLError.INCORRECT_REFID
+            if attr.get("line-id") not in exist_object_ids["line"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("circle-id") not in exist_object_ids["circle"]:
+                raise Exception("xmlerror: incorrect_refid")
             figures.append(
                 {
                     "type": "module",
                     "moduletype": "line2circle",
-                    "tag": "tag_{}".format(len(figures)),
-                    "ln": id2tag[line_id],
-                    "cc": id2tag[circle_id],
+                    "tag": "tag_{}".format(serial_num),
+                    "ln": id2tag[attr["line-id"]],
+                    "cc": id2tag[attr["circle-id"]],
                     "para1": 0.1
                 }
             )
         elif data.tag == "circle-tangent-circle":
-            circle_id1, circle_id2 = (attr["circle-id1"], attr["circle-id2"])
-            if circle_id1 not in circle_ids or circle_id2 not in circle_ids:
-                return XMLError.INCORRECT_REFID
+            if attr.get("circle-id1") not in exist_object_ids["circle"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("circle-id2") not in exist_object_ids["circle"]:
+                raise Exception("xmlerror: incorrect_refid")
             figures.append(
                 {
                     "type": "module",
                     "moduletype": "circle2circle",
-                    "tag": "tag_{}".format(len(figures)),
-                    "cc1": id2tag[circle_id1],
-                    "cc2": id2tag[circle_id2],
+                    "tag": "tag_{}".format(serial_num),
+                    "cc1": id2tag[attr["circle-id1"]],
+                    "cc2": id2tag[attr["circle-id2"]],
                     "para1": 0.1
                 }
             )
         elif data.tag == "vertical":
-            line_id1, line_id2 = (attr["line-id1"], attr["line-id2"])
-            if line_id1 not in line_ids or line_id2 not in line_ids:
-                return XMLError.INCORRECT_REFID
+            if attr.get("line-id1") not in exist_object_ids["line"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("line-id2") not in exist_object_ids["line"]:
+                raise Exception("xmlerror: incorrect_refid")
             figures.append(
                 {
                     "type": "module",
                     "moduletype": "perpendicular",
-                    "tag": "tag_{}".format(len(figures)),
-                    "line1": id2tag[line_id1],
-                    "line2": id2tag[line_id2],
+                    "tag": "tag_{}".format(serial_num),
+                    "line1": id2tag[attr["line-id1"]],
+                    "line2": id2tag[attr["line-id2"]],
                     "para1": 0.1
                 }
             )
         elif data.tag == "parallel":
-            line_id1, line_id2 = (attr["line-id1"], attr["line-id2"])
-            if line_id1 not in line_ids or line_id2 not in line_ids:
-                return XMLError.INCORRECT_REFID
+            if attr.get("line-id1") not in exist_object_ids["line"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("line-id2") not in exist_object_ids["line"]:
+                raise Exception("xmlerror: incorrect_refid")
             figures.append(
                 {
                     "type": "module",
                     "moduletype": "parallel",
-                    "tag": "tag_{}".format(len(figures)),
-                    "line1": id2tag[line_id1],
-                    "line2": id2tag[line_id2],
+                    "tag": "tag_{}".format(serial_num),
+                    "line1": id2tag[attr["line-id1"]],
+                    "line2": id2tag[attr["line-id2"]],
                     "para1": 0.1
                 }
             )
         elif data.tag == "horizontal":
-            line_id = attr["line-id"]
-            if line_id not in line_ids:
-                return XMLError.INCORRECT_REFID
+            if attr.get("line-id") not in exist_object_ids["line"]:
+                raise Exception("xmlerror: incorrect_refid")
             figures.append(
                 {
                     "type": "module",
                     "moduletype": "horizontal",
-                    "tag": "tag_{}".format(len(figures)),
-                    "line1": id2tag[line_id],
+                    "tag": "tag_{}".format(serial_num),
+                    "line1": id2tag[attr["line-id"]],
                     "para1": 0.1
                 }
             )
         elif data.tag == "isometry":
-            line_id1, line_id2 = (attr["line-id1"], attr["line-id2"])
-            if line_id1 not in line_ids or line_id2 not in line_ids:
-                return XMLError.INCORRECT_REFID
+            if attr.get("line-id1") not in exist_object_ids["line"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("line-id2") not in exist_object_ids["line"]:
+                raise Exception("xmlerror: incorrect_refid")
             ratio1, ratio2 = attr["ratio"].split(":")
             figures.append(
                 {
                     "type": "module",
                     "moduletype": "isometry",
-                    "tag": "tag_{}".format(len(figures)),
-                    "line1": id2tag[line_id1],
-                    "line2": id2tag[line_id2],
+                    "tag": "tag_{}".format(serial_num),
+                    "line1": id2tag[attr["line-id1"]],
+                    "line2": id2tag[attr["line-id2"]],
                     "ratio1": ratio1,
                     "ratio2": ratio2,
                     "fixedRatio": 1,
@@ -302,40 +304,40 @@ def xml2dict(root) -> list[dict] | XMLError:
                 }
             )
         elif data.tag == "bisector":
-            angle_id1, angle_id2 = (attr["angle-id1"], attr["angle-id2"])
-            if angle_id1 not in angle_ids or angle_id2 not in angle_ids:
-                return XMLError.INCORRECT_REFID
+            if attr.get("angle-id1") not in exist_object_ids["angle"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("angle-id2") not in exist_object_ids["angle"]:
+                raise Exception("xmlerror: incorrect_refid")
             figures.append(
                 {
                     "type": "module",
                     "moduletype": "bisector",
-                    "tag": "tag_{}".format(len(figures)),
-                    "angle1": id2tag[angle_id1],
-                    "angle2": id2tag[angle_id2],
+                    "tag": "tag_{}".format(serial_num),
+                    "angle1": id2tag[attr["angle-id1"]],
+                    "angle2": id2tag[attr["angle-id2"]],
                     "para1": 0.1
                 }
             )
         elif data.tag == "crossing":
-            point_id, object_id1, object_id2 = (
-                attr["point-id"], attr["object-id1"], attr["object-id2"])
-            if point_id not in point_ids:
-                return XMLError.INCORRECT_REFID
-            # 直線と直線のみ
-            if object_id1 not in line_ids or object_id2 not in line_ids:
-                return XMLError.INCORRECT_REFID
+            if attr.get("point-id") not in exist_object_ids["point"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("object-id1") not in exist_object_ids["line"]:
+                raise Exception("xmlerror: incorrect_refid")
+            if attr.get("object-id2") not in exist_object_ids["line"]:
+                raise Exception("xmlerror: incorrect_refid")
             figures.append(
                 {
                     "type": "module",
                     "moduletype": "crossing",
-                    "tag": "tag_{}".format(len(figures)),
-                    "point": id2tag[point_id],
-                    "object1": id2tag[object_id1],
-                    "object2": id2tag[object_id2],
+                    "tag": "tag_{}".format(serial_num),
+                    "point": id2tag[attr["point-id"]],
+                    "object1": id2tag[attr["object-id1"]],
+                    "object2": id2tag[attr["object-id2"]],
                     "para1": 0.1
                 }
             )
         else:
-            continue
+            raise Exception("xmlerror: undefined_tag")
     return figures
 
 

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="1" name="A" position="-3.3,-1.8" />
+    <point id="2" name="B" position="-5.6,6.1" />
+    <point id="3" name="C" position="7.2,1.9" />
+    <point id="4" name="E" position="6.8,-6.7" />
+    <point id="5" name="F" position="-6.5,-6.7" />
+    <point id="6" name="X" position="1.8,-1.5" />
+    <line-segment id="7" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="8" point-id1="3" point-id2="2" name="CB" />
+    <line-segment id="9" point-id1="1" point-id2="3" name="AC" />
+    <line-segment id="10" point-id1="1" point-id2="4" name="AE" />
+    <line-segment id="11" point-id1="5" point-id2="4" name="FE" />
+    <line-segment id="12" point-id1="1" point-id2="5" name="AF" />
+    <line-segment id="13" point-id1="2" point-id2="4" name="BE" />
+    <line-segment id="14" point-id1="3" point-id2="5" name="CF" />
+    <crossing point-id="6" object-id1="13" object-id2="14" />
+    <crossing point-id="6" object-id1="13" object-id2="14" />
+</figures>

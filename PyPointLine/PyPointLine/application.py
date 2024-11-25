@@ -1,4 +1,3 @@
-
 from PIL import ImageGrab
 import tkinter as tk
 import os
@@ -6,7 +5,7 @@ import math
 
 from tkinter import filedialog
 from tkinter.scrolledtext import ScrolledText
-from utils import mousePosition, isNear, isIn
+from utils import mousePosition, isNear, isIn, draw_grid_lines
 from pane import pane
 from menuitem import *
 from object import xxxxx, point, line, circle, angle, locus
@@ -46,7 +45,7 @@ class application:
         self.pointNameCenterX = 500
         self.pointNameCenterY = 450
         self.logs = []
-        self.zoom = 100
+        self.zoom = 40
         self.clickedPoint = None
         self.clickedLine = None
         self.clickedCircle = None
@@ -84,9 +83,9 @@ class application:
                                     command=self.redo)
         self.interaction_mode = tk.BooleanVar()
         self.inferenceTextbox = ScrolledText(
-            self.root, wrap=tk.WORD, width=40, height=10)
+            self.root, wrap=tk.WORD, font=("Arial", 25), width=40, height=10)
         self.inferenceButton = tk.Button(self.root,
-                                         text="推論",
+                                         text="Inference",
                                          background="OliveDrab1",
                                          font=("", 18),
                                          anchor=tk.CENTER,
@@ -95,8 +94,8 @@ class application:
         self.checkButton = tk.Checkbutton(self.root,
                                           text="対話モード",
                                           variable=self.interaction_mode)
-
         self.is_space_pressed = False
+
         self.prev_cood_x = 0
         self.prev_cood_y = 0
 
@@ -108,6 +107,7 @@ class application:
 
         newXXXXX = xxxxx(self)
         self.logs.append(newXXXXX)
+        draw_grid_lines(self, point, line)
 
         # point0=point(0,0)
         # self.points.append(point0)
@@ -280,7 +280,6 @@ class application:
             pass
 
     def drawAllObjects(self):
-
         # draw angles
         for ag in self.angles:
             ag.drawObject(self)

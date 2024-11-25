@@ -1,41 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_0">
-        <name>A</name>
-    </point>
-    <point id="tag_1">
-        <name>B</name>
-    </point>
-    <point id="tag_2">
-        <name>C</name>
-    </point>
-    <line-segment id="tag_3" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-    </line-segment>
-    <line-segment id="tag_4" point-id1="tag_1" point-id2="tag_2">
-        <name>BC</name>
-    </line-segment>
-    <line-segment id="tag_5" point-id1="tag_2" point-id2="tag_0">
-        <name>CA</name>
-    </line-segment>
-    <horizontal line-id="tag_4" />
-    <point id="tag_7">
-        <name>D</name>
-    </point>
-    <point-on-line point-id="tag_7" line-id="tag_4" />
-    <angle id="tag_9" point-id1="tag_7" point-id2="tag_0" point-id3="tag_2">
-        <name>∠DAC</name>
-        <value>15</value>
-    </angle>
-    <line-segment id="tag_10" point-id1="tag_0" point-id2="tag_7">
-        <name>AD</name>
-    </line-segment>
-    <angle id="tag_11" point-id1="tag_0" point-id2="tag_1" point-id3="tag_7">
-        <name>∠ABD</name>
-        <value>102</value>
-    </angle>
-    <angle id="tag_12" point-id1="tag_0" point-id2="tag_2" point-id3="tag_7">
-        <name>∠ACD</name>
-        <value>38</value>
-    </angle>
+    <point id="1" name="A" position="-5.5,5.8" />
+    <point id="2" name="B" position="-3.4,-3.9" />
+    <point id="3" name="C" position="7.0,-3.9" />
+    <point id="4" name="D" position="1.9,-3.9" />
+    <line-segment id="5" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="6" point-id1="3" point-id2="2" name="CB" />
+    <line-segment id="7" point-id1="1" point-id2="3" name="AC" />
+    <line-segment id="8" point-id1="4" point-id2="1" name="DA" />
+    <angle id="9" point-id1="4" point-id2="1" point-id3="3" name="∠DAC" value="15" />
+    <angle id="10" point-id1="1" point-id2="2" point-id3="4" name="∠ABD" value="102" />
+    <angle id="11" point-id1="1" point-id2="3" point-id3="4" name="∠ACD" value="38" />
+    <point-on-line point-id="4" line-id="6" />
 </figures>

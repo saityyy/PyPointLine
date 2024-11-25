@@ -1,31 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_14">
-        <name>A</name>
-    </point>
-    <point id="tag_15">
-        <name>B</name>
-    </point>
-    <point id="tag_16">
-        <name>C</name>
-    </point>
-    <point id="tag_17">
-        <name>D</name>
-    </point>
-    <line-segment id="tag_18" point-id1="tag_14" point-id2="tag_15">
-        <name>AB</name>
-    </line-segment>
-    <line-segment id="tag_21" point-id1="tag_15" point-id2="tag_16">
-        <name>BC</name>
-    </line-segment>
-    <line-segment id="tag_22" point-id1="tag_16" point-id2="tag_17">
-        <name>CD</name>
-    </line-segment>
-    <line-segment id="tag_23" point-id1="tag_17" point-id2="tag_14">
-        <name>DA</name>
-    </line-segment>
-    <horizontal line-id="tag_22" />
-    <parallel line-id1="tag_18" line-id2="tag_22" />
-    <parallel line-id1="tag_21" line-id2="tag_23" />
-    <vertical line-id1="tag_21" line-id2="tag_22" />
+    <point id="1" name="A" position="-6.4,2.9" />
+    <point id="2" name="B" position="-6.4,-2.6" />
+    <point id="3" name="C" position="6.1,-2.6" />
+    <point id="4" name="D" position="6.1,2.9" />
+    <line-segment id="5" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="6" point-id1="2" point-id2="3" name="BC" />
+    <line-segment id="7" point-id1="3" point-id2="4" name="CD" />
+    <line-segment id="8" point-id1="4" point-id2="1" name="DA" />
+    <parallel line-id1="8" line-id2="6" />
+    <parallel line-id1="7" line-id2="5" />
+    <vertical line-id1="5" line-id2="6" />
 </figures>

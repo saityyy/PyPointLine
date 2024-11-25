@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="1" name="A" position="-3.0,7.0" />
+    <point id="2" name="B" position="-7.2,2.9" />
+    <point id="3" name="C" position="-7.2,-3.0" />
+    <point id="4" name="D" position="-3.0,-7.1" />
+    <point id="5" name="E" position="2.8,-7.1" />
+    <point id="6" name="F" position="7.0,-3.0" />
+    <point id="7" name="G" position="7.0,2.9" />
+    <point id="8" name="H" position="2.8,7.0" />
+    <line-segment id="9" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="10" point-id1="2" point-id2="3" name="BC" />
+    <line-segment id="11" point-id1="3" point-id2="4" name="CD" />
+    <line-segment id="12" point-id1="4" point-id2="5" name="DE" />
+    <line-segment id="13" point-id1="5" point-id2="6" name="EF" />
+    <line-segment id="14" point-id1="6" point-id2="7" name="FG" />
+    <line-segment id="15" point-id1="7" point-id2="8" name="GH" />
+    <line-segment id="16" point-id1="8" point-id2="1" name="HA" />
+    <angle id="17" point-id1="1" point-id2="2" point-id3="3" name="∠ABC" />
+    <angle id="18" point-id1="2" point-id2="3" point-id3="4" name="∠BCD" />
+    <angle id="19" point-id1="3" point-id2="4" point-id3="5" name="∠CDE" />
+    <angle id="20" point-id1="4" point-id2="5" point-id3="6" name="∠DEF" />
+    <angle id="21" point-id1="5" point-id2="6" point-id3="7" name="∠EFG" />
+    <angle id="22" point-id1="6" point-id2="7" point-id3="8" name="∠FGH" />
+    <angle id="23" point-id1="7" point-id2="8" point-id3="1" name="∠GHA" />
+    <angle id="24" point-id1="8" point-id2="1" point-id3="2" name="∠HAB" />
+    <isometry line-id1="9" line-id2="10" ratio="1:1" />
+    <isometry line-id1="10" line-id2="11" ratio="1:1" />
+    <isometry line-id1="11" line-id2="12" ratio="1:1" />
+    <isometry line-id1="12" line-id2="13" ratio="1:1" />
+    <isometry line-id1="13" line-id2="14" ratio="1:1" />
+    <isometry line-id1="14" line-id2="15" ratio="1:1" />
+    <isometry line-id1="15" line-id2="16" ratio="1:1" />
+    <bisector angle-id1="24" angle-id2="17" />
+    <bisector angle-id1="17" angle-id2="18" />
+    <bisector angle-id1="18" angle-id2="19" />
+    <bisector angle-id1="19" angle-id2="20" />
+    <bisector angle-id1="20" angle-id2="21" />
+    <bisector angle-id1="21" angle-id2="22" />
+    <bisector angle-id1="22" angle-id2="23" />
+</figures>

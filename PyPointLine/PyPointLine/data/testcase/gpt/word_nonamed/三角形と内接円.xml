@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="1" name="A" position="-4.2,6.8" />
+    <point id="2" name="B" position="-6.7,-4.8" />
+    <point id="3" name="C" position="8.1,-4.8" />
+    <point id="4" name="O" position="-1.8,-0.8" />
+    <line-segment id="5" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="6" point-id1="3" point-id2="2" name="CB" />
+    <line-segment id="7" point-id1="1" point-id2="3" name="AC" />
+    <circle id="8" center-point-id="4" name="C1" radius="3.9" />
+    <line-tangent-circle line-id="7" circle-id="8" />
+    <line-tangent-circle line-id="6" circle-id="8" />
+    <line-tangent-circle line-id="5" circle-id="8" />
+</figures>

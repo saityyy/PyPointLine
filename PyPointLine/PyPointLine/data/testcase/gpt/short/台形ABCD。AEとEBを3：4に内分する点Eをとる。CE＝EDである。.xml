@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="1" name="A" position="-3.6,3.7" />
+    <point id="2" name="B" position="-7.0,-2.8" />
+    <point id="3" name="C" position="6.1,-2.8" />
+    <point id="4" name="D" position="6.4,3.7" />
+    <point id="5" name="E" position="-5.1,0.9" />
+    <line-segment id="6" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="7" point-id1="2" point-id2="3" name="BC" />
+    <line-segment id="8" point-id1="3" point-id2="4" name="CD" />
+    <line-segment id="9" point-id1="4" point-id2="1" name="DA" />
+    <line-segment id="10" point-id1="3" point-id2="5" name="CE" />
+    <line-segment id="11" point-id1="4" point-id2="5" name="DE" />
+    <line-segment id="12" point-id1="1" point-id2="5" name="AE" />
+    <line-segment id="13" point-id1="5" point-id2="2" name="EB" />
+    <point-on-line point-id="5" line-id="6" />
+    <isometry line-id1="10" line-id2="11" ratio="1:1" />
+    <isometry line-id1="10" line-id2="11" ratio="1:1" />
+    <isometry line-id1="12" line-id2="13" ratio="3:4" />
+    <parallel line-id1="9" line-id2="7" />
+</figures>

@@ -1,49 +1,21 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_0">
-        <name>A</name>
-    </point>
-    <point id="tag_1">
-        <name>B</name>
-    </point>
-    <point id="tag_2">
-        <name>C</name>
-    </point>
-    <point id="tag_3">
-        <name>D</name>
-    </point>
-    <line-segment id="tag_4" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-    </line-segment>
-    <line-segment id="tag_5" point-id1="tag_1" point-id2="tag_2">
-        <name>BC</name>
-    </line-segment>
-    <line-segment id="tag_6" point-id1="tag_2" point-id2="tag_3">
-        <name>CD</name>
-    </line-segment>
-    <line-segment id="tag_7" point-id1="tag_3" point-id2="tag_0">
-        <name>DA</name>
-    </line-segment>
-    <parallel line-id1="tag_4" line-id2="tag_6" />
-    <parallel line-id1="tag_7" line-id2="tag_5" />
-    <horizontal line-id="tag_5" />
-    <point id="tag_11">
-        <name>E</name>
-    </point>
-    <point-on-line point-id="tag_11" line-id="tag_7" />
-    <line-segment id="tag_13" point-id1="tag_11" point-id2="tag_1">
-        <name>EB</name>
-    </line-segment>
-    <line-segment id="tag_14" point-id1="tag_11" point-id2="tag_2">
-        <name>EC</name>
-    </line-segment>
-    <isometry line-id1="tag_13" line-id2="tag_14" ratio="1:1" />
-    <line-segment id="tag_16" point-id1="tag_11" point-id2="tag_3">
-        <name>ED</name>
-    </line-segment>
-    <isometry line-id1="tag_16" line-id2="tag_6" ratio="1:1" />
-    <angle id="tag_19" point-id1="tag_0" point-id2="tag_1" point-id3="tag_11">
-        <name>∠ABE</name>
-        <value>24</value>
-    </angle>
+    <point id="1" name="A" position="-5.0,4.2" />
+    <point id="2" name="B" position="-7.0,-4.0" />
+    <point id="3" name="C" position="5.8,-4.0" />
+    <point id="4" name="D" position="7.9,4.2" />
+    <point id="5" name="E" position="-0.6,4.2" />
+    <line-segment id="6" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="7" point-id1="2" point-id2="3" name="BC" />
+    <line-segment id="8" point-id1="3" point-id2="4" name="CD" />
+    <line-segment id="9" point-id1="4" point-id2="1" name="DA" />
+    <line-segment id="10" point-id1="5" point-id2="2" name="EB" />
+    <line-segment id="11" point-id1="5" point-id2="3" name="EC" />
+    <line-segment id="12" point-id1="5" point-id2="4" name="ED" />
+    <angle id="13" point-id1="1" point-id2="2" point-id3="5" name="∠ABE" value="24" />
+    <point-on-line point-id="5" line-id="9" />
+    <isometry line-id1="10" line-id2="11" ratio="1:1" />
+    <isometry line-id1="12" line-id2="8" ratio="1:1" />
+    <parallel line-id1="9" line-id2="7" />
+    <parallel line-id1="8" line-id2="6" />
 </figures>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <!-- Represents a point; the position attribute means the position of the point (x,y)-->
+    <point id="1" name="A" position="0.3,7.9" />
+    <point id="2" name="B" position="6.4,-6.0" />
+    <point id="3" name="C" position="-3.3,-1.3" />
+    <point id="4" name="D" position="-1.5,3.3" />
+    <point id="5" name="E" position="-6.4,5.2" />
+    <point id="6" name="F" position="3.1,1.5" />
+    <point id="7" name="G" position="5.4,5.1" />
+    <point id="8" name="H" position="2.9,-1.5" />
+    <point id="9" name="J" position="2.1,-4.0" />
+    <point id="10" name="K" position="6.2,-1.3" />
+    <!-- Represents a line segment. Specify two end points id-->
+    <line-segment name="AB" id="11" point-id1="1" point-id2="2" />
+    <line-segment name="AC" id="12" point-id1="1" point-id2="3" />
+    <line-segment name="EF" id="13" point-id1="5" point-id2="6" />
+    <!-- If you specify a length, use length attribute-->
+    <line-segment name="GH" length="7.0" id="14" point-id1="7" point-id2="8" />
+    <line-segment name="CK" id="15" point-id1="3" point-id2="10" />
+    <line-segment name="AD" id="16" point-id1="1" point-id2="4" />
+    <line-segment name="DC" id="17" point-id1="4" point-id2="3" />
+    <line-segment name="BK" id="18" point-id1="2" point-id2="10" />
+    <!-- Represents a straight line. Specify the two points id through which the straight line passes.-->
+    <straight-line name="l" id="19" point-id1="5" point-id2="7" />
+    <!-- Represents a circle. Specify the id of the center point. radius attribute specifies the radius of the circle. -->
+    <circle id="20" center-point-id="3" name="C1" radius="3.3" />
+    <circle id="21" center-point-id="9" name="C2" radius="2.6" />
+    <!-- Represents an angle. Specify id of 3 points-->
+    <angle id="22" point-id1="3" point-id2="1" point-id3="2" name="∠CAB" />
+    <angle id="23" point-id1="1" point-id2="6" point-id3="4" name="∠AFD" />
+    <angle id="24" point-id1="2" point-id2="10" point-id3="8" name="∠BKH" value="90.0" />
+    <!-- Represents a midpoint. Specify the id of two points and the midpoint between them-->
+    <middle-point point-id1="1" point-id2="3" middle-point-id="4" />
+    <!-- point on the line segment-->
+    <point-on-line point-id="6" line-id="11" />
+    <!--point on the circumference-->
+    <point-on-circle point-id="8" circle-id="21" />
+    <!-- line segment tangent to circle-->
+    <line-tangent-circle line-id="15" circle-id="21" />
+    <!-- two circles are tangent-->
+    <circle-tangent-circle circle-id1="21" circle-id2="20" />
+    <!-- specify the ratio of the lengths of two line segments -->
+    <isometry line-id1="16" line-id2="17" ratio="1:1" />
+    <!-- the size of the two angles is equal-->
+    <bisector angle-id1="22" angle-id2="23" />
+    <!-- two line parallel-->
+    <parallel line-id1="14" line-id2="12" />
+    <!-- two line intersect perpendicularly-->
+    <vertical line-id1="13" line-id2="12" />
+    <!-- Two objects (lines) intersect at a certain point. -->
+    <crossing point-id="4" object-id1="13" object-id2="12" />
+</figures>

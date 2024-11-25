@@ -163,8 +163,8 @@ class point(object):
     def toXMLElement(self, parent_element):
         elem = ET.SubElement(parent_element, "point")
         elem.set("id", self.tag)
-        name_elem = ET.SubElement(elem, "name")
-        name_elem.text = self.name
+        elem.set("name", self.name)
+        elem.set("position", "{:.1f},{:.1f}".format(self.x, self.y))
 
     def purturb(self, delta):
         theta = math.pi*random.random()*2
@@ -300,15 +300,18 @@ class line(object):
         return "\\draw (%f, %f)-- (%f, %f);" % (self.point1.x, self.point1.y, self.point2.x, self.point2.y)
 
     def toXMLElement(self, parent_element):
-        elem = ET.SubElement(parent_element, "line-segment")
+        elem = None
+        if (not self.point1.showName and not self.point2.showName):
+            elem = ET.SubElement(parent_element, "straight-line")
+            elem.set("name", self.name)
+        else:
+            elem = ET.SubElement(parent_element, "line-segment")
+            elem.set("name", "{}{}".format(self.point1.name, self.point2.name))
+            if self.fixedLength:
+                elem.set("length", str(self.length))
         elem.set("id", self.tag)
         elem.set("point-id1", self.point1.tag)
         elem.set("point-id2", self.point2.tag)
-        if self.fixedLength:
-            length_elem = ET.SubElement(elem, "value")
-            length_elem.text = str(self.length)
-        name_elem = ET.SubElement(elem, "name")
-        name_elem.text = "{}{}".format(self.point1.name, self.point2.name)
 
     @property
     def isomAncestor(self):
@@ -387,8 +390,8 @@ class circle(object):
         elem = ET.SubElement(parent_element, "circle")
         elem.set("id", self.tag)
         elem.set("center-point-id", self.point1.tag)
-        name_elem = ET.SubElement(elem, "name")
-        name_elem.text = self.name
+        elem.set("name", self.name)
+        elem.set("radius", "{:.1f}".format(self.radius))
 
     def matter(self, obj):
         if obj != None and obj == self.point1:
@@ -579,11 +582,9 @@ class angle(object):
         elem.set("point-id1", self.point1.tag)
         elem.set("point-id2", self.point2.tag)
         elem.set("point-id3", self.point3.tag)
-        name_elem = ET.SubElement(elem, "name")
+        elem.set("name", self.name)
         if self.fixValue:
-            value_elem = ET.SubElement(elem, "value")
-            value_elem.text = str(self.value)
-        name_elem.text = self.name
+            elem.set("value", str(self.value))
 
     def matter(self, obj):
         if obj != None and obj == self.point1:

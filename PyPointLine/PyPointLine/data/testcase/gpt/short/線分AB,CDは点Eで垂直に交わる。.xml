@@ -1,26 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_35">
-        <name>A</name>
-    </point>
-    <point id="tag_36">
-        <name>B</name>
-    </point>
-    <line-segment id="tag_37" point-id1="tag_35" point-id2="tag_36">
-        <name>AB</name>
-    </line-segment>
-    <point id="tag_38">
-        <name>C</name>
-    </point>
-    <point id="tag_39">
-        <name>D</name>
-    </point>
-    <line-segment id="tag_40" point-id1="tag_38" point-id2="tag_39">
-        <name>CD</name>
-    </line-segment>
-    <point id="tag_41">
-        <name>E</name>
-    </point>
-    <crossing point-id="tag_41" object-id1="tag_40" object-id2="tag_37" />
-    <vertical line-id1="tag_40" line-id2="tag_37" />
+    <point id="1" name="A" position="-5.1,4.0" />
+    <point id="2" name="B" position="7.4,-5.6" />
+    <point id="3" name="C" position="-3.8,-4.8" />
+    <point id="4" name="D" position="5.2,6.9" />
+    <point id="5" name="E" position="0.0,0.1" />
+    <line-segment id="6" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="7" point-id1="3" point-id2="4" name="CD" />
+    <vertical line-id1="6" line-id2="7" />
+    <crossing point-id="5" object-id1="7" object-id2="6" />
 </figures>

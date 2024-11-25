@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="1" name="A" position="6.3,7.2" />
+    <point id="2" name="B" position="-6.8,-5.8" />
+    <point id="3" name="C" position="6.3,-5.8" />
+    <point id="4" name="D" position="-3.7,-7.8" />
+    <point id="5" name="E" position="0.3,-1.9" />
+    <point id="6" name="F" position="7.6,9.3" />
+    <point id="7" name="G" position="-4.7,-9.3" />
+    <line-segment name="AB" id="8" point-id1="1" point-id2="2" />
+    <line-segment name="BC" id="9" point-id1="2" point-id2="3" />
+    <line-segment name="CA" id="10" point-id1="3" point-id2="1" />
+    <straight-line name="l" id="11" point-id1="6" point-id2="7" />
+    <line-segment name="BD" id="12" point-id1="2" point-id2="4" />
+    <line-segment name="CE" id="13" point-id1="3" point-id2="5" />
+    <angle id="14" point-id1="2" point-id2="1" point-id3="3" name="∠BAC" value="45.0" />
+    <angle id="15" point-id1="1" point-id2="2" point-id3="3" name="∠ABC" value="45.0" />
+    <point-on-line point-id="1" line-id="11" />
+    <point-on-line point-id="4" line-id="11" />
+    <point-on-line point-id="5" line-id="11" />
+    <vertical line-id1="10" line-id2="9" />
+    <vertical line-id1="11" line-id2="13" />
+    <vertical line-id1="11" line-id2="12" />
+</figures>

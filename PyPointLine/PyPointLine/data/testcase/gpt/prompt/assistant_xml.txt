@@ -1,104 +1,69 @@
 We will now explain the math diagram, so please output the situation as data in the xml structure
 described below.
+Draw(generationg and positioning) the figure you want to display on a two-dimensional plane of 20x20, center at (0,0).
+Specify the coordinates of the points and the numerical value of the radius of the circle so that the plotted figures will be clearly visible.
 
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <!-- 点を表す。-->
-    <point id="tag_0">
-        <name>A</name>
-    </point>
-    <point id="tag_1">
-        <name>B</name>
-    </point>
-    <!-- 線分を表す。端点２つのidを指定する-->
-    <line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-        <!-- valueは線分の長さが具体的に与えらている時に指定する。 -->
-        <!-- <value>2</value> -->
-    </line-segment>
-    <point id="tag_3">
-        <name>C</name>
-    </point>
-    <!-- 円を表す。中心の点のidを指定する-->
-    <circle id="tag_4" center-point-id="tag_3">
-        <name>C1</name>
-    </circle>
-    <point id="tag_5">
-        <name>D</name>
-    </point>
-    <line-segment id="tag_6" point-id1="tag_0" point-id2="tag_5">
-        <name>AD</name>
-    </line-segment>
-    <!-- 角度を表す。３つの点を指定する-->
-    <angle id="tag_007" point-id1="tag_5" point-id2="tag_0" point-id3="tag_1">
-        <name>∠DAB</name>
-        <!-- valueは角度が具体的に与えらている時に指定する。 -->
-        <!-- <value>30</value> -->
-    </angle>
-    <point id="tag_8">
-        <name>E</name>
-    </point>
-    <!-- 中点を表す。２つの点とその間に入る中点のidを指定する-->
-    <middle-point point-id1="tag_0" point-id2="tag_1" middle-point-id="tag_8" />
-    <point id="tag_10">
-        <name>F</name>
-    </point>
-    <!-- 線分上に点がある。-->
-    <point-on-line point-id="tag_10" line-id="tag_6" />
-    <point id="tag_12">
-        <name>G</name>
-    </point>
-    <!-- 円周上に点がある-->
-    <point-on-circle point-id="tag_12" circle-id="tag_4" />
-    <!-- 線分が円に接する-->
-    <line-tangent-circle line-id="tag_2" circle-id="tag_4" />
-    <point id="tag_15">
-        <name>H</name>
-    </point>
-    <circle id="tag_16" center-point-id="tag_15">
-        <name>C2</name>
-    </circle>
-    <!-- ２つの円が接する-->
-    <circle-tangent-circle circle-id1="tag_4" circle-id2="tag_16" />
-    <!-- ２つの線分が垂直に交わる-->
-    <vertical line-id1="tag_2" line-id2="tag_6" />
-    <point id="tag_19">
-        <name>J</name>
-    </point>
-    <point id="tag_20">
-        <name>K</name>
-    </point>
-    <line-segment id="tag_21" point-id1="tag_19" point-id2="tag_20">
-        <name>JK</name>
-    </line-segment>
-    <!-- ２つの線分は平行-->
-    <parallel line-id1="tag_2" line-id2="tag_21" />
-    <line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-    </line-segment>
-    <line-segment id="tag_21" point-id1="tag_19" point-id2="tag_20">
-        <name>JK</name>
-    </line-segment>
-    <!-- ２つの線分の長さの比率を指定する -->
-    <isometry line-id1="tag_2" line-id2="tag_21" ratio="4:3"/>
-    <angle id="tag_027" point-id1="tag_0" point-id2="tag_19" point-id3="tag_20">
-        <name>∠AJK</name>
-    </angle>
-    <!-- ２つの角度の大きさが等しい-->
-    <bisector angle-id1="tag_007" angle-id2="tag_027" />
-    <point id="tag_29">
-        <name>L</name>
-    </point>
-    <line-segment id="tag_30" point-id1="tag_3" point-id2="tag_29">
-        <name>CL</name>
-    </line-segment>
-    <!-- ２つのオブジェクト（線分）がある点を交点として交わる。-->
-    <crossing point-id="tag_8" object-id1="tag_30" object-id2="tag_2" />
-    <!-- 線分が水平に保たれる -->
-    <horizontal line-id="tag_0"/>
+    <!-- Represents a point; the position attribute means the position of the point (x,y)-->
+    <point id="1" name="A" position="0.3,7.9" />
+    <point id="2" name="B" position="6.4,-6.0" />
+    <point id="3" name="C" position="-3.3,-1.3" />
+    <point id="4" name="D" position="-1.5,3.3" />
+    <point id="5" name="E" position="-6.4,5.2" />
+    <point id="6" name="F" position="3.1,1.5" />
+    <point id="7" name="G" position="5.4,5.1" />
+    <point id="8" name="H" position="2.9,-1.5" />
+    <point id="9" name="J" position="2.1,-4.0" />
+    <point id="10" name="K" position="6.2,-1.3" />
+    <!-- Represents a line segment. Specify two end points id-->
+    <line-segment name="AB" id="11" point-id1="1" point-id2="2" />
+    <line-segment name="AC" id="12" point-id1="1" point-id2="3" />
+    <line-segment name="EF" id="13" point-id1="5" point-id2="6" />
+    <!-- If you specify a length, use length attribute-->
+    <line-segment name="GH" length="7.0" id="14" point-id1="7" point-id2="8" />
+    <line-segment name="CK" id="15" point-id1="3" point-id2="10" />
+    <line-segment name="AD" id="16" point-id1="1" point-id2="4" />
+    <line-segment name="DC" id="17" point-id1="4" point-id2="3" />
+    <line-segment name="BK" id="18" point-id1="2" point-id2="10" />
+    <!-- Represents a straight line. Specify the two points id through which the straight line passes.-->
+    <straight-line name="l" id="19" point-id1="5" point-id2="7" />
+    <!-- Represents a circle. Specify the id of the center point. radius attribute specifies the radius of the circle. -->
+    <circle id="20" center-point-id="3" name="C1" radius="3.3" />
+    <circle id="21" center-point-id="9" name="C2" radius="2.6" />
+    <!-- Represents an angle. Specify id of 3 points-->
+    <angle id="22" point-id1="3" point-id2="1" point-id3="2" name="∠CAB" />
+    <angle id="23" point-id1="1" point-id2="6" point-id3="4" name="∠AFD" />
+    <angle id="24" point-id1="2" point-id2="10" point-id3="8" name="∠BKH" value="90.0" />
+    <!-- Represents a midpoint. Specify the id of two points and the midpoint between them-->
+    <middle-point point-id1="1" point-id2="3" middle-point-id="4" />
+    <!-- point on the line segment-->
+    <point-on-line point-id="6" line-id="11" />
+    <!--point on the circumference-->
+    <point-on-circle point-id="8" circle-id="21" />
+    <!-- line segment tangent to circle-->
+    <line-tangent-circle line-id="15" circle-id="21" />
+    <!-- two circles are tangent-->
+    <circle-tangent-circle circle-id1="21" circle-id2="20" />
+    <!-- specify the ratio of the lengths of two line segments -->
+    <isometry line-id1="16" line-id2="17" ratio="1:1" />
+    <!-- the size of the two angles is equal-->
+    <bisector angle-id1="22" angle-id2="23" />
+    <!-- two line parallel-->
+    <parallel line-id1="14" line-id2="12" />
+    <!-- two line intersect perpendicularly-->
+    <vertical line-id1="13" line-id2="12" />
+    <!-- Two objects (lines) intersect at a certain point. -->
+    <crossing point-id="4" object-id1="13" object-id2="12" />
 </figures>
 
 Please be sure to follow the rules of xml.
 No figure or relationship should be added to the output that is not specified in the input text.
 Conversely, It is specified in the input text, but it should not be missing in the output.
 For example, if “there is a triangle” is specified, it is not permissible for a right triangle or an isosceles triangle to be drawn. It is also not permitted to have a figure other than a triangle or an extra description.
+
+Positioning tips are as follows
+1. Figures should not protrude beyond the specified area.
+2. Do not place each point in the same position as much as possible.
+3. Make each circle as different in size (radius) as possible and avoid being too small.
+4. Avoid positioning in a way that reminds the viewer of information that has not been given. （Do not make the placement of the circles in such a way that it seems as if all sides are equal, even though you are only told "triangle ABC").

@@ -1,22 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_0">
-        <name>A</name>
-    </point>
-    <point id="tag_1">
-        <name>B</name>
-    </point>
-    <point id="tag_2">
-        <name>C</name>
-    </point>
-    <line-segment id="tag_3" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-    </line-segment>
-    <line-segment id="tag_4" point-id1="tag_1" point-id2="tag_2">
-        <name>BC</name>
-    </line-segment>
-    <line-segment id="tag_5" point-id1="tag_2" point-id2="tag_0">
-        <name>CA</name>
-    </line-segment>
-    <horizontal line-id="tag_4" />
+    <point id="1" name="A" position="-0.4,3.7" />
+    <point id="2" name="B" position="-5.1,-4.5" />
+    <point id="3" name="C" position="7.9,-4.5" />
+    <line-segment id="4" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="5" point-id1="3" point-id2="2" name="CB" />
+    <line-segment id="6" point-id1="1" point-id2="3" name="AC" />
 </figures>

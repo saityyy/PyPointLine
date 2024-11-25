@@ -1,48 +1,18 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_0">
-        <name>A</name>
-    </point>
-    <point id="tag_1">
-        <name>B</name>
-    </point>
-    <point id="tag_2">
-        <name>C</name>
-    </point>
-    <point id="tag_3">
-        <name>D</name>
-    </point>
-    <line-segment id="tag_4" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-    </line-segment>
-    <line-segment id="tag_5" point-id1="tag_1" point-id2="tag_2">
-        <name>BC</name>
-    </line-segment>
-    <line-segment id="tag_6" point-id1="tag_2" point-id2="tag_3">
-        <name>CD</name>
-    </line-segment>
-    <line-segment id="tag_7" point-id1="tag_3" point-id2="tag_0">
-        <name>DA</name>
-    </line-segment>
-    <parallel line-id1="tag_4" line-id2="tag_6" />
-    <parallel line-id1="tag_7" line-id2="tag_5" />
-    <horizontal line-id="tag_5" />
-    <line-segment id="tag_11" point-id1="tag_0" point-id2="tag_2">
-        <name>AC</name>
-    </line-segment>
-    <line-segment id="tag_12" point-id1="tag_1" point-id2="tag_3">
-        <name>BD</name>
-    </line-segment>
-    <angle id="tag_13" point-id1="tag_3" point-id2="tag_0" point-id3="tag_2">
-        <name>∠DAC</name>
-        <value>46</value>
-    </angle>
-    <angle id="tag_14" point-id1="tag_1" point-id2="tag_2" point-id3="tag_3">
-        <name>∠BCD</name>
-        <value>104</value>
-    </angle>
-    <angle id="tag_15" point-id1="tag_0" point-id2="tag_1" point-id3="tag_3">
-        <name>∠ABD</name>
-        <value>42</value>
-    </angle>
+    <point id="1" name="A" position="-4.4,4.7" />
+    <point id="2" name="B" position="-6.8,-4.5" />
+    <point id="3" name="C" position="4.5,-4.6" />
+    <point id="4" name="D" position="6.8,4.6" />
+    <line-segment id="5" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="6" point-id1="2" point-id2="3" name="BC" />
+    <line-segment id="7" point-id1="3" point-id2="4" name="CD" />
+    <line-segment id="8" point-id1="4" point-id2="1" name="DA" />
+    <line-segment id="9" point-id1="2" point-id2="4" name="BD" />
+    <line-segment id="10" point-id1="1" point-id2="3" name="AC" />
+    <angle id="11" point-id1="4" point-id2="1" point-id3="3" name="∠DAC" value="46" />
+    <angle id="12" point-id1="2" point-id2="3" point-id3="4" name="∠BCD" value="104" />
+    <angle id="13" point-id1="1" point-id2="2" point-id3="4" name="∠ABD" value="42" />
+    <parallel line-id1="8" line-id2="6" />
+    <parallel line-id1="7" line-id2="5" />
 </figures>

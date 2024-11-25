@@ -1,54 +1,23 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_0">
-        <name>A</name>
-    </point>
-    <point id="tag_1">
-        <name>B</name>
-    </point>
-    <point id="tag_2">
-        <name>C</name>
-    </point>
-    <point id="tag_3">
-        <name>D</name>
-    </point>
-    <line-segment id="tag_4" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-    </line-segment>
-    <line-segment id="tag_5" point-id1="tag_1" point-id2="tag_2">
-        <name>BC</name>
-    </line-segment>
-    <line-segment id="tag_6" point-id1="tag_2" point-id2="tag_3">
-        <name>CD</name>
-    </line-segment>
-    <line-segment id="tag_7" point-id1="tag_3" point-id2="tag_0">
-        <name>DA</name>
-    </line-segment>
-    <parallel line-id1="tag_7" line-id2="tag_5" />
-    <point id="tag_10">
-        <name>O</name>
-    </point>
-    <middle-point point-id1="tag_2" point-id2="tag_0" middle-point-id="tag_10" />
-    <point id="tag_12">
-        <name>l1</name>
-    </point>
-    <point id="tag_13">
-        <name>l2</name>
-    </point>
-    <line-segment id="tag_14" point-id1="tag_12" point-id2="tag_13">
-        <name>l1l2</name>
-    </line-segment>
-    <point-on-line point-id="tag_10" line-id="tag_14" />
-    <point id="tag_16">
-        <name>E</name>
-    </point>
-    <point id="tag_17">
-        <name>F</name>
-    </point>
-    <crossing point-id="tag_16" object-id1="tag_7" object-id2="tag_14" />
-    <crossing point-id="tag_17" object-id1="tag_14" object-id2="tag_5" />
-    <horizontal line-id="tag_5" />
-    <line-segment id="tag_21" point-id1="tag_0" point-id2="tag_2">
-        <name>AC</name>
-    </line-segment>
+    <point id="1" name="A" position="-1.9,5.1" />
+    <point id="2" name="B" position="-4.1,-5.0" />
+    <point id="3" name="C" position="5.0,-5.0" />
+    <point id="4" name="D" position="4.3,5.1" />
+    <point id="5" name="O" position="1.5,0.0" />
+    <point id="6" name="E" position="2.8,5.1" />
+    <point id="7" name="F" position="0.2,-5.0" />
+    <point id="8" name="G" position="3.9,9.2" />
+    <point id="9" name="H" position="-1.0,-9.7" />
+    <line-segment name="AB" id="10" point-id1="1" point-id2="2" />
+    <line-segment name="BC" id="11" point-id1="2" point-id2="3" />
+    <line-segment name="CD" id="12" point-id1="3" point-id2="4" />
+    <line-segment name="DA" id="13" point-id1="4" point-id2="1" />
+    <line-segment name="AC" id="14" point-id1="1" point-id2="3" />
+    <straight-line name="GH" id="15" point-id1="8" point-id2="9" />
+    <middle-point point-id1="1" point-id2="3" middle-point-id="5" />
+    <point-on-line point-id="5" line-id="15" />
+    <parallel line-id1="11" line-id2="13" />
+    <crossing point-id="6" object-id1="15" object-id2="13" />
+    <crossing point-id="7" object-id1="15" object-id2="11" />
 </figures>

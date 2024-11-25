@@ -1,62 +1,26 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_0">
-        <name>A</name>
-    </point>
-    <point id="tag_1">
-        <name>B</name>
-    </point>
-    <line-segment id="tag_2" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-    </line-segment>
-    <point id="tag_3">
-        <name>C</name>
-    </point>
-    <point id="tag_4">
-        <name>D</name>
-    </point>
-    <line-segment id="tag_5" point-id1="tag_3" point-id2="tag_4">
-        <name>CD</name>
-    </line-segment>
-    <parallel line-id1="tag_2" line-id2="tag_5" />
-    <point id="tag_7">
-        <name>E</name>
-    </point>
-    <point id="tag_8">
-        <name>F</name>
-    </point>
-    <line-segment id="tag_9" point-id1="tag_7" point-id2="tag_8">
-        <name>EF</name>
-    </line-segment>
-    <point id="tag_10">
-        <name>G</name>
-    </point>
-    <point id="tag_11">
-        <name>H</name>
-    </point>
-    <crossing point-id="tag_10" object-id1="tag_2" object-id2="tag_9" />
-    <crossing point-id="tag_11" object-id1="tag_9" object-id2="tag_5" />
-    <angle id="tag_14" point-id1="tag_7" point-id2="tag_10" point-id3="tag_0">
-        <name>∠EGA</name>
-        <value>60</value>
-    </angle>
-    <point id="tag_15">
-        <name>J</name>
-    </point>
-    <point id="tag_16">
-        <name>K</name>
-    </point>
-    <line-segment id="tag_17" point-id1="tag_15" point-id2="tag_16">
-        <name>JK</name>
-    </line-segment>
-    <crossing point-id="tag_11" object-id1="tag_17" object-id2="tag_5" />
-    <point id="tag_19">
-        <name>L</name>
-    </point>
-    <crossing point-id="tag_19" object-id1="tag_17" object-id2="tag_2" />
-    <horizontal line-id="tag_5" />
-    <angle id="tag_22" point-id1="tag_15" point-id2="tag_11" point-id3="tag_4">
-        <name>∠JHD</name>
-        <value>70</value>
-    </angle>
+    <point id="1" name="A" position="-8.7,3.9" />
+    <point id="2" name="B" position="8.5,3.9" />
+    <point id="3" name="C" position="-8.5,-3.7" />
+    <point id="4" name="D" position="8.4,-3.7" />
+    <point id="5" name="E" position="-6.7,7.3" />
+    <point id="6" name="F" position="2.2,-8.1" />
+    <point id="7" name="J" position="3.2,6.1" />
+    <point id="8" name="K" position="-2.1,-8.5" />
+    <point id="9" name="G" position="-4.7,3.9" />
+    <point id="10" name="H" position="-0.4,-3.7" />
+    <point id="11" name="L" position="2.4,3.9" />
+    <line-segment id="12" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="13" point-id1="3" point-id2="4" name="CD" />
+    <line-segment id="14" point-id1="5" point-id2="6" name="EF" />
+    <line-segment id="15" point-id1="7" point-id2="8" name="JK" />
+    <angle id="16" point-id1="5" point-id2="9" point-id3="1" name="∠EGA" value="60" />
+    <angle id="17" point-id1="7" point-id2="10" point-id3="4" name="∠JHD" value="70" />
+    <parallel line-id1="12" line-id2="13" />
+    <crossing point-id="9" object-id1="14" object-id2="12" />
+    <crossing point-id="11" object-id1="15" object-id2="12" />
+    <crossing point-id="11" object-id1="15" object-id2="12" />
+    <crossing point-id="10" object-id1="14" object-id2="13" />
+    <crossing point-id="10" object-id1="15" object-id2="13" />
 </figures>

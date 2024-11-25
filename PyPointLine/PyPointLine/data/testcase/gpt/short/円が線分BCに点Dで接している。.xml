@@ -1,24 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_13">
-        <name>A</name>
-    </point>
-    <circle id="tag_14" center-point-id="tag_13">
-        <name>C1</name>
-    </circle>
-    <point id="tag_15">
-        <name>B</name>
-    </point>
-    <point id="tag_16">
-        <name>C</name>
-    </point>
-    <line-segment id="tag_17" point-id1="tag_15" point-id2="tag_16">
-        <name>BC</name>
-    </line-segment>
-    <point id="tag_18">
-        <name>D</name>
-    </point>
-    <point-on-line point-id="tag_18" line-id="tag_17" />
-    <point-on-circle point-id="tag_18" circle-id="tag_14" />
-    <line-tangent-circle line-id="tag_17" circle-id="tag_14" />
+    <point id="1" name="A" position="-1.1,1.4" />
+    <point id="2" name="B" position="-7.4,-6.7" />
+    <point id="3" name="C" position="8.5,1.1" />
+    <point id="4" name="D" position="0.6,-2.8" />
+    <line-segment id="5" point-id1="2" point-id2="3" name="BC" />
+    <circle id="6" center-point-id="1" name="C1" radius="4.5" />
+    <point-on-line point-id="4" line-id="5" />
+    <point-on-circle point-id="4" circle-id="6" />
+    <line-tangent-circle line-id="5" circle-id="6" />
 </figures>

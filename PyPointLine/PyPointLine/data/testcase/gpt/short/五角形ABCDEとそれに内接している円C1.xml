@@ -1,44 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_18">
-        <name>A</name>
-    </point>
-    <point id="tag_19">
-        <name>B</name>
-    </point>
-    <line-segment id="tag_20" point-id1="tag_18" point-id2="tag_19">
-        <name>AB</name>
-    </line-segment>
-    <point id="tag_21">
-        <name>C</name>
-    </point>
-    <line-segment id="tag_22" point-id1="tag_19" point-id2="tag_21">
-        <name>BC</name>
-    </line-segment>
-    <point id="tag_23">
-        <name>D</name>
-    </point>
-    <line-segment id="tag_24" point-id1="tag_21" point-id2="tag_23">
-        <name>CD</name>
-    </line-segment>
-    <point id="tag_25">
-        <name>E</name>
-    </point>
-    <line-segment id="tag_26" point-id1="tag_23" point-id2="tag_25">
-        <name>DE</name>
-    </line-segment>
-    <line-segment id="tag_27" point-id1="tag_25" point-id2="tag_18">
-        <name>EA</name>
-    </line-segment>
-    <point id="tag_28">
-        <name>F</name>
-    </point>
-    <circle id="tag_29" center-point-id="tag_28">
-        <name>C1</name>
-    </circle>
-    <line-tangent-circle line-id="tag_20" circle-id="tag_29" />
-    <line-tangent-circle line-id="tag_22" circle-id="tag_29" />
-    <line-tangent-circle line-id="tag_24" circle-id="tag_29" />
-    <line-tangent-circle line-id="tag_26" circle-id="tag_29" />
-    <line-tangent-circle line-id="tag_27" circle-id="tag_29" />
+    <point id="1" name="A" position="3.1,7.2" />
+    <point id="2" name="B" position="-7.3,2.3" />
+    <point id="3" name="C" position="-5.2,-7.2" />
+    <point id="4" name="D" position="1.9,-7.2" />
+    <point id="5" name="E" position="6.8,-2.9" />
+    <point id="6" name="F" position="-0.3,-1.1" />
+    <line-segment id="7" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="8" point-id1="2" point-id2="3" name="BC" />
+    <line-segment id="9" point-id1="3" point-id2="4" name="CD" />
+    <line-segment id="10" point-id1="4" point-id2="5" name="DE" />
+    <line-segment id="11" point-id1="5" point-id2="1" name="EA" />
+    <circle id="12" center-point-id="6" name="C1" radius="6.0" />
+    <line-tangent-circle line-id="7" circle-id="12" />
+    <line-tangent-circle line-id="8" circle-id="12" />
+    <line-tangent-circle line-id="9" circle-id="12" />
+    <line-tangent-circle line-id="10" circle-id="12" />
+    <line-tangent-circle line-id="11" circle-id="12" />
 </figures>

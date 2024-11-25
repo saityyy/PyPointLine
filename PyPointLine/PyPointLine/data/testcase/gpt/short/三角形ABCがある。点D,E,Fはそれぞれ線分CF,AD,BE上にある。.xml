@@ -1,43 +1,18 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_0">
-        <name>A</name>
-    </point>
-    <point id="tag_1">
-        <name>B</name>
-    </point>
-    <point id="tag_2">
-        <name>C</name>
-    </point>
-    <line-segment id="tag_3" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-    </line-segment>
-    <line-segment id="tag_4" point-id1="tag_1" point-id2="tag_2">
-        <name>BC</name>
-    </line-segment>
-    <line-segment id="tag_5" point-id1="tag_2" point-id2="tag_0">
-        <name>CA</name>
-    </line-segment>
-    <horizontal line-id="tag_4" />
-    <point id="tag_7">
-        <name>D</name>
-    </point>
-    <point id="tag_8">
-        <name>E</name>
-    </point>
-    <point id="tag_9">
-        <name>F</name>
-    </point>
-    <line-segment id="tag_12" point-id1="tag_0" point-id2="tag_7">
-        <name>AD</name>
-    </line-segment>
-    <line-segment id="tag_13" point-id1="tag_1" point-id2="tag_8">
-        <name>BE</name>
-    </line-segment>
-    <line-segment id="tag_14" point-id1="tag_2" point-id2="tag_9">
-        <name>CF</name>
-    </line-segment>
-    <point-on-line point-id="tag_8" line-id="tag_12" />
-    <point-on-line point-id="tag_7" line-id="tag_14" />
-    <point-on-line point-id="tag_9" line-id="tag_13" />
+    <point id="1" name="A" position="-1.7,6.3" />
+    <point id="2" name="B" position="-6.4,-5.4" />
+    <point id="3" name="C" position="6.5,-5.4" />
+    <point id="4" name="D" position="-0.2,-2.6" />
+    <point id="5" name="E" position="-0.7,0.3" />
+    <point id="6" name="F" position="-2.6,-1.6" />
+    <line-segment id="7" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="8" point-id1="3" point-id2="2" name="CB" />
+    <line-segment id="9" point-id1="1" point-id2="3" name="AC" />
+    <line-segment id="10" point-id1="3" point-id2="6" name="CF" />
+    <line-segment id="11" point-id1="1" point-id2="4" name="AD" />
+    <line-segment id="12" point-id1="2" point-id2="5" name="BE" />
+    <point-on-line point-id="4" line-id="10" />
+    <point-on-line point-id="5" line-id="11" />
+    <point-on-line point-id="6" line-id="12" />
 </figures>

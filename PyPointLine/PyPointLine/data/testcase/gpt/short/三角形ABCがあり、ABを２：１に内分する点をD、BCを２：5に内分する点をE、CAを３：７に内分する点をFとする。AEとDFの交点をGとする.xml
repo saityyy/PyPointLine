@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="1" name="A" position="-2.3,5.8" />
+    <point id="2" name="B" position="-6.5,-5.4" />
+    <point id="3" name="C" position="8.7,-5.4" />
+    <point id="4" name="D" position="-5.1,-1.7" />
+    <point id="5" name="E" position="-2.1,-5.4" />
+    <point id="6" name="F" position="5.4,-2.1" />
+    <point id="7" name="G" position="-2.2,-1.8" />
+    <line-segment id="8" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="9" point-id1="2" point-id2="3" name="BC" />
+    <line-segment id="10" point-id1="3" point-id2="1" name="CA" />
+    <line-segment id="11" point-id1="1" point-id2="4" name="AD" />
+    <line-segment id="12" point-id1="4" point-id2="2" name="DB" />
+    <line-segment id="13" point-id1="2" point-id2="5" name="BE" />
+    <line-segment id="14" point-id1="5" point-id2="3" name="EC" />
+    <line-segment id="15" point-id1="3" point-id2="6" name="CF" />
+    <line-segment id="16" point-id1="6" point-id2="1" name="FA" />
+    <line-segment id="17" point-id1="1" point-id2="5" name="AE" />
+    <line-segment id="18" point-id1="4" point-id2="6" name="DF" />
+    <point-on-line point-id="4" line-id="8" />
+    <point-on-line point-id="5" line-id="9" />
+    <point-on-line point-id="6" line-id="10" />
+    <isometry line-id1="11" line-id2="12" ratio="2:1" />
+    <isometry line-id1="13" line-id2="14" ratio="2:5" />
+    <isometry line-id1="15" line-id2="16" ratio="3:7" />
+    <crossing point-id="7" object-id1="17" object-id2="18" />
+</figures>

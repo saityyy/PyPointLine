@@ -1,46 +1,19 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_38">
-        <name>A</name>
-    </point>
-    <point id="tag_39">
-        <name>B</name>
-    </point>
-    <line-segment id="tag_40" point-id1="tag_38" point-id2="tag_39">
-        <name>AB</name>
-    </line-segment>
-    <point id="tag_41">
-        <name>C</name>
-    </point>
-    <point id="tag_42">
-        <name>D</name>
-    </point>
-    <line-segment id="tag_43" point-id1="tag_41" point-id2="tag_42">
-        <name>CD</name>
-    </line-segment>
-    <point id="tag_44">
-        <name>E</name>
-    </point>
-    <point id="tag_45">
-        <name>F</name>
-    </point>
-    <line-segment id="tag_46" point-id1="tag_44" point-id2="tag_45">
-        <name>EF</name>
-    </line-segment>
-    <point id="tag_47">
-        <name>G</name>
-    </point>
-    <point id="tag_48">
-        <name>H</name>
-    </point>
-    <crossing point-id="tag_47" object-id1="tag_46" object-id2="tag_40" />
-    <crossing point-id="tag_48" object-id1="tag_46" object-id2="tag_43" />
-    <horizontal line-id="tag_43" />
-    <angle id="tag_53" point-id1="tag_44" point-id2="tag_47" point-id3="tag_39">
-        <name>∠EGB</name>
-    </angle>
-    <angle id="tag_54" point-id1="tag_47" point-id2="tag_48" point-id3="tag_42">
-        <name>∠GHD</name>
-    </angle>
-    <bisector angle-id1="tag_53" angle-id2="tag_54" />
+    <point id="1" name="A" position="-6.3,2.7" />
+    <point id="2" name="B" position="7.5,2.7" />
+    <point id="3" name="C" position="-6.8,-3.0" />
+    <point id="4" name="D" position="7.4,-3.0" />
+    <point id="5" name="E" position="6.2,6.4" />
+    <point id="6" name="F" position="-4.3,-5.3" />
+    <point id="7" name="G" position="2.8,2.7" />
+    <point id="8" name="H" position="-2.3,-3.0" />
+    <line-segment id="9" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="10" point-id1="3" point-id2="4" name="CD" />
+    <line-segment id="11" point-id1="5" point-id2="6" name="EF" />
+    <angle id="12" point-id1="5" point-id2="7" point-id3="2" name="∠EGB" />
+    <angle id="13" point-id1="7" point-id2="8" point-id3="4" name="∠GHD" />
+    <bisector angle-id1="12" angle-id2="13" />
+    <crossing point-id="7" object-id1="11" object-id2="9" />
+    <crossing point-id="8" object-id1="11" object-id2="10" />
 </figures>

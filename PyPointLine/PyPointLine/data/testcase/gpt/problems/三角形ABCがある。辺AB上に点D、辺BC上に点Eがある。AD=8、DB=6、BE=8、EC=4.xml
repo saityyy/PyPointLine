@@ -1,46 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_0">
-        <name>A</name>
-    </point>
-    <point id="tag_1">
-        <name>B</name>
-    </point>
-    <point id="tag_2">
-        <name>C</name>
-    </point>
-    <line-segment id="tag_3" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-    </line-segment>
-    <line-segment id="tag_4" point-id1="tag_1" point-id2="tag_2">
-        <name>BC</name>
-    </line-segment>
-    <line-segment id="tag_5" point-id1="tag_2" point-id2="tag_0">
-        <name>CA</name>
-    </line-segment>
-    <horizontal line-id="tag_4" />
-    <point id="tag_7">
-        <name>D</name>
-    </point>
-    <point id="tag_8">
-        <name>E</name>
-    </point>
-    <point-on-line point-id="tag_7" line-id="tag_3" />
-    <point-on-line point-id="tag_8" line-id="tag_4" />
-    <line-segment id="tag_11" point-id1="tag_0" point-id2="tag_7">
-        <value>8.0</value>
-        <name>AD</name>
-    </line-segment>
-    <line-segment id="tag_12" point-id1="tag_7" point-id2="tag_1">
-        <value>6.0</value>
-        <name>DB</name>
-    </line-segment>
-    <line-segment id="tag_13" point-id1="tag_1" point-id2="tag_8">
-        <value>8.0</value>
-        <name>BE</name>
-    </line-segment>
-    <line-segment id="tag_14" point-id1="tag_8" point-id2="tag_2">
-        <value>4.0</value>
-        <name>EC</name>
-    </line-segment>
+    <point id="1" name="A" position="2.0,7.3" />
+    <point id="2" name="B" position="-6.9,-3.6" />
+    <point id="3" name="C" position="5.1,-3.6" />
+    <point id="4" name="D" position="-3.1,1.1" />
+    <point id="5" name="E" position="1.1,-3.6" />
+    <line-segment id="6" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="7" point-id1="3" point-id2="2" name="CB" />
+    <line-segment id="8" point-id1="1" point-id2="3" name="AC" />
+    <line-segment id="9" point-id1="1" point-id2="4" length="8.0" name="AD" />
+    <line-segment id="10" point-id1="4" point-id2="2" length="6.0" name="DB" />
+    <line-segment id="11" point-id1="2" point-id2="5" length="8.0" name="BE" />
+    <line-segment id="12" point-id1="5" point-id2="3" length="4.0" name="EC" />
+    <point-on-line point-id="4" line-id="6" />
+    <point-on-line point-id="5" line-id="7" />
 </figures>

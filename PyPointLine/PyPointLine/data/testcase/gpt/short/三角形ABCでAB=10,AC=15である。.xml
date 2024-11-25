@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<figures>
+    <point id="1" name="A" position="-3.9,5.6" />
+    <point id="2" name="B" position="-6.0,-4.2" />
+    <point id="3" name="C" position="7.5,-4.2" />
+    <line-segment id="4" point-id1="1" point-id2="2" length="10.0" name="AB" />
+    <line-segment id="5" point-id1="3" point-id2="2" name="CB" />
+    <line-segment id="6" point-id1="1" point-id2="3" length="15.0" name="AC" />
+</figures>

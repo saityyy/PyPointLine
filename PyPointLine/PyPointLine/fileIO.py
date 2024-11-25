@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 from Solver import Solver
 from object import point, line, circle, xxxxx
 from module import *
-from utils import xml2dict, adjust_figure_location
+from utils import xml2dict, draw_grid_lines
 
 
 class fileIO:
@@ -63,21 +63,12 @@ class fileIO:
         newXXXXX = xxxxx(app)
         app.logs.append(newXXXXX)
         figures = xml2dict(tree.getroot())
-        if type(figures) is not list:
-            raise Exception("xml file error {}".format(figures))
-        # solver = Solver(figures)
-        # geometry_solve_result = solver.solve()
-        # if not geometry_solve_result["ok"]:
-        #     print("geometry solve failed")
-        #     return
-        # solver.validate(geometry_solve_result["tag2pxy"])
-        # figures = adjust_figure_location(
-        #     figures, geometry_solve_result["tag2pxy"])
         for dic in figures:
             self.dict2pointline(app, dic)
         # app.nextID
         app.getNextID()
-        app.calculatorEvaluate()
+        # app.calculatorEvaluate()
+        draw_grid_lines(app, point, line)
         pass
 
     def dict2pointline(self, app, dic):
@@ -265,7 +256,33 @@ class fileIO:
 
     def saveXmlFile(self, app, filePath):
         root = ET.Element("figures")
-        for obj in app.logs[1:]:
+        class_order = ["point", "line", "circle", "angle", "midpoint", "point2line", "point2circle", "line2circle",
+                       "circle2circle", "isometry", "bisector", "parallel", "perpendicular", "horizontal", "crossing"]
+
+        app_elements = sorted(
+            app.logs[1:], key=lambda el: class_order.index(el.__class__.__name__))
+        for obj in app_elements:
+            if obj.name == "axis":
+                continue
             obj.toXMLElement(root)
+        tag2short_id = {}
+        reference_id_attr = ["point-id", "point-id1", "point-id2", "point-id3",
+                             "line-id", "line-id1", "line-id2", "center-point-id", "middle-point-id", "circle-id",
+                             "circle-id1", "circle-id2", "angle-id1", "angle-id2",
+                             "object-id1", "object-id2"]
+        # idを連番で１から割り振り直す
+        for i, element in enumerate(root, start=1):
+            for attr in element.attrib:
+                attr_value = element.attrib[attr]
+                if attr == "id":
+                    tag2short_id[attr_value] = str(i)
+                    element.attrib["id"] = str(i)
+        # idを参照している属性を書き換える
+        for element in root:
+            for attr in element.attrib:
+                if attr in reference_id_attr:
+                    attr_value = element.attrib[attr]
+                    element.attrib[attr] = tag2short_id[attr_value]
+
         tree = ET.ElementTree(root)
         tree.write(filePath, encoding='utf-8', xml_declaration=True)

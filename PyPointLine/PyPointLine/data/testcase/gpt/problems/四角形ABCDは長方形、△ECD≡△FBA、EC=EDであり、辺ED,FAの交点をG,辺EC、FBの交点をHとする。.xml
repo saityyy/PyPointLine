@@ -1,76 +1,30 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_0">
-        <name>A</name>
-    </point>
-    <point id="tag_1">
-        <name>B</name>
-    </point>
-    <point id="tag_2">
-        <name>C</name>
-    </point>
-    <point id="tag_3">
-        <name>D</name>
-    </point>
-    <line-segment id="tag_4" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-    </line-segment>
-    <line-segment id="tag_5" point-id1="tag_1" point-id2="tag_2">
-        <name>BC</name>
-    </line-segment>
-    <line-segment id="tag_6" point-id1="tag_2" point-id2="tag_3">
-        <name>CD</name>
-    </line-segment>
-    <line-segment id="tag_7" point-id1="tag_3" point-id2="tag_0">
-        <name>DA</name>
-    </line-segment>
-    <horizontal line-id="tag_6" />
-    <parallel line-id1="tag_4" line-id2="tag_6" />
-    <parallel line-id1="tag_5" line-id2="tag_7" />
-    <vertical line-id1="tag_5" line-id2="tag_6" />
-    <point id="tag_12">
-        <name>E</name>
-    </point>
-    <point id="tag_13">
-        <name>F</name>
-    </point>
-    <line-segment id="tag_14" point-id1="tag_12" point-id2="tag_2">
-        <name>EC</name>
-    </line-segment>
-    <line-segment id="tag_15" point-id1="tag_12" point-id2="tag_3">
-        <name>ED</name>
-    </line-segment>
-    <line-segment id="tag_16" point-id1="tag_13" point-id2="tag_1">
-        <name>FB</name>
-    </line-segment>
-    <line-segment id="tag_17" point-id1="tag_13" point-id2="tag_0">
-        <name>FA</name>
-    </line-segment>
-    <isometry line-id1="tag_16" line-id2="tag_14" ratio="1:1" />
-    <isometry line-id1="tag_4" line-id2="tag_6" ratio="1:1" />
-    <isometry line-id1="tag_17" line-id2="tag_15" ratio="1:1" />
-    <isometry line-id1="tag_14" line-id2="tag_15" ratio="1:1" />
-    <point id="tag_30">
-        <name>G</name>
-    </point>
-    <line-segment id="tag_31" point-id1="tag_13" point-id2="tag_30">
-        <name>FG</name>
-    </line-segment>
-    <point id="tag_32">
-        <name>H</name>
-    </point>
-    <line-segment id="tag_33" point-id1="tag_12" point-id2="tag_32">
-        <name>EH</name>
-    </line-segment>
-    <line-segment id="tag_34" point-id1="tag_13" point-id2="tag_32">
-        <name>FH</name>
-    </line-segment>
-    <line-segment id="tag_35" point-id1="tag_12" point-id2="tag_30">
-        <name>EG</name>
-    </line-segment>
-    <point-on-line point-id="tag_0" line-id="tag_31" />
-    <point-on-line point-id="tag_3" line-id="tag_35" />
-    <point-on-line point-id="tag_2" line-id="tag_5" />
-    <point-on-line point-id="tag_2" line-id="tag_33" />
-    <point-on-line point-id="tag_1" line-id="tag_34" />
+    <point id="1" name="A" position="-8.0,4.1" />
+    <point id="2" name="B" position="-8.0,-4.1" />
+    <point id="3" name="C" position="8.0,-4.1" />
+    <point id="4" name="D" position="8.0,4.1" />
+    <point id="5" name="E" position="-2.4,-0.0" />
+    <point id="6" name="F" position="2.4,-0.0" />
+    <point id="7" name="G" position="0.0,0.9" />
+    <point id="8" name="H" position="0.0,-0.9" />
+    <line-segment id="9" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="10" point-id1="2" point-id2="3" name="BC" />
+    <line-segment id="11" point-id1="3" point-id2="4" name="CD" />
+    <line-segment id="12" point-id1="4" point-id2="1" name="DA" />
+    <line-segment id="13" point-id1="5" point-id2="3" name="EC" />
+    <line-segment id="14" point-id1="4" point-id2="5" name="DE" />
+    <line-segment id="15" point-id1="6" point-id2="2" name="FB" />
+    <line-segment id="16" point-id1="1" point-id2="6" name="AF" />
+    <isometry line-id1="13" line-id2="15" ratio="1:1" />
+    <isometry line-id1="11" line-id2="9" ratio="1:1" />
+    <isometry line-id1="14" line-id2="16" ratio="1:1" />
+    <isometry line-id1="13" line-id2="14" ratio="1:1" />
+    <parallel line-id1="12" line-id2="10" />
+    <parallel line-id1="11" line-id2="9" />
+    <vertical line-id1="9" line-id2="10" />
+    <crossing point-id="7" object-id1="14" object-id2="16" />
+    <crossing point-id="7" object-id1="14" object-id2="16" />
+    <crossing point-id="8" object-id1="15" object-id2="13" />
+    <crossing point-id="8" object-id1="15" object-id2="13" />
 </figures>

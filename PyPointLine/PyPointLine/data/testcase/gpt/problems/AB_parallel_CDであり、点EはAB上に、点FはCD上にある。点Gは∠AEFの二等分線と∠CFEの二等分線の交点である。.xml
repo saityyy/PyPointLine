@@ -1,70 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_29">
-        <name>A</name>
-    </point>
-    <point id="tag_30">
-        <name>B</name>
-    </point>
-    <line-segment id="tag_31" point-id1="tag_29" point-id2="tag_30">
-        <name>AB</name>
-    </line-segment>
-    <point id="tag_32">
-        <name>C</name>
-    </point>
-    <point id="tag_33">
-        <name>D</name>
-    </point>
-    <line-segment id="tag_34" point-id1="tag_32" point-id2="tag_33">
-        <name>CD</name>
-    </line-segment>
-    <parallel line-id1="tag_31" line-id2="tag_34" />
-    <point id="tag_36">
-        <name>E</name>
-    </point>
-    <point id="tag_37">
-        <name>F</name>
-    </point>
-    <line-segment id="tag_38" point-id1="tag_29" point-id2="tag_36">
-        <name>AE</name>
-    </line-segment>
-    <line-segment id="tag_39" point-id1="tag_36" point-id2="tag_37">
-        <name>EF</name>
-    </line-segment>
-    <line-segment id="tag_40" point-id1="tag_32" point-id2="tag_37">
-        <name>CF</name>
-    </line-segment>
-    <point id="tag_50">
-        <name>l1</name>
-    </point>
-    <line-segment id="tag_51" point-id1="tag_36" point-id2="tag_50">
-        <name>El1</name>
-    </line-segment>
-    <point id="tag_52">
-        <name>m1</name>
-    </point>
-    <line-segment id="tag_53" point-id1="tag_37" point-id2="tag_52">
-        <name>Fm1</name>
-    </line-segment>
-    <angle id="tag_54" point-id1="tag_29" point-id2="tag_36" point-id3="tag_50">
-        <name>∠AEl1</name>
-    </angle>
-    <angle id="tag_55" point-id1="tag_50" point-id2="tag_36" point-id3="tag_37">
-        <name>∠l1EF</name>
-    </angle>
-    <angle id="tag_56" point-id1="tag_36" point-id2="tag_37" point-id3="tag_52">
-        <name>∠EFm1</name>
-    </angle>
-    <angle id="tag_57" point-id1="tag_52" point-id2="tag_37" point-id3="tag_32">
-        <name>∠m1FC</name>
-    </angle>
-    <bisector angle-id1="tag_54" angle-id2="tag_55" />
-    <bisector angle-id1="tag_56" angle-id2="tag_57" />
-    <horizontal line-id="tag_34" />
-    <point-on-line point-id="tag_36" line-id="tag_31" />
-    <point-on-line point-id="tag_37" line-id="tag_34" />
-    <point id="tag_63">
-        <name>G</name>
-    </point>
-    <crossing point-id="tag_63" object-id1="tag_53" object-id2="tag_51" />
+    <point id="1" name="A" position="-7.8,3.9" />
+    <point id="2" name="B" position="7.8,3.9" />
+    <point id="3" name="C" position="-7.3,-3.8" />
+    <point id="4" name="D" position="8.3,-3.8" />
+    <point id="5" name="E" position="4.8,3.9" />
+    <point id="6" name="F" position="-2.8,-3.8" />
+    <point id="7" name="I" position="-9.9,-2.3" />
+    <point id="8" name="H" position="-8.2,9.3" />
+    <point id="9" name="G" position="-4.4,0.0" />
+    <line-segment id="10" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="11" point-id1="3" point-id2="4" name="CD" />
+    <line-segment id="12" point-id1="5" point-id2="6" name="EF" />
+    <line-segment id="13" point-id1="5" point-id2="7" name="EI" />
+    <line-segment id="14" point-id1="6" point-id2="8" name="FH" />
+    <angle id="15" point-id1="1" point-id2="5" point-id3="7" name="∠AEG" />
+    <angle id="16" point-id1="7" point-id2="5" point-id3="6" name="∠GEF" />
+    <angle id="17" point-id1="5" point-id2="6" point-id3="8" name="∠EFH" />
+    <angle id="18" point-id1="3" point-id2="6" point-id3="8" name="∠CFH" />
+    <point-on-line point-id="5" line-id="10" />
+    <point-on-line point-id="6" line-id="11" />
+    <bisector angle-id1="15" angle-id2="16" />
+    <bisector angle-id1="17" angle-id2="18" />
+    <parallel line-id1="10" line-id2="11" />
+    <crossing point-id="9" object-id1="13" object-id2="14" />
 </figures>

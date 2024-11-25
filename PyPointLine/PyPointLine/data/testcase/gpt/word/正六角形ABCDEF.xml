@@ -1,66 +1,31 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_0">
-        <name>A</name>
-    </point>
-    <point id="tag_1">
-        <name>B</name>
-    </point>
-    <point id="tag_2">
-        <name>C</name>
-    </point>
-    <point id="tag_3">
-        <name>D</name>
-    </point>
-    <point id="tag_4">
-        <name>E</name>
-    </point>
-    <point id="tag_5">
-        <name>F</name>
-    </point>
-    <line-segment id="tag_6" point-id1="tag_0" point-id2="tag_1">
-        <name>AB</name>
-    </line-segment>
-    <line-segment id="tag_7" point-id1="tag_1" point-id2="tag_2">
-        <name>BC</name>
-    </line-segment>
-    <line-segment id="tag_8" point-id1="tag_2" point-id2="tag_3">
-        <name>CD</name>
-    </line-segment>
-    <line-segment id="tag_9" point-id1="tag_3" point-id2="tag_4">
-        <name>DE</name>
-    </line-segment>
-    <line-segment id="tag_10" point-id1="tag_4" point-id2="tag_5">
-        <name>EF</name>
-    </line-segment>
-    <line-segment id="tag_11" point-id1="tag_5" point-id2="tag_0">
-        <name>FA</name>
-    </line-segment>
-    <isometry line-id1="tag_6" line-id2="tag_7" ratio="1:1" />
-    <isometry line-id1="tag_7" line-id2="tag_8" ratio="1:1" />
-    <isometry line-id1="tag_8" line-id2="tag_9" ratio="1:1" />
-    <isometry line-id1="tag_9" line-id2="tag_10" ratio="1:1" />
-    <isometry line-id1="tag_10" line-id2="tag_11" ratio="1:1" />
-    <angle id="tag_27" point-id1="tag_0" point-id2="tag_1" point-id3="tag_2">
-        <name>∠ABC</name>
-    </angle>
-    <angle id="tag_28" point-id1="tag_1" point-id2="tag_2" point-id3="tag_3">
-        <name>∠BCD</name>
-    </angle>
-    <angle id="tag_29" point-id1="tag_2" point-id2="tag_3" point-id3="tag_4">
-        <name>∠CDE</name>
-    </angle>
-    <angle id="tag_30" point-id1="tag_3" point-id2="tag_4" point-id3="tag_5">
-        <name>∠DEF</name>
-    </angle>
-    <angle id="tag_31" point-id1="tag_4" point-id2="tag_5" point-id3="tag_0">
-        <name>∠EFA</name>
-    </angle>
-    <angle id="tag_32" point-id1="tag_1" point-id2="tag_0" point-id3="tag_5">
-        <name>∠BAF</name>
-    </angle>
-    <bisector angle-id1="tag_32" angle-id2="tag_27" />
-    <bisector angle-id1="tag_27" angle-id2="tag_28" />
-    <bisector angle-id1="tag_28" angle-id2="tag_29" />
-    <bisector angle-id1="tag_29" angle-id2="tag_30" />
+    <point id="1" name="A" position="-3.7,6.0" />
+    <point id="2" name="B" position="-7.1,0.1" />
+    <point id="3" name="C" position="-3.7,-5.8" />
+    <point id="4" name="D" position="3.1,-5.8" />
+    <point id="5" name="E" position="6.5,0.1" />
+    <point id="6" name="F" position="3.1,6.0" />
+    <line-segment id="7" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="8" point-id1="2" point-id2="3" name="BC" />
+    <line-segment id="9" point-id1="3" point-id2="4" name="CD" />
+    <line-segment id="10" point-id1="4" point-id2="5" name="DE" />
+    <line-segment id="11" point-id1="5" point-id2="6" name="EF" />
+    <line-segment id="12" point-id1="6" point-id2="1" name="FA" />
+    <angle id="13" point-id1="1" point-id2="2" point-id3="3" name="∠ABC" />
+    <angle id="14" point-id1="2" point-id2="3" point-id3="4" name="∠BCD" />
+    <angle id="15" point-id1="3" point-id2="4" point-id3="5" name="∠CDE" />
+    <angle id="16" point-id1="4" point-id2="5" point-id3="6" name="∠DEF" />
+    <angle id="17" point-id1="5" point-id2="6" point-id3="1" name="∠EFA" />
+    <angle id="18" point-id1="6" point-id2="1" point-id3="2" name="∠FAB" />
+    <isometry line-id1="7" line-id2="8" ratio="1:1" />
+    <isometry line-id1="8" line-id2="9" ratio="1:1" />
+    <isometry line-id1="9" line-id2="10" ratio="1:1" />
+    <isometry line-id1="10" line-id2="11" ratio="1:1" />
+    <isometry line-id1="11" line-id2="12" ratio="1:1" />
+    <bisector angle-id1="13" angle-id2="14" />
+    <bisector angle-id1="14" angle-id2="15" />
+    <bisector angle-id1="15" angle-id2="16" />
+    <bisector angle-id1="16" angle-id2="17" />
+    <bisector angle-id1="17" angle-id2="18" />
 </figures>

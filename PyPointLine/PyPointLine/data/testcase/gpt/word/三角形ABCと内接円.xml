@@ -1,31 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <figures>
-    <point id="tag_27">
-        <name>A</name>
-    </point>
-    <point id="tag_28">
-        <name>B</name>
-    </point>
-    <point id="tag_29">
-        <name>C</name>
-    </point>
-    <line-segment id="tag_30" point-id1="tag_27" point-id2="tag_28">
-        <name>AB</name>
-    </line-segment>
-    <line-segment id="tag_31" point-id1="tag_28" point-id2="tag_29">
-        <name>BC</name>
-    </line-segment>
-    <line-segment id="tag_32" point-id1="tag_29" point-id2="tag_27">
-        <name>CA</name>
-    </line-segment>
-    <horizontal line-id="tag_31" />
-    <point id="tag_34">
-        <name>D</name>
-    </point>
-    <circle id="tag_35" center-point-id="tag_34">
-        <name>C1</name>
-    </circle>
-    <line-tangent-circle line-id="tag_30" circle-id="tag_35" />
-    <line-tangent-circle line-id="tag_32" circle-id="tag_35" />
-    <line-tangent-circle line-id="tag_31" circle-id="tag_35" />
+    <point id="1" name="A" position="3.1,5.0" />
+    <point id="2" name="B" position="-7.9,-3.8" />
+    <point id="3" name="C" position="6.5,-3.8" />
+    <point id="4" name="O" position="1.7,-0.4" />
+    <line-segment id="5" point-id1="1" point-id2="2" name="AB" />
+    <line-segment id="6" point-id1="3" point-id2="2" name="CB" />
+    <line-segment id="7" point-id1="1" point-id2="3" name="AC" />
+    <circle id="8" center-point-id="4" name="C1" radius="3.3" />
+    <line-tangent-circle line-id="7" circle-id="8" />
+    <line-tangent-circle line-id="6" circle-id="8" />
+    <line-tangent-circle line-id="5" circle-id="8" />
 </figures>
